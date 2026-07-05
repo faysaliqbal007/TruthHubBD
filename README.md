@@ -20,7 +20,7 @@ TruthHubBD is a community-driven review platform where users can share honest re
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/TruthHubBD.git
+   git clone https://github.com/faysaliqbal007/TruthHubBD.git
    ```
 
 2. Import the database into MySQL.
