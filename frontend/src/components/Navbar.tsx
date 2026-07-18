@@ -4,11 +4,11 @@ import { Search, User, LogOut, Menu, X, ShieldAlert } from 'lucide-react';
 
 
 interface NavbarProps {
-  currentUser: { name: string; email: string; role: 'user' | 'admin' } | null;
-  onLogout: () => void;
+  currentUser?: { name: string; email: string; role: 'user' | 'admin' } | null;
+  onLogout?: () => void;
 }
 
-export default function Navbar({ currentUser, onLogout }: NavbarProps) {
+export default function Navbar({ currentUser = null, onLogout = () => {} }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
