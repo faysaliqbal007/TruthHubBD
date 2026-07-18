@@ -2,8 +2,8 @@ import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
-import Login from './pages/LogIn';
-import Register from './pages/Resister';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import './App.css';
 
 function App() {
