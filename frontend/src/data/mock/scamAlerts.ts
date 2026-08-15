@@ -1,0 +1,231 @@
+import type { ScamAlert } from '../../types';
+
+export const scamAlerts: ScamAlert[] = [
+  {
+    id: 'scam-1',
+    slug: 'pixelmart-online-store',
+    entityName: 'PixelMart Online Store',
+    category: 'Online Shops',
+    status: 'Published',
+    summary:
+      'Community members reported paying for electronics that were never shipped. PixelMart Online Store is a fictional demo entity used to preview TruthHubBD Scam Alert layouts.',
+    reportedDate: '2026-02-10',
+    reportedAmount: 'BDT 18,500',
+    evidenceStatus: 'Evidence reviewed',
+    businessResponseAvailable: false,
+    location: 'Online · Dhaka',
+    timeline: [
+      {
+        id: 't1',
+        title: 'Report submitted',
+        description: 'Multiple users flagged delayed delivery and missing order updates.',
+        date: '2026-02-10',
+        completed: true,
+      },
+      {
+        id: 't2',
+        title: 'Evidence requested',
+        description: 'Moderators requested payment screenshots and chat logs.',
+        date: '2026-02-12',
+        completed: true,
+      },
+      {
+        id: 't3',
+        title: 'Evidence reviewed',
+        description: 'Submitted receipts and conversation records were reviewed.',
+        date: '2026-02-15',
+        completed: true,
+      },
+      {
+        id: 't4',
+        title: 'Business contacted',
+        description: 'Outreach attempted through listed support channels.',
+        date: '2026-02-17',
+        completed: true,
+      },
+      {
+        id: 't5',
+        title: 'Case updated',
+        description: 'Case published with community notice while monitoring continues.',
+        date: '2026-02-20',
+        completed: true,
+      },
+    ],
+    notice:
+      'Scam Alert statuses represent community reports and moderation states. They are not legal judgments.',
+  },
+  {
+    id: 'scam-2',
+    slug: 'brightpath-education-consultancy',
+    entityName: 'BrightPath Education Consultancy',
+    category: 'Universities',
+    status: 'Under Review',
+    summary:
+      'Reports describe misleading scholarship promises for fictional overseas programs. This case demonstrates the Under Review state in Phase 1.',
+    reportedDate: '2026-02-18',
+    reportedAmount: 'BDT 45,000',
+    evidenceStatus: 'Evidence requested',
+    businessResponseAvailable: false,
+    location: 'Banani, Dhaka',
+    timeline: [
+      {
+        id: 't1',
+        title: 'Report submitted',
+        description: 'Users reported upfront consultancy fees with unclear refund terms.',
+        date: '2026-02-18',
+        completed: true,
+      },
+      {
+        id: 't2',
+        title: 'Evidence requested',
+        description: 'Additional documentation requested from reporters.',
+        date: '2026-02-21',
+        completed: true,
+      },
+      {
+        id: 't3',
+        title: 'Evidence reviewed',
+        description: 'Pending final moderation review.',
+        date: '2026-02-24',
+        completed: false,
+      },
+    ],
+    notice:
+      'Scam Alert statuses represent community reports and moderation states. They are not legal judgments.',
+  },
+  {
+    id: 'scam-3',
+    slug: 'fastlink-courier-services',
+    entityName: 'FastLink Courier Services',
+    category: 'Courier Services',
+    status: 'Business Responded',
+    summary:
+      'Users reported cash-on-delivery parcels marked delivered but not received. FastLink Courier Services is fictional demo content.',
+    reportedDate: '2026-01-25',
+    reportedAmount: 'BDT 6,200',
+    evidenceStatus: 'Evidence reviewed',
+    businessResponseAvailable: true,
+    location: 'Motijheel, Dhaka',
+    timeline: [
+      {
+        id: 't1',
+        title: 'Report submitted',
+        description: 'Delivery dispute reports collected from two neighborhoods.',
+        date: '2026-01-25',
+        completed: true,
+      },
+      {
+        id: 't2',
+        title: 'Business contacted',
+        description: 'FastLink support team invited to respond on record.',
+        date: '2026-01-28',
+        completed: true,
+      },
+      {
+        id: 't3',
+        title: 'Business responded',
+        description: 'Business acknowledged route tracking gaps and offered re-delivery.',
+        date: '2026-02-02',
+        completed: true,
+      },
+      {
+        id: 't4',
+        title: 'Case updated',
+        description: 'Response published alongside community reports.',
+        date: '2026-02-04',
+        completed: true,
+      },
+    ],
+    businessResponse:
+      'FastLink Courier Services stated that two delivery scans were incorrectly marked complete during a system migration. Affected customers were offered re-delivery or refund review within seven business days.',
+    notice:
+      'Scam Alert statuses represent community reports and moderation states. They are not legal judgments.',
+  },
+  {
+    id: 'scam-4',
+    slug: 'careplus-home-diagnostics',
+    entityName: 'CarePlus Home Diagnostics',
+    category: 'Hospitals',
+    status: 'Resolved',
+    summary:
+      'Reports involved fictional home sample collection fees charged without service completion. Resolved status shown for demo purposes.',
+    reportedDate: '2026-01-08',
+    reportedAmount: 'BDT 2,800',
+    evidenceStatus: 'Evidence reviewed',
+    businessResponseAvailable: true,
+    location: 'Chattogram',
+    timeline: [
+      {
+        id: 't1',
+        title: 'Report submitted',
+        description: 'Users reported missed appointments and unreturned calls.',
+        date: '2026-01-08',
+        completed: true,
+      },
+      {
+        id: 't2',
+        title: 'Evidence reviewed',
+        description: 'Payment confirmations and appointment messages verified.',
+        date: '2026-01-11',
+        completed: true,
+      },
+      {
+        id: 't3',
+        title: 'Business responded',
+        description: 'Provider confirmed staffing issue and issued refunds.',
+        date: '2026-01-14',
+        completed: true,
+      },
+      {
+        id: 't4',
+        title: 'Case resolved',
+        description: 'Moderators marked the case resolved after refund confirmation.',
+        date: '2026-01-18',
+        completed: true,
+      },
+    ],
+    businessResponse:
+      'CarePlus Home Diagnostics confirmed a temporary staffing shortage and processed refunds for affected bookings. They noted improved scheduling controls for future appointments.',
+    notice:
+      'Scam Alert statuses represent community reports and moderation states. They are not legal judgments.',
+  },
+  {
+    id: 'scam-5',
+    slug: 'dealwave-mobile-reseller',
+    entityName: 'DealWave Mobile Reseller',
+    category: 'Electronics',
+    status: 'Published',
+    summary:
+      'Community reports describe refurbished phones sold as new through social channels. DealWave Mobile Reseller is a fictional demo entity.',
+    reportedDate: '2026-02-22',
+    reportedAmount: 'BDT 32,000',
+    evidenceStatus: 'Partial evidence submitted',
+    businessResponseAvailable: false,
+    location: 'Mirpur, Dhaka',
+    timeline: [
+      {
+        id: 't1',
+        title: 'Report submitted',
+        description: 'Buyers reported mismatched IMEI documentation and missing warranty cards.',
+        date: '2026-02-22',
+        completed: true,
+      },
+      {
+        id: 't2',
+        title: 'Evidence requested',
+        description: 'Moderators requested purchase chats and device photos.',
+        date: '2026-02-23',
+        completed: true,
+      },
+      {
+        id: 't3',
+        title: 'Evidence reviewed',
+        description: 'Initial evidence package under moderation review.',
+        date: '2026-02-25',
+        completed: false,
+      },
+    ],
+    notice:
+      'Scam Alert statuses represent community reports and moderation states. They are not legal judgments.',
+  },
+];
