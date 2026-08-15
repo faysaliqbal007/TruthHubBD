@@ -1,0 +1,37 @@
+<?php
+
+return [
+    'defaults' => [
+        'guard' => env('AUTH_GUARD', 'web'),
+        'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
+    ],
+
+    'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+    ],
+
+    'providers' => [
+        'users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ],
+    ],
+
+    'passwords' => [
+        'users' => [
+            'provider' => 'users',
+            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+            'expire' => 5, // 5 minutes expiration
+            'throttle' => 60,
+        ],
+    ],
+
+    'verification' => [
+        'expire' => 5, // 5 minutes expiration
+    ],
+
+    'password_timeout' => 10800,
+];
