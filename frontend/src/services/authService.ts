@@ -65,15 +65,31 @@ export const authService = {
   },
 
   logout: async () => {
-    await csrf();
-    return request<{ message: string }>("/logout", { method: "POST" });
+    try {
+      await csrf();
+      return await request<{ message: string }>("/logout", { method: "POST" });
+    } catch {
+      return { message: "Logged out" };
+    }
   },
 
-  updateProfile: async (body: { name: string; avatar_url?: string }) => {
+  updateProfile: async (body: { name: string; avatar?: File }) => {
     await csrf();
-    return request<{ user: User }>("/api/profile", {
-      method: "PATCH",
-      body: JSON.stringify(body),
+    if (body.avatar) {
+      const formData = new FormData();
+      formData.append('name', body.name);
+      formData.append('avatar', body.avatar);
+      formData.append('_method', 'PATCH');
+      const xsrfToken = getXsrfToken();
+      const headers: Record<string, string> = { Accept: 'application/json', ...(xsrfToken ? { 'X-XSRF-TOKEN': xsrfToken } : {}) };
+      const response = await fetch(API_URL + '/api/profile', { method: 'POST', credentials: 'include', headers, body: formData });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw Object.assign(new Error(data.message ?? 'Error'), { status: response.status });
+      return data as { user: User };
+    }
+    return request<{ user: User }>('/api/profile', {
+      method: 'PATCH',
+      body: JSON.stringify({ name: body.name }),
     });
   },
 
@@ -111,3 +127,7 @@ export const authService = {
 
   googleUrl: `${API_URL}/auth/google/redirect`,
 };
+
+
+
+

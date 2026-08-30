@@ -84,7 +84,11 @@ function Layout() {
   }, []);
 
   const handleLogout = async () => {
-    await logout();
+    try {
+      await logout();
+    } catch {
+      // Ignored
+    }
     navigate("/");
   };
 
@@ -1945,6 +1949,7 @@ export default function TruthHubApp() {
     </BrowserRouter>
   );
 }
+
 
 
 
