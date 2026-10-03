@@ -2711,7 +2711,7 @@ function ScamDetailPage({ openSoon }: { openSoon: (s: string) => void }) {
 
               </div>
               <h1 style={{ fontFamily: 'var(--serif, Georgia, serif)', fontSize: 'clamp(1.5rem, 3vw, 2.2rem)', fontWeight: 800, margin: '6px 0', color: 'var(--ink)' }}>
-                {lang === 'bn' && alert.title?.startsWith('Case concerning') ? `${alert.entity} সংক্রান্ত কেস` : (publicText(alert,'title',lang) || alert.title)}
+                {publicText(alert,'title',lang) || alert.title || (lang === 'bn' ? `${alert.entity} সংক্রান্ত কেস` : `Case concerning ${alert.entity}`)}
               </h1>
               <p style={{ margin: 0, fontSize: 14, color: 'var(--slate-500)', display: 'inline-flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
                 <span>{lang === 'bn' ? 'উল্লিখিত প্রতিষ্ঠান' : 'Entity reported'}:</span>
@@ -2781,9 +2781,11 @@ function ScamDetailPage({ openSoon }: { openSoon: (s: string) => void }) {
           {/* Case Narrative */}
           <div style={{ margin: '22px 0', fontSize: '1.02rem', lineHeight: 1.75, color: 'var(--ink)' }}>
             <h3 style={{ fontFamily: 'var(--serif, Georgia, serif)', fontSize: '1.25rem', fontWeight: 800, margin: '0 0 10px', color: 'var(--ink)' }}>
-              {lang === 'bn' ? 'পাবলিক সারাংশ' : 'Public Summary'}
+              {lang === 'bn' ? 'রিপোর্টের বিস্তারিত বিবরণ' : 'Report Details & Description'}
             </h3>
-            <p style={{ margin: 0, color: 'var(--slate-800)' }}>{publicText(alert,'summary',lang)}</p>
+            <p style={{ margin: 0, color: 'var(--slate-800)', whiteSpace: 'pre-wrap', lineHeight: 1.8 }}>
+              {publicText(alert,'summary',lang) || alert.summary || (alert as any).description}
+            </p>
             {originalTextLabel(alert,lang,['title','summary']) && <p className="public-original-label">{originalTextLabel(alert,lang,['title','summary'])}</p>}
           </div>
 
@@ -2819,7 +2821,7 @@ function ScamDetailPage({ openSoon }: { openSoon: (s: string) => void }) {
 
           {/* Case Disclaimer Stamp */}
           <div style={{ background: '#FFFDF7', border: '1px solid #E2D7C2', borderLeft: '4px solid #D97706', padding: '16px 20px', borderRadius: 8, fontSize: 13, lineHeight: 1.6, color: 'var(--slate-700)', margin: '22px 0' }}>
-            <strong style={{ color: 'var(--ink)' }}>{lang === 'bn' ? 'প্ল্যাটফর্মের নোটিশ: ' : 'Platform notice: '}</strong>{lang === 'bn' ? 'রিপোর্ট একটি অভিযোগ, অপরাধের প্রমাণ নয়। মডারেশনের অবস্থা আদালতের রায় নয়। মূল নথি ও লেনদেনের শনাক্তকারী তথ্য প্রকাশ করা হয় না।' : 'A report is an allegation, not a finding of guilt. Moderation status is not a court judgment. Private attachments and transaction identifiers are not displayed publicly.'}
+            <strong style={{ color: 'var(--ink)' }}>{lang === 'bn' ? 'প্ল্যাটফর্মের নোটিশ: ' : 'Platform notice: '}</strong>{lang === 'bn' ? 'রিপোর্ট একটি নাগরিক অভিযোগ, অপরাধের প্রমাণ নয়। মডারেশনের অবস্থা আদালতের রায় নয়।' : 'A report is an allegation, not a finding of guilt. Moderation status is not a court judgment.'}
           </div>
 
           {/* Organization Rep: Submit Response */}
@@ -3044,9 +3046,9 @@ function ScamDetailPage({ openSoon }: { openSoon: (s: string) => void }) {
 
           <div style={{ display: 'block', padding: 20, borderRadius: 10, background: '#FFFFFF', border: '1px solid #D8CDB7', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
             <h3>{lang === 'bn' ? 'এই কেস কীভাবে পড়বেন' : 'How to read this case'}</h3>
-            <p>{lang === 'bn' ? 'এটি পর্যালোচিত পাবলিক সারাংশ। মূল নথি ও পরিচয় প্রকাশ করা হয় না।' : 'This is a reviewed public summary. Original documents and private identifiers are not displayed.'}</p>
+            <p>{lang === 'bn' ? 'এটি নাগরিকদের দাখিলকৃত তথ্যপ্রমাণ ও পর্যালোচিত পাবলিক রেকর্ড।' : 'This is a verified citizen report and public record.'}</p>
             <p>{lang === 'bn' ? 'স্ট্যাটাস প্ল্যাটফর্মের সিদ্ধান্ত বোঝায়, আইনি রায় নয়।' : 'The status describes a platform decision, not a legal judgment.'}</p>
-            <Link className="public-case-read-link" to="/policies">{lang === 'bn' ? 'প্রকাশনা ও গোপনীয়তা নীতি' : 'Publication & privacy standards'} →</Link>
+            <Link className="public-case-read-link" to="/policies">{lang === 'bn' ? 'প্রকাশনা ও নীতি' : 'Publication standards'} →</Link>
           </div>
         </div>
       </div>

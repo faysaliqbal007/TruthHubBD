@@ -79,11 +79,13 @@ class ScamCaseController extends Controller
     private function publicCase(ScamCase $case, bool $full = true): array
     {
         $review = $case->review;
+        $title = $case->title ?: ('Case concerning ' . $case->business->name);
+        $summary = $case->public_summary ?: ($case->summary ?: 'Citizen report registered under TruthHubBD moderation policy.');
         $data = [
             'id' => $case->id,
             'case_code' => $case->case_code,
-            'title' => 'Case concerning ' . $case->business->name,
-            'summary' => $case->public_summary ?: 'Citizen report registered under TruthHubBD moderation policy.',
+            'title' => $title,
+            'summary' => $summary,
             'status' => $case->status,
             'incident_type' => $case->incident_type,
             'incident_date' => $case->incident_date,

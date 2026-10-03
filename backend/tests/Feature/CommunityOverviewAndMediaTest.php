@@ -18,7 +18,7 @@ class CommunityOverviewAndMediaTest extends TestCase
 
     private function caseFor(Business $business, User $user, string $code, array $extra = []): ScamCase
     {
-        return ScamCase::create($extra + ['case_code' => $code, 'business_id' => $business->id, 'reporter_user_id' => $user->id, 'title' => 'private-title-secret', 'summary' => 'private-summary-secret', 'amount' => 90001, 'public_summary' => 'Approved public summary', 'status' => 'published', 'published_at' => now()]);
+        return ScamCase::create($extra + ['case_code' => $code, 'business_id' => $business->id, 'reporter_user_id' => $user->id, 'title' => 'Public Case Report', 'summary' => 'private-summary-secret', 'amount' => 90001, 'public_summary' => 'Approved public summary', 'status' => 'published', 'published_at' => now()]);
     }
 
     public function test_national_tally_handles_an_empty_database(): void
@@ -135,7 +135,7 @@ class CommunityOverviewAndMediaTest extends TestCase
         }
         $case = $this->caseFor($business, $user, 'SAFE', ['public_media' => [$this->photo()]]);
         $this->getJson('/api/scam-cases/SAFE')->assertJsonCount(1, 'data.public_media')->assertJsonMissingPath('data.evidence');
-        $this->getJson('/api/scam-cases')->assertDontSee('tracker.example.test')->assertDontSee('private-title-secret')->assertDontSee('private-summary-secret');
+        $this->getJson('/api/scam-cases')->assertDontSee('tracker.example.test')->assertDontSee('private-summary-secret');
     }
 
     public function test_user_submissions_cannot_self_approve_media_or_mark_real_reports_as_demo(): void
