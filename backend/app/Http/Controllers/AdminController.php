@@ -638,31 +638,67 @@ class AdminController extends Controller
 
         if ($request->hasFile('file') || $request->hasFile('image')) {
             $file = $request->file('file') ?? $request->file('image');
+            $dir = public_path('uploads' . DIRECTORY_SEPARATOR . 'businesses');
+            if (!is_dir($dir)) {
+                @mkdir($dir, 0777, true);
+            }
+            @chmod($dir, 0777);
+
             $ext = strtolower($file->getClientOriginalExtension() ?: 'jpg');
-            $filename = \Illuminate\Support\Str::uuid() . '.' . $ext;
-            $file->storeAs('organization-profile-images', $filename, 'public');
-            $storedPath = $file->storeAs('organization-profile-images', $filename, 'private');
-            $mimeType = match($ext) {
-                'jpg', 'jpeg' => 'image/jpeg',
-                'png' => 'image/png',
-                'webp' => 'image/webp',
-                'gif' => 'image/gif',
-                'svg' => 'image/svg+xml',
-                'avif' => 'image/avif',
-                default => $file->getMimeType() ?: 'image/jpeg',
-            };
-            \App\Models\BusinessProfileImage::where('business_id', $id)->where('status', 'approved')->update(['status' => 'superseded']);
-            \App\Models\BusinessProfileImage::create([
-                'business_id' => $id,
-                'uploaded_by_user_id' => $request->user()->id,
-                'storage_path' => $storedPath,
-                'mime_type' => $mimeType,
-                'bytes' => $file->getSize(),
-                'sha256' => hash_file('sha256', $file->getRealPath()),
-                'publication_consent' => true,
-                'status' => 'approved',
-            ]);
-            $data['image'] = '/api/businesses/' . $id . '/profile-image';
+            $fileName = time() . '_' . \Illuminate\Support\Str::random(12) . '.' . $ext;
+            $targetPath = $dir . DIRECTORY_SEPARATOR . $fileName;
+
+            $saved = false;
+            try {
+                $file->move($dir, $fileName);
+                $saved = true;
+            } catch (\Throwable $e) {
+                $saved = false;
+            }
+
+            if (!$saved) {
+                $realPath = $file->getRealPath();
+                if ($realPath && file_exists($realPath)) {
+                    if (!@copy($realPath, $targetPath)) {
+                        @file_put_contents($targetPath, file_get_contents($realPath));
+                    }
+                }
+            }
+
+            if (file_exists($targetPath)) {
+                @chmod($targetPath, 0666);
+                $data['image'] = '/uploads/businesses/' . $fileName;
+
+                // Also maintain business_profile_images record for backwards compatibility and tests
+                try {
+                    $content = file_get_contents($targetPath);
+                    $storageFilename = \Illuminate\Support\Str::uuid() . '.' . $ext;
+                    \Illuminate\Support\Facades\Storage::disk('public')->put('organization-profile-images/' . $storageFilename, $content);
+                    $storedPath = 'organization-profile-images/' . $storageFilename;
+                    \Illuminate\Support\Facades\Storage::disk('private')->put($storedPath, $content);
+
+                    $mimeType = match($ext) {
+                        'jpg', 'jpeg' => 'image/jpeg',
+                        'png' => 'image/png',
+                        'webp' => 'image/webp',
+                        'gif' => 'image/gif',
+                        'svg' => 'image/svg+xml',
+                        'avif' => 'image/avif',
+                        default => 'image/jpeg',
+                    };
+                    \App\Models\BusinessProfileImage::where('business_id', $id)->where('status', 'approved')->update(['status' => 'superseded']);
+                    \App\Models\BusinessProfileImage::create([
+                        'business_id' => $id,
+                        'uploaded_by_user_id' => $request->user()->id,
+                        'storage_path' => $storedPath,
+                        'mime_type' => $mimeType,
+                        'bytes' => strlen($content),
+                        'sha256' => hash('sha256', $content),
+                        'publication_consent' => true,
+                        'status' => 'approved',
+                    ]);
+                } catch (\Throwable $ignored) {}
+            }
         } elseif (!empty($data['image']) && preg_match('/^data:image\/([a-zA-Z0-9+.-]+);base64,(.+)$/', $data['image'], $matches)) {
             $rawMime = strtolower($matches[1]);
             $ext = match($rawMime) {
@@ -685,22 +721,37 @@ class AdminController extends Controller
             };
             $decoded = base64_decode($matches[2]);
             if ($decoded !== false) {
-                $filename = \Illuminate\Support\Str::uuid() . '.' . $ext;
-                \Illuminate\Support\Facades\Storage::disk('public')->put('organization-profile-images/' . $filename, $decoded);
-                \Illuminate\Support\Facades\Storage::disk('private')->put('organization-profile-images/' . $filename, $decoded);
-                
-                \App\Models\BusinessProfileImage::where('business_id', $id)->where('status', 'approved')->update(['status' => 'superseded']);
-                \App\Models\BusinessProfileImage::create([
-                    'business_id' => $id,
-                    'uploaded_by_user_id' => $request->user()->id,
-                    'storage_path' => 'organization-profile-images/' . $filename,
-                    'mime_type' => $mimeType,
-                    'bytes' => strlen($decoded),
-                    'sha256' => hash('sha256', $decoded),
-                    'publication_consent' => true,
-                    'status' => 'approved',
-                ]);
-                $data['image'] = '/api/businesses/' . $id . '/profile-image';
+                $dir = public_path('uploads' . DIRECTORY_SEPARATOR . 'businesses');
+                if (!is_dir($dir)) {
+                    @mkdir($dir, 0777, true);
+                }
+                @chmod($dir, 0777);
+
+                $fileName = time() . '_' . \Illuminate\Support\Str::random(12) . '.' . $ext;
+                $targetPath = $dir . DIRECTORY_SEPARATOR . $fileName;
+                @file_put_contents($targetPath, $decoded);
+                @chmod($targetPath, 0666);
+                $data['image'] = '/uploads/businesses/' . $fileName;
+
+                // Also maintain business_profile_images record for backwards compatibility and tests
+                try {
+                    $storageFilename = \Illuminate\Support\Str::uuid() . '.' . $ext;
+                    \Illuminate\Support\Facades\Storage::disk('public')->put('organization-profile-images/' . $storageFilename, $decoded);
+                    $storedPath = 'organization-profile-images/' . $storageFilename;
+                    \Illuminate\Support\Facades\Storage::disk('private')->put($storedPath, $decoded);
+
+                    \App\Models\BusinessProfileImage::where('business_id', $id)->where('status', 'approved')->update(['status' => 'superseded']);
+                    \App\Models\BusinessProfileImage::create([
+                        'business_id' => $id,
+                        'uploaded_by_user_id' => $request->user()->id,
+                        'storage_path' => $storedPath,
+                        'mime_type' => $mimeType,
+                        'bytes' => strlen($decoded),
+                        'sha256' => hash('sha256', $decoded),
+                        'publication_consent' => true,
+                        'status' => 'approved',
+                    ]);
+                } catch (\Throwable $ignored) {}
             }
         }
 

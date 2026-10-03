@@ -83,6 +83,9 @@ jobs:
           chmod -R u+rwX storage bootstrap/cache
           setfacl -R -m u:www-data:rwX -m d:u:www-data:rwX storage bootstrap/cache || chmod -R 777 storage bootstrap/cache || true
           setfacl -R -m u:www-data:rX -m d:u:www-data:rX public
+          mkdir -p public/uploads/businesses public/uploads/avatars public/uploads/advertisements
+          chmod -R 777 public/uploads || true
+          setfacl -R -m u:www-data:rwX -m d:u:www-data:rwX public/uploads || chmod -R 777 public/uploads || true
           php artisan optimize:clear
           php artisan migrate --force
           php artisan storage:link

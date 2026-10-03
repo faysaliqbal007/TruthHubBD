@@ -67,11 +67,39 @@ class BusinessProfileImageController extends Controller
     public function show(Business $business)
     {
         abort_unless(!$business->merged_into_id && in_array($business->status, ['approved', 'pending'], true), 404);
+
+        if ($business->image && str_starts_with($business->image, '/uploads/businesses/')) {
+            $hasRejected = BusinessProfileImage::where('business_id', $business->id)->where('status', 'rejected')->exists();
+            if (!$hasRejected) {
+                $filePath = public_path(ltrim($business->image, '/'));
+                if (file_exists($filePath)) {
+                    $ext = pathinfo($filePath, PATHINFO_EXTENSION);
+                    $mime = match(strtolower($ext)) {
+                        'jpg', 'jpeg' => 'image/jpeg',
+                        'png' => 'image/png',
+                        'webp' => 'image/webp',
+                        'gif' => 'image/gif',
+                        'svg' => 'image/svg+xml',
+                        'avif' => 'image/avif',
+                        default => 'image/jpeg',
+                    };
+                    return response(file_get_contents($filePath), 200, [
+                        'Content-Type' => $mime,
+                        'Content-Disposition' => 'inline; filename="organization-profile.' . $ext . '"',
+                        'Cache-Control' => 'public, max-age=86400',
+                        'X-Content-Type-Options' => 'nosniff',
+                    ]);
+                }
+            }
+        }
+
         $image = BusinessProfileImage::where('business_id', $business->id)
             ->where('status', 'approved')
             ->latest('id')
             ->first();
-        if (!$image) abort(404);
+        if (!$image) {
+            abort(404);
+        }
         return $this->imageResponse($image, OrganizationProfileImage::checkedPath($image));
     }
 

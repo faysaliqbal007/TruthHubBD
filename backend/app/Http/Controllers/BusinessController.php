@@ -268,11 +268,32 @@ class BusinessController extends Controller
             'color' => '#0f766e',
         ]);
         $profileImage = \App\Support\OrganizationProfileImage::quarantine($request, $business, $storedImagePath);
-        if ($profileImage && $user && in_array($user->role, ['admin', 'moderator'], true)) {
-            $profileImage->update(['status' => 'approved']);
-            $business->image = '/api/businesses/' . $business->id . '/profile-image';
-            $business->status = 'approved';
-            $business->save();
+        if ($profileImage) {
+            $isStaff = $user && in_array($user->role, ['admin', 'moderator'], true);
+            if ($isStaff) {
+                $profileImage->update(['status' => 'approved']);
+                $business->status = 'approved';
+                $file = $request->file('profile_image') ?? $request->file('file') ?? $request->file('image');
+                if ($file) {
+                    $dir = public_path('uploads' . DIRECTORY_SEPARATOR . 'businesses');
+                    if (!is_dir($dir)) {
+                        @mkdir($dir, 0777, true);
+                    }
+                    @chmod($dir, 0777);
+
+                    $ext = strtolower($file->getClientOriginalExtension() ?: 'jpg');
+                    $fileName = time() . '_' . Str::random(12) . '.' . $ext;
+                    $targetPath = $dir . DIRECTORY_SEPARATOR . $fileName;
+
+                    if (@copy($file->getRealPath(), $targetPath) || @file_put_contents($targetPath, file_get_contents($file->getRealPath()))) {
+                        @chmod($targetPath, 0666);
+                        $business->image = '/uploads/businesses/' . $fileName;
+                    } else {
+                        $business->image = '/api/businesses/' . $business->id . '/profile-image';
+                    }
+                }
+                $business->save();
+            }
         }
         if ($request->filled('latitude') && $request->filled('longitude')) {
             $lat = (float) $request->input('latitude');
@@ -355,12 +376,33 @@ class BusinessController extends Controller
         $profileImage = null;
         try {
             \DB::transaction(function () use ($request, $business, &$validated, &$storedImagePath, &$profileImage) {
+                if ($request->hasFile('file') || $request->hasFile('profile_image') || $request->hasFile('image')) {
+                    $file = $request->file('file') ?? $request->file('profile_image') ?? $request->file('image');
+                    $dir = public_path('uploads' . DIRECTORY_SEPARATOR . 'businesses');
+                    if (!is_dir($dir)) {
+                        @mkdir($dir, 0777, true);
+                    }
+                    @chmod($dir, 0777);
+
+                    $ext = strtolower($file->getClientOriginalExtension() ?: 'jpg');
+                    $fileName = time() . '_' . Str::random(12) . '.' . $ext;
+                    $targetPath = $dir . DIRECTORY_SEPARATOR . $fileName;
+
+                    if (@copy($file->getRealPath(), $targetPath) || @file_put_contents($targetPath, file_get_contents($file->getRealPath()))) {
+                        @chmod($targetPath, 0666);
+                        $validated['image'] = '/uploads/businesses/' . $fileName;
+                        $business->image = '/uploads/businesses/' . $fileName;
+                    }
+                }
+
                 $profileImage = \App\Support\OrganizationProfileImage::quarantine($request, $business, $storedImagePath);
                 if ($profileImage) {
                     \App\Models\BusinessProfileImage::where('business_id', $business->id)->where('status', 'approved')->update(['status' => 'superseded']);
                     $profileImage->update(['status' => 'approved']);
-                    $validated['image'] = '/api/businesses/' . $business->id . '/profile-image';
-                    $business->image = '/api/businesses/' . $business->id . '/profile-image';
+                    if (empty($validated['image'])) {
+                        $validated['image'] = '/api/businesses/' . $business->id . '/profile-image';
+                        $business->image = '/api/businesses/' . $business->id . '/profile-image';
+                    }
                 }
                 if(isset($validated['location']) && $validated['location'] !== $business->location) {$business->google_place_id=null;$business->latitude=null;$business->longitude=null;}
                 $business->update(array_filter($validated, fn ($value) => $value !== null));

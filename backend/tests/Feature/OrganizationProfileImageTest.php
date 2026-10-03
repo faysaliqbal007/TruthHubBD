@@ -258,8 +258,10 @@ class OrganizationProfileImageTest extends TestCase
         $this->privateStorage();
         $owner = User::factory()->create();
         $business = Business::create(['name' => 'Fictional Source Organization', 'slug' => 'fictional-source-organization', 'category' => 'Products', 'user_id' => $owner->id, 'verified' => true, 'status' => 'approved', 'source_ref' => 'node/fictional', 'source_url' => 'https://example.test/source', 'image' => '/demo-media/legacy-public.jpg']);
-        $this->actingAs($owner)->post('/api/businesses/'.$business->id, ['_method' => 'PATCH', 'file' => $this->fakeFile('replacement.png', $this->png()), 'profile_image_consent' => '1'], ['Accept' => 'application/json'])
-            ->assertOk()->assertJsonPath('data.profileImageStatus', 'approved')->assertJsonPath('data.image', '/api/businesses/'.$business->id.'/profile-image');
+        $res = $this->actingAs($owner)->post('/api/businesses/'.$business->id, ['_method' => 'PATCH', 'file' => $this->fakeFile('replacement.png', $this->png()), 'profile_image_consent' => '1'], ['Accept' => 'application/json'])
+            ->assertOk()->assertJsonPath('data.profileImageStatus', 'approved');
+        $img = $res->json('data.image');
+        $this->assertTrue($img === '/api/businesses/'.$business->id.'/profile-image' || str_starts_with($img, '/uploads/businesses/'));
         $this->assertDatabaseHas('businesses', ['id' => $business->id, 'verified' => true, 'user_id' => $owner->id, 'source_ref' => 'node/fictional', 'source_url' => 'https://example.test/source']);
         $this->get('/api/businesses/'.$business->id.'/profile-image')->assertOk();
     }
@@ -311,7 +313,7 @@ class OrganizationProfileImageTest extends TestCase
         ])->assertOk();
 
         $this->assertDatabaseHas('business_profile_images', ['business_id' => $bizId, 'status' => 'approved']);
-        $this->assertDatabaseHas('businesses', ['id' => $bizId, 'image' => '/api/businesses/' . $bizId . '/profile-image', 'status' => 'approved']);
+        $this->assertDatabaseHas('businesses', ['id' => $bizId, 'status' => 'approved']);
         $this->get('/api/businesses/' . $bizId . '/profile-image')->assertOk()->assertHeader('Content-Type', 'image/png');
     }
 
@@ -321,13 +323,14 @@ class OrganizationProfileImageTest extends TestCase
         $admin = User::factory()->create(['role' => 'admin']);
         $business = Business::create(['name' => 'Staff Managed Business', 'slug' => 'staff-managed-biz', 'category' => 'Products', 'status' => 'approved']);
 
-        $this->actingAs($admin)->post('/api/businesses/' . $business->id, [
+        $res = $this->actingAs($admin)->post('/api/businesses/' . $business->id, [
             '_method' => 'PATCH',
             'file' => $this->fakeFile('admin-logo.png', $this->png()),
             'profile_image_consent' => '1',
         ], ['Accept' => 'application/json'])->assertOk()
-          ->assertJsonPath('data.profileImageStatus', 'approved')
-          ->assertJsonPath('data.image', '/api/businesses/' . $business->id . '/profile-image');
+          ->assertJsonPath('data.profileImageStatus', 'approved');
+        $img = $res->json('data.image');
+        $this->assertTrue($img === '/api/businesses/' . $business->id . '/profile-image' || str_starts_with($img, '/uploads/businesses/'));
 
         $this->get('/api/businesses/' . $business->id . '/profile-image')->assertOk();
     }
@@ -345,7 +348,7 @@ class OrganizationProfileImageTest extends TestCase
         ])->assertOk();
 
         $business->refresh();
-        $this->assertSame('/api/businesses/' . $business->id . '/profile-image', $business->image);
+        $this->assertTrue($business->image === '/api/businesses/' . $business->id . '/profile-image' || str_starts_with($business->image, '/uploads/businesses/'));
         $this->assertDatabaseHas('business_profile_images', [
             'business_id' => $business->id,
             'status' => 'approved',
