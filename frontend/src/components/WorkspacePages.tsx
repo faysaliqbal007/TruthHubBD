@@ -51,6 +51,7 @@ type ReviewDetail = {
   public_media?: { url: string; alt: string; kind?: string }[];
   is_demo?: boolean;
   imagePath?: string;
+  images?: string[];
   business: { name: string; slug: string; image?: string; category?: string };
   comments: { id: number; author: string; body: string }[];
 };
@@ -195,7 +196,18 @@ export function ReviewDetailPage() {
             <div className="content-review-author-text"><strong>{review.author}</strong><span className="content-review-date">{review.is_demo ? t("Sample content for demonstration","প্রদর্শনের জন্য নমুনা লেখা") : t("Community reviewer","কমিউনিটির রিভিউদাতা")}</span></div>
           </div>
           {(review.public_media?.length ?? 0) > 0 && <PublicMediaGallery media={review.public_media!} lang={lang} label={t("Public review photos","রিভিউয়ের প্রকাশ্য ছবি")} />}
-          {review.imagePath && (
+          {review.images && review.images.length > 0 ? (
+            <div className="review-attached-images" style={{ display: "flex", gap: "12px", margin: "16px 0", flexWrap: "wrap" }}>
+              {review.images.map((imgUrl, idx) => {
+                const resolved = resolveMediaUrl(imgUrl);
+                return (
+                  <a key={idx} href={resolved} target="_blank" rel="noopener noreferrer" style={{ display: "block", borderRadius: "10px", overflow: "hidden", border: "1px solid #cbd5e1", boxShadow: "0 2px 4px rgba(0,0,0,0.05)" }}>
+                    <img src={resolved} alt={t("Review attachment", "রিভিউয়ের সংযুক্ত ছবি")} style={{ width: "120px", height: "120px", objectFit: "cover", display: "block" }} />
+                  </a>
+                );
+              })}
+            </div>
+          ) : review.imagePath ? (
             <div className="review-attached-images" style={{ display: "flex", gap: "12px", margin: "16px 0", flexWrap: "wrap" }}>
               {(() => {
                 const resolved = resolveMediaUrl(review.imagePath!);
@@ -206,7 +218,7 @@ export function ReviewDetailPage() {
                 );
               })()}
             </div>
-          )}
+          ) : null}
           <PublicVideoLinks urls={review.public_video_urls} lang={lang}/>
           {review.linked_case&&<Link className="content-action" to={review.linked_case.url}>{t('Linked public report','সংশ্লিষ্ট প্রকাশ্য রিপোর্ট')} · {review.linked_case.case_code}</Link>}
           <div className="content-review-detail-body">{publicText(review,'body',lang)}</div>

@@ -80,6 +80,21 @@ export function ReviewCard({ review }: { review: Review }) {
         <p>{publicText(review,'body',lang)}</p>
       </div>
       {media.length > 0 && <PublicMediaGallery media={media} lang={lang} label={t('Public review photos','রিভিউয়ের প্রকাশ্য ছবি')} />}
+      {review.images && review.images.length > 0 ? (
+        <div className="review-attached-images" style={{ display: "flex", gap: "8px", margin: "10px 0", flexWrap: "wrap" }}>
+          {review.images.map((imgUrl, idx) => (
+            <a key={idx} href={imgUrl.startsWith('http') ? imgUrl : (imgUrl.startsWith('/') ? imgUrl : '/' + imgUrl)} target="_blank" rel="noopener noreferrer" style={{ display: "block", borderRadius: "8px", overflow: "hidden", border: "1px solid #cbd5e1" }}>
+              <img src={imgUrl.startsWith('http') ? imgUrl : (imgUrl.startsWith('/') ? imgUrl : '/' + imgUrl)} alt={t("Review attachment", "রিভিউয়ের সংযুক্ত ছবি")} style={{ width: "88px", height: "88px", objectFit: "cover", display: "block" }} />
+            </a>
+          ))}
+        </div>
+      ) : review.imagePath ? (
+        <div className="review-attached-images" style={{ display: "flex", gap: "8px", margin: "10px 0", flexWrap: "wrap" }}>
+          <a href={review.imagePath.startsWith('http') ? review.imagePath : (review.imagePath.startsWith('/') ? review.imagePath : '/' + review.imagePath)} target="_blank" rel="noopener noreferrer" style={{ display: "block", borderRadius: "8px", overflow: "hidden", border: "1px solid #cbd5e1" }}>
+            <img src={review.imagePath.startsWith('http') ? review.imagePath : (review.imagePath.startsWith('/') ? review.imagePath : '/' + review.imagePath)} alt={t("Review attachment", "রিভিউয়ের সংযুক্ত ছবি")} style={{ width: "88px", height: "88px", objectFit: "cover", display: "block" }} />
+          </a>
+        </div>
+      ) : null}
       <PublicVideoLinks urls={review.public_video_urls} lang={lang}/>
       {review.linked_case && <Link className="review-linked-case" to={review.linked_case.url}><span>{t('Linked public alert','যুক্ত প্রকাশ্য সতর্কতা')} · <strong>{review.linked_case.case_code}</strong></span><span>{translateStatus(review.linked_case.status,lang)}<ArrowRight size={15} aria-hidden="true"/></span></Link>}
       <footer className="content-review-footer">

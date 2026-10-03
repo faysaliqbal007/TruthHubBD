@@ -47,6 +47,7 @@ export type Review = {
   location?: string;
   facebookUrl?: string;
   imagePath?: string;
+  images?: string[];
 };
 
 export type Business = {

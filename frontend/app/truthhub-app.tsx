@@ -1387,14 +1387,29 @@ function BusinessDetailPage({
 
                   <h4 className="review-headline">{publicText(rev,'title',lang)}</h4>
                   <p className="review-body-text">{publicText(rev,'body',lang)}</p>
-                  <PublicMediaGallery media={rev.public_media || []} lang={lang} />
-                  {rev.imagePath && (
+                  {rev.images && rev.images.length > 0 ? (
                     <div className="review-attached-images" style={{ display: "flex", gap: "10px", margin: "12px 0", flexWrap: "wrap" }}>
-                      <a href={rev.imagePath} target="_blank" rel="noopener noreferrer" style={{ display: "block", borderRadius: "8px", overflow: "hidden", border: "1px solid #cbd5e1" }}>
-                        <img src={rev.imagePath} alt="Review attachment" style={{ width: "90px", height: "90px", objectFit: "cover", display: "block" }} />
-                      </a>
+                      {rev.images.map((imgUrl: string, idx: number) => {
+                        const resolved = imgUrl.startsWith('http') ? imgUrl : (imgUrl.startsWith('/') ? imgUrl : '/' + imgUrl);
+                        return (
+                          <a key={idx} href={resolved} target="_blank" rel="noopener noreferrer" style={{ display: "block", borderRadius: "8px", overflow: "hidden", border: "1px solid #cbd5e1" }}>
+                            <img src={resolved} alt="Review attachment" style={{ width: "90px", height: "90px", objectFit: "cover", display: "block" }} />
+                          </a>
+                        );
+                      })}
                     </div>
-                  )}
+                  ) : rev.imagePath ? (
+                    <div className="review-attached-images" style={{ display: "flex", gap: "10px", margin: "12px 0", flexWrap: "wrap" }}>
+                      {(() => {
+                        const resolved = rev.imagePath.startsWith('http') ? rev.imagePath : (rev.imagePath.startsWith('/') ? rev.imagePath : '/' + rev.imagePath);
+                        return (
+                          <a href={resolved} target="_blank" rel="noopener noreferrer" style={{ display: "block", borderRadius: "8px", overflow: "hidden", border: "1px solid #cbd5e1" }}>
+                            <img src={resolved} alt="Review attachment" style={{ width: "90px", height: "90px", objectFit: "cover", display: "block" }} />
+                          </a>
+                        );
+                      })()}
+                    </div>
+                  ) : null}
                   <PublicVideoLinks urls={rev.public_video_urls} lang={lang}/>
                   {rev.linked_case&&<Link className="content-action" to={rev.linked_case.url}>{lang==='bn'?'সংশ্লিষ্ট প্রকাশ্য রিপোর্ট':'Linked public report'} · {rev.linked_case.case_code}</Link>}
                   {(rev.location || rev.facebookUrl) && (
