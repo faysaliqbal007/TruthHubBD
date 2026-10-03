@@ -17,6 +17,30 @@ use Illuminate\Support\Facades\Route;
 | Public and Protected API routes for TruthHubBD backend
 */
 
+// Health and version check endpoint
+Route::get('/health', function () {
+    $dbOk = false;
+    try {
+        \Illuminate\Support\Facades\DB::connection()->getPdo();
+        $dbOk = true;
+    } catch (\Throwable $e) {
+        $dbOk = false;
+    }
+
+    $versionFile = base_path('version.json');
+    $versionData = file_exists($versionFile) ? json_decode(file_get_contents($versionFile), true) : [];
+
+    return response()->json([
+        'status' => $dbOk ? 'ok' : 'degraded',
+        'app' => 'TruthHubBD',
+        'database' => $dbOk ? 'connected' : 'error',
+        'version' => $versionData['version'] ?? '1.0.0',
+        'commit' => $versionData['commit'] ?? null,
+        'deployed_at' => $versionData['deployed_at'] ?? null,
+        'timestamp' => now()->toIso8601String(),
+    ], $dbOk ? 200 : 503);
+});
+
 // Public business discovery & review API endpoints
 Route::get('/directory-data', function () {
     return response()->streamDownload(function(){echo '{"license":"ODbL-1.0","attribution":"© OpenStreetMap contributors","license_url":"https://www.openstreetmap.org/copyright","data":[';$first=true;foreach(\App\Models\Business::where('source_ref','like','osm:%')->select('name','bengali_name','location','category','website','source_ref','source_url','source_fetched_at','latitude','longitude')->cursor() as $b){if(!$first)echo ',';echo $b->toJson();$first=false;}echo ']}';},'truthhubbd-osm-directory.json',['Content-Type'=>'application/json']);
