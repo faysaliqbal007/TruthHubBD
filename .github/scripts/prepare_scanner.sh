@@ -33,10 +33,9 @@ from pathlib import Path
 Path('scanner-fixtures/eicar.txt').write_bytes(b'X5O!P%@AP[4'+bytes([92])+b'PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*')
 PY
 # Exercise the same memory ceiling and safety flags that the VPS wrapper uses.
-ulimit -v 1835008
-"$SCANNER" --cvdcertsdir="$PWD/scanner-bundle/runtime/usr/local/etc/certs" --database="$PWD/scanner-bundle/database" --no-summary --fail-if-cvd-older-than=7 --alert-exceeds-max=yes scanner-fixtures/clean.txt
+(ulimit -v 1835008; "$SCANNER" --cvdcertsdir="$PWD/scanner-bundle/runtime/usr/local/etc/certs" --database="$PWD/scanner-bundle/database" --no-summary --fail-if-cvd-older-than=7 --alert-exceeds-max=yes scanner-fixtures/clean.txt)
 set +e
-"$SCANNER" --cvdcertsdir="$PWD/scanner-bundle/runtime/usr/local/etc/certs" --database="$PWD/scanner-bundle/database" --no-summary --fail-if-cvd-older-than=7 --alert-exceeds-max=yes scanner-fixtures/eicar.txt
+(ulimit -v 1835008; "$SCANNER" --cvdcertsdir="$PWD/scanner-bundle/runtime/usr/local/etc/certs" --database="$PWD/scanner-bundle/database" --no-summary --fail-if-cvd-older-than=7 --alert-exceeds-max=yes scanner-fixtures/eicar.txt)
 RESULT=$?
 set -e
 test "$RESULT" -eq 1
