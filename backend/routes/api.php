@@ -5,6 +5,8 @@ use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\BusinessClaimController;
 use App\Http\Controllers\ScamCaseController;
+use App\Http\Controllers\AdvertisementController;
+use App\Http\Controllers\LocationResolverController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,9 +24,17 @@ Route::get('/businesses/{slug}/scam-cases', [ScamCaseController::class, 'busines
 Route::get('/reviews/recent', [BusinessController::class, 'recentReviews']);
 Route::post('/businesses', [BusinessController::class, 'store']); // Business creation (Pending admin approval)
 
+// Public spatial location resolver endpoints
+Route::post('/location/resolve', [LocationResolverController::class, 'resolve']);
+Route::get('/location/search', [LocationResolverController::class, 'search']);
+
 // Public scam case registry endpoints
 Route::get('/scam-cases', [ScamCaseController::class, 'index']);
 Route::get('/scam-cases/{caseCode}', [ScamCaseController::class, 'show']);
+
+// Public advertisements and announcements ticker endpoints
+Route::get('/advertisements', [AdvertisementController::class, 'index']);
+Route::get('/advertisement-ticker', [AdvertisementController::class, 'ticker']);
 
 // Admin approval workflow endpoints (/admin)
 Route::get('/admin/pending-businesses', [AdminController::class, 'pendingBusinesses']);
@@ -35,6 +45,14 @@ Route::post('/admin/businesses/{id}/reject', [AdminController::class, 'reject'])
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', fn (Request $request) => response()->json(['user' => $request->user()]));
     Route::patch('/profile', [ProfileController::class, 'update']);
+
+    // Advertisement administration endpoints
+    Route::get('/admin/advertisements', [AdvertisementController::class, 'adminIndex']);
+    Route::get('/admin/advertisement-ticker', [AdvertisementController::class, 'adminTicker']);
+    Route::patch('/admin/advertisement-ticker', [AdvertisementController::class, 'updateTicker']);
+    Route::post('/admin/advertisements', [AdvertisementController::class, 'store']);
+    Route::patch('/admin/advertisements/{advertisement}', [AdvertisementController::class, 'update']);
+    Route::post('/admin/advertisements/upload-image', [AdvertisementController::class, 'uploadImage']);
 
     // Business owner profile editing & reviews
     Route::patch('/businesses/{id}', [BusinessController::class, 'update']);
