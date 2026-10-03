@@ -628,12 +628,63 @@ class AdminController extends Controller
             'phone'            => 'nullable|string|max:50',
             'website'          => 'nullable|url|max:500',
             'facebook_url'     => 'nullable|url|max:500',
-            'image'            => 'nullable|string|max:1000',
+            'image'            => 'nullable|string|max:30000000',
+            'file'             => 'nullable|file|max:15360',
             'verified'         => 'nullable|boolean',
             'status'           => 'nullable|in:approved,pending,rejected',
             'operating_status' => 'nullable|in:unknown,open,closed',
             'reason'           => 'nullable|string|max:2000',
         ]);
+
+        if ($request->hasFile('file') || $request->hasFile('image')) {
+            $file = $request->file('file') ?? $request->file('image');
+            $ext = $file->getClientOriginalExtension() ?: 'jpg';
+            $filename = \Illuminate\Support\Str::uuid() . '.' . $ext;
+            $file->storeAs('organization-profile-images', $filename, 'public');
+            $storedPath = $file->storeAs('organization-profile-images', $filename, 'private');
+            \App\Models\BusinessProfileImage::where('business_id', $id)->where('status', 'approved')->update(['status' => 'superseded']);
+            \App\Models\BusinessProfileImage::create([
+                'business_id' => $id,
+                'uploaded_by_user_id' => $request->user()->id,
+                'storage_path' => $storedPath,
+                'mime_type' => $file->getMimeType(),
+                'bytes' => $file->getSize(),
+                'sha256' => hash_file('sha256', $file->getRealPath()),
+                'publication_consent' => true,
+                'status' => 'approved',
+            ]);
+            $data['image'] = '/api/businesses/' . $id . '/profile-image';
+        } elseif (!empty($data['image']) && preg_match('/^data:image\/([a-zA-Z0-9+.-]+);base64,(.+)$/', $data['image'], $matches)) {
+            $rawMime = strtolower($matches[1]);
+            $ext = match($rawMime) {
+                'jpeg', 'jpg' => 'jpg',
+                'png' => 'png',
+                'webp' => 'webp',
+                'gif' => 'gif',
+                'svg+xml', 'svg' => 'svg',
+                'avif' => 'avif',
+                default => 'jpg',
+            };
+            $decoded = base64_decode($matches[2]);
+            if ($decoded !== false) {
+                $filename = \Illuminate\Support\Str::uuid() . '.' . $ext;
+                \Illuminate\Support\Facades\Storage::disk('public')->put('organization-profile-images/' . $filename, $decoded);
+                \Illuminate\Support\Facades\Storage::disk('private')->put('organization-profile-images/' . $filename, $decoded);
+                
+                \App\Models\BusinessProfileImage::where('business_id', $id)->where('status', 'approved')->update(['status' => 'superseded']);
+                \App\Models\BusinessProfileImage::create([
+                    'business_id' => $id,
+                    'uploaded_by_user_id' => $request->user()->id,
+                    'storage_path' => 'organization-profile-images/' . $filename,
+                    'mime_type' => 'image/' . $ext,
+                    'bytes' => strlen($decoded),
+                    'sha256' => hash('sha256', $decoded),
+                    'publication_consent' => true,
+                    'status' => 'approved',
+                ]);
+                $data['image'] = '/api/businesses/' . $id . '/profile-image';
+            }
+        }
 
         \DB::transaction(function () use ($request, $id, $data) {
             $business = Business::whereKey($id)->lockForUpdate()->firstOrFail();

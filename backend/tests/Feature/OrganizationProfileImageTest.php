@@ -324,4 +324,25 @@ class OrganizationProfileImageTest extends TestCase
 
         $this->get('/api/businesses/' . $business->id . '/profile-image')->assertOk();
     }
+
+    public function test_admin_can_edit_organization_with_base64_image_data_url(): void
+    {
+        $this->privateStorage();
+        $admin = User::factory()->create(['role' => 'admin']);
+        $business = Business::create(['name' => 'Data URL Business', 'slug' => 'data-url-biz', 'category' => 'Products', 'status' => 'approved']);
+
+        $base64Image = 'data:image/png;base64,' . base64_encode($this->png());
+        $this->actingAs($admin)->patchJson('/api/admin/businesses/' . $business->id . '/edit', [
+            'name' => 'Updated Data URL Business',
+            'image' => $base64Image,
+        ])->assertOk();
+
+        $business->refresh();
+        $this->assertSame('/api/businesses/' . $business->id . '/profile-image', $business->image);
+        $this->assertDatabaseHas('business_profile_images', [
+            'business_id' => $business->id,
+            'status' => 'approved',
+        ]);
+        $this->get('/api/businesses/' . $business->id . '/profile-image')->assertOk();
+    }
 }

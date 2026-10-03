@@ -105,8 +105,8 @@ export function AdminOrganizationEdit({ initialOrgId, onClose, onUpdated }: Admi
   const handleImageFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    if (file.size > 2 * 1024 * 1024) {
-      alert(bn ? 'ছবির সাইজ সর্বোচ্চ ২ মেগাবাইট হতে পারবে।' : 'Image size must be under 2MB.');
+    if (file.size > 15 * 1024 * 1024) {
+      alert(bn ? 'ছবির সাইজ সর্বোচ্চ ১৫ মেগাবাইট হতে পারবে।' : 'Image size must be under 15MB.');
       return;
     }
     const reader = new FileReader();
