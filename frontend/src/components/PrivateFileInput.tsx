@@ -1,0 +1,12 @@
+"use client";
+import {useEffect,useRef,useState} from 'react';
+import {UploadCloud,LockKeyhole} from 'lucide-react';
+import {useI18n} from '../i18n/LanguageContext';
+import {formatNumber} from '../i18n/dictionary';
+export function PrivateFileInput({name,label,imageOnly=false,required=false}:{name:string;label:string;imageOnly?:boolean;required?:boolean}){
+ const {lang,t}=useI18n();const input=useRef<HTMLInputElement>(null);
+ const [file,setFile]=useState<File>();const [preview,setPreview]=useState('');const [error,setError]=useState(false);
+ useEffect(()=>{if(!file?.type.startsWith('image/')){setPreview('');return;}const url=URL.createObjectURL(file);setPreview(url);return()=>URL.revokeObjectURL(url);},[file]);
+ const formats='JPG, PNG, WebP'+(imageOnly?'':t(' or PDF',' বা PDF'));
+ return <div className="evidence-upload"><div className="evidence-upload-header"><UploadCloud size={26} aria-hidden="true"/><strong>{t('Add supporting files','সহায়ক ফাইল যোগ করুন')}</strong></div><label>{label}<input ref={input} name={name} type="file" required={required} accept={imageOnly?'.jpg,.jpeg,.png,.webp':'.pdf,.jpg,.jpeg,.png,.webp'} onChange={e=>{const next=e.target.files?.[0];setFile(undefined);setError(false);if(!next)return;const allowed=['image/jpeg','image/png','image/webp',...(imageOnly?[]:['application/pdf'])];if(!allowed.includes(next.type)||next.size===0||next.size>10*1024*1024){e.target.value='';setError(true);return;}setFile(next);}}/></label><small><LockKeyhole size={13} aria-hidden="true"/>{t(`Private staff review · ${formats} · up to 10 MB. Selected files are sent only when you submit the form.`,`শুধু অনুমোদিত দলের ব্যক্তিগত পর্যালোচনার জন্য · ${formats} · সর্বোচ্চ ${formatNumber(10,lang)} এমবি। ফর্ম জমা দিলেই নির্বাচিত ফাইল পাঠানো হবে।`)}</small>{error&&<p role="alert">{t(`Choose a non-empty ${formats} file up to 10 MB.`,`খালি নয় এমন ${formats} ফাইল বাছুন, সর্বোচ্চ ${formatNumber(10,lang)} এমবি।`)}</p>}{file&&<div className="evidence-upload-status" role="status"><p>{file.name} · {formatNumber(file.size/1024,lang,{maximumFractionDigits:0})} {t('KB · Selected, not yet submitted','কেবি · নির্বাচিত, এখনো জমা হয়নি')}</p><button type="button" className="btn-pill-light" onClick={()=>{setFile(undefined);setError(false);if(input.current)input.current.value='';}}>{t('Remove file','ফাইল সরান')}</button></div>}{preview&&<img src={preview} alt={t('Selected private attachment preview','নির্বাচিত ব্যক্তিগত ফাইলের প্রিভিউ')} style={{maxWidth:'100%',maxHeight:180,objectFit:'contain',borderRadius:12}}/>}</div>;
+}

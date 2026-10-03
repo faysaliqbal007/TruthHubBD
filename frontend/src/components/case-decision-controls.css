@@ -1,0 +1,35 @@
+.case-decision-controls { display: grid; gap: 18px; min-width: 0; margin-top: 24px; padding-top: 22px; border-top: 1px solid var(--rule, #d8cdb7); }
+.case-decision-controls h3 { display: flex; align-items: center; gap: 8px; margin: 0; font-family: var(--serif, Georgia, serif); font-size: 23px; }
+.case-decision-controls .case-decision-fields { display: grid; gap: 18px; min-width: 0; border: 0; padding: 0; margin: 0; }
+.case-decision-controls .case-decision-guidance { margin: 0; font-size: 14px; line-height: 1.75; color: var(--slate-600, #526475); }
+.case-decision-controls label { display: grid; gap: 8px; min-width: 0; font-size: 14px; font-weight: 600; line-height: 1.6; }
+.case-decision-controls :is(input:not([type=checkbox]),textarea,select) { width: 100%; min-width: 0; min-height: 46px; font-size: 16px; }
+.case-decision-controls :is(textarea,p) { overflow-wrap: anywhere; }
+.case-decision-controls .case-publication-fields { display: grid; gap: 18px; min-width: 0; padding: 18px; margin: 0; border: 1px solid var(--rule, #d8cdb7); border-left: 3px solid var(--vermilion, #b7362a); border-radius: 5px; background: var(--cream, #faf6eb); }
+.case-decision-controls legend { padding: 0 6px; font-size: 14px; font-weight: 700; line-height: 1.6; }
+.case-decision-controls .case-alert-fields :is(p,small) { margin: 0; font-size: 14px; line-height: 1.75; color: var(--ink, #18243e); }
+.case-decision-controls .case-alert-current { padding: 10px 12px; border: 1px solid var(--rule, #d8cdb7); border-radius: 4px; font-weight: 600; }
+.case-decision-controls .case-alert-fields label:has(input:disabled) { color: var(--slate-600, #526475); }
+.case-decision-controls details { min-width: 0; }
+.case-decision-controls summary { min-height: 44px; padding: 9px 0; cursor: pointer; font-size: 14px; font-weight: 600; line-height: 1.7; }
+.case-decision-controls details p { margin: 8px 0 12px; white-space: pre-wrap; font-size: 14px; line-height: 1.75; }
+.case-decision-controls .case-linked-review-fields { display: grid; gap: 18px; margin-top: 18px; }
+.case-decision-controls .case-approval-checkbox { display: flex; align-items: start; gap: 10px; min-height: 44px; padding: 8px 0; font-size: 14px; font-weight: 500; }
+.case-decision-controls input[type=checkbox] { flex: 0 0 20px; width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--teal-primary, #0f766e); }
+.case-decision-controls .case-submitted-videos { padding-top: 16px; border-top: 1px solid var(--rule, #d8cdb7); }
+.case-decision-controls .case-submitted-videos h4 { margin: 0 0 10px; font-size: 15px; }
+.case-decision-controls .case-submitted-videos p { margin: 10px 0; font-size: 13px; line-height: 1.7; }
+.case-decision-controls .case-submitted-videos ul { list-style: none; padding: 0; margin: 12px 0; display: grid; gap: 10px; }
+.case-decision-controls .case-submitted-videos li { display: flex; align-items: center; min-width: 0; gap: 12px; }
+.case-decision-controls .case-submitted-videos li > input { margin: 0; }
+.case-decision-controls .case-video-choice { display: grid; place-items: center; flex: 0 0 44px; width: 44px; min-height: 44px; }
+.case-decision-controls .case-video-choice input { margin: 0; }
+.case-decision-controls .case-submitted-videos a { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 8px; min-height: 44px; color: var(--ink, #18243e); font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
+.case-decision-controls .case-video-consent { color: var(--slate-600, #526475); }
+.case-decision-controls .case-decision-fields > button { justify-self: start; min-height: 46px; }
+.case-decision-controls .workspace-notice[hidden] { display: none; }
+.case-decision-controls :is(a,button,input,textarea,select,summary):focus-visible { outline: 3px solid var(--teal-primary, #0f766e); outline-offset: 4px; }
+@media (max-width: 480px) {
+ .case-decision-controls .case-publication-fields { padding: 14px; }
+ .case-decision-controls .case-decision-fields > button { width: 100%; justify-content: center; }
+}

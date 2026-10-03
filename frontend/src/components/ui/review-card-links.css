@@ -1,0 +1,6 @@
+:is(.content-review-card,.discover-story) .review-linked-case { display: flex; grid-column: 1 / -1; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 6px 16px; min-height: 44px; padding: 9px 12px; border-left: 2px solid var(--vermilion, #b7362a); background: var(--cream, #faf6eb); color: var(--ink, #18243e); font-size: 12px; line-height: 1.6; text-decoration: none; }
+:is(.content-review-card,.discover-story) .review-linked-case > span { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 5px; min-width: 0; overflow-wrap: anywhere; }
+:is(.content-review-card,.discover-story) .review-linked-case:hover { color: var(--vermilion, #b7362a); text-decoration: underline; text-underline-offset: 3px; }
+.discover-page .discover-demo-label { font-size: 12px; }
+.content-review-card .content-review-verification { font-size: 12px; }
+.discover-story .public-video-links { grid-column: 1 / -1; }

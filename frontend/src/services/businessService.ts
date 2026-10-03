@@ -1,12 +1,20 @@
-import { businesses as mockBusinesses } from "../data/mock/businesses";
-import type { Business } from "../types";
+import type { Business, LinkedCase } from "../types";
 
-// Base API URL for backend (Laravel server default port 8001 or 8000)
-const API_BASE_URL = typeof window !== "undefined" && window.location.port === "8001"
-  ? "http://localhost:8001/api"
-  : "http://localhost:8001/api";
+export type ReviewSubmission = {id:number;status:'published'|'under_review';linked_case?:LinkedCase|null};
 
-const API_URL = API_BASE_URL.replace(/\/api$/, "");
+export class BusinessSubmissionError extends Error {
+  readonly fieldErrors: Record<string, string[]>;
+  constructor(message: string, fieldErrors: Record<string, string[]> = {}) {
+    super(message);
+    this.name = 'BusinessSubmissionError';
+    this.fieldErrors = fieldErrors;
+  }
+}
+
+// Base API URL for backend
+const API_BASE_URL = `${(process.env.NEXT_PUBLIC_API_URL ?? '').replace(/\/$/, '')}/api`;
+
+const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? '').replace(/\/$/, '');
 
 function getXsrfToken(): string | null {
   if (typeof document === "undefined") return null;
@@ -34,6 +42,15 @@ function csrfHeaders(): HeadersInit {
  * Handles communication between the frontend React application and the Laravel backend API.
  */
 export const businessService = {
+  searchPage: async (query:string,category='All Categories',minRating=0,page=1,location='',signal?:AbortSignal):Promise<{data:Business[];total:number;last_page:number;imported_count:number}> => {
+    const params=new URLSearchParams({q:query,page:String(page)});
+    if(!['All','All Categories',''].includes(category))params.set('category',category);
+    if(minRating>0)params.set('min_rating',String(minRating));
+    if(location)params.set('location',location);
+    const response=await fetch(`${API_BASE_URL}/businesses?${params}`,{signal});
+    if(!response.ok)throw new Error('Directory unavailable. Check the backend and retry; demo data is not substituted.');
+    return response.json();
+  },
   /**
    * Fetch all business entities from backend API or local dataset.
    */
@@ -49,7 +66,7 @@ export const businessService = {
     } catch (err) {
       console.warn("Backend API unavailable, using fallback dataset.", err);
     }
-    return mockBusinesses;
+    return [];
   },
 
   /**
@@ -75,7 +92,7 @@ export const businessService = {
     } catch (err) {
       console.warn("Backend API unavailable for getBySlug, using fallback dataset.", err);
     }
-    return mockBusinesses.find((item) => item.slug === slug);
+    return undefined;
   },
 
   /**
@@ -84,60 +101,17 @@ export const businessService = {
   search: async (
     query: string,
     category = "All Categories",
-    minRating = 0
+    minRating = 0,
+    page = 1
   ): Promise<Business[]> => {
-    try {
-      const params = new URLSearchParams();
-      if (query.trim()) params.append("q", query.trim());
-      if (category && category !== "All Categories" && category !== "All") {
-        params.append("category", category);
-      }
-      if (minRating > 0) {
-        params.append("min_rating", minRating.toString());
-      }
-
-      const response = await fetch(`${API_BASE_URL}/businesses?${params.toString()}`);
-      if (response.ok) {
-        const json = await response.json();
-        if (json.success && Array.isArray(json.data)) {
-          return json.data;
-        }
-      }
-    } catch (err) {
-      console.warn("Backend API offline during search, using fallback filter.", err);
-    }
-
-    // Fallback local filtering if backend API is not running
-    const needle = query.trim().toLowerCase();
-    return mockBusinesses.filter((item) => {
-      const categoryMatch =
-        category === "All" ||
-        category === "All Categories" ||
-        item.category.toLowerCase() === category.toLowerCase() ||
-        item.category.toLowerCase().includes(category.toLowerCase());
-
-      const ratingMatch = minRating <= 0 || item.rating >= minRating;
-
-      const searchable = [
-        item.name,
-        item.bengaliName || "",
-        item.category,
-        item.location,
-        item.description,
-      ]
-        .join(" ")
-        .toLowerCase();
-
-      const textMatch = !needle || searchable.includes(needle);
-
-      return categoryMatch && ratingMatch && textMatch;
-    });
+    const result=await businessService.searchPage(query,category,minRating,page);
+    return result.data;
   },
 
   /**
    * Submit new review with optional fields and file attachment.
    */
-  submitReview: async (businessId: number, formData: FormData): Promise<any> => {
+  submitReview: async (businessId: number, formData: FormData): Promise<ReviewSubmission> => {
     try {
       await csrf();
       const response = await fetch(`${API_BASE_URL}/businesses/${businessId}/reviews`, {
@@ -164,6 +138,17 @@ export const businessService = {
    * Create new Business Entity (for Business Users).
    */
   createBusiness: async (data: {
+    division_id?: string;
+    district_id?: string;
+    upazila_id?: string;
+    latitude?: number;
+    longitude?: number;
+    road?: string;
+    area?: string;
+    postcode?: string;
+    detected_address?: string;
+    presence?: 'physical' | 'online' | 'both';
+    google_place_id?: string;
     name: string;
     bengali_name?: string;
     category: string;
@@ -172,17 +157,25 @@ export const businessService = {
     phone?: string;
     website?: string;
     facebook_url?: string;
+    profile_image?: File;
+    profile_image_consent?: boolean;
   }): Promise<Business> => {
     try {
       await csrf();
+      const formData = data.profile_image ? new FormData() : null;
+      if (formData) {
+        Object.entries(data).forEach(([key, value]) => {
+          if (value !== undefined && value !== null) formData.append(key, value instanceof File ? value : typeof value === 'boolean' ? (value ? '1' : '0') : String(value));
+        });
+      }
       const response = await fetch(`${API_BASE_URL}/businesses`, {
         method: "POST",
         headers: {
           ...csrfHeaders(),
-          "Content-Type": "application/json",
+          ...(!formData ? { "Content-Type": "application/json" } : {}),
         },
         credentials: "include",
-        body: JSON.stringify(data),
+        body: formData ?? JSON.stringify(data),
       });
 
       if (response.ok) {
@@ -190,7 +183,7 @@ export const businessService = {
         return json.data;
       } else {
         const errJson = await response.json().catch(() => null);
-        throw new Error(errJson?.message || `Server error (${response.status})`);
+        throw new BusinessSubmissionError(errJson?.message || `Server error (${response.status})`, errJson?.errors ?? {});
       }
     } catch (err: any) {
       console.error("Error creating business entity on backend API:", err);
@@ -199,7 +192,7 @@ export const businessService = {
   },
 
   /**
-   * Fetch recent community reviews across all businesses for Homepage.
+   * Fetch recent nationwide reviews across all businesses for Homepage.
    */
   getRecentReviews: async (): Promise<any[]> => {
     try {
@@ -219,7 +212,7 @@ export const businessService = {
   /**
    * Update Business Profile Facts (for Business Owner).
    */
-  updateBusiness: async (id: number, data: Partial<Business> & { file?: File }): Promise<Business> => {
+  updateBusiness: async (id: number, data: Partial<Business> & { file?: File; profile_image_consent?: boolean }): Promise<Business> => {
     try {
       await csrf();
       let response;
@@ -227,7 +220,7 @@ export const businessService = {
         const formData = new FormData();
         Object.entries(data).forEach(([key, value]) => {
           if (value !== undefined && value !== null) {
-            formData.append(key, value instanceof File ? value : value.toString());
+            formData.append(key, value instanceof File ? value : typeof value === 'boolean' ? (value ? '1' : '0') : value.toString());
           }
         });
         formData.append('_method', 'PATCH');

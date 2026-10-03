@@ -1,0 +1,47 @@
+.threaded-comments-box.paper-discussion { min-width: 0; padding: clamp(18px, 3vw, 28px); border: 1px solid var(--rule, #d8cdb7); border-radius: 8px; background: var(--paper, #fffdf7); color: var(--ink, #18243e); box-shadow: none; }
+.threaded-comments-box.paper-discussion.compact { padding: 20px; background: var(--paper, #fffdf7); border-radius: 8px; }
+.threaded-comments-box.paper-discussion .threaded-comments-top { margin-bottom: 24px; padding-bottom: 18px; border-color: var(--rule, #d8cdb7); }
+.threaded-comments-box.paper-discussion .threaded-comments-title-group { gap: 10px 12px; }
+.threaded-comments-box.paper-discussion .threaded-comments-title-group h3 { font-family: var(--serif, Georgia, serif); font-size: 23px; line-height: 1.35; }
+.threaded-comments-box.paper-discussion .threaded-count-pill { padding: 0; border: 0; background: transparent; color: var(--slate-600, #526475); font-size: 13px; line-height: 1.6; }
+.threaded-comments-box.paper-discussion .threaded-comments-feed { gap: 24px; }
+.threaded-comments-box.paper-discussion .threaded-item-block { min-width: 0; }
+.threaded-comments-box.paper-discussion :is(.threaded-comment-node,.threaded-reply-item) { display: flex; align-items: start; min-width: 0; gap: 12px; }
+.threaded-comments-box.paper-discussion .threaded-user-avatar { display: grid; place-items: center; width: 36px; height: 36px; flex: 0 0 36px; border: 1px solid var(--rule, #d8cdb7); border-radius: 50%; background: var(--cream, #f5eedb); color: var(--ink, #18243e); box-shadow: none; font-size: 12px; }
+.threaded-comments-box.paper-discussion .threaded-node-body { min-width: 0; flex: 1; }
+.threaded-comments-box.paper-discussion .threaded-author-bar { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 12px; margin: 1px 0 9px; }
+.threaded-comments-box.paper-discussion .threaded-name { color: var(--ink, #18243e); font-size: 14px; line-height: 1.5; cursor: default; overflow-wrap: anywhere; }
+.threaded-comments-box.paper-discussion .threaded-name:hover { text-decoration: none; }
+.threaded-comments-box.paper-discussion .threaded-author-bar time { color: var(--slate-600, #526475); font-size: 12px; line-height: 1.5; }
+.threaded-comments-box.paper-discussion .threaded-bubble { display: block; min-width: 0; padding: 14px 16px; border: 1px solid var(--rule, #e3d9c6); border-radius: 3px 9px 9px; background: var(--cream, #faf6eb); }
+.threaded-comments-box.paper-discussion .threaded-text { margin: 0; color: var(--ink, #18243e); font-size: 16px; line-height: 1.75; overflow-wrap: anywhere; white-space: pre-wrap; }
+.threaded-comments-box.paper-discussion .threaded-actions-row { gap: 8px 16px; margin: 2px 0 0; padding: 0; }
+.threaded-comments-box.paper-discussion .threaded-actions-row :is(button,a) { min-height: 44px; min-width: 44px; padding: 8px 0; color: var(--slate-600, #526475); font-size: 13px; line-height: 1.5; }
+.threaded-comments-box.paper-discussion .threaded-action-btn { border: 0; background: transparent; color: var(--slate-600, #526475); font-size: 13px; font-weight: 600; cursor: pointer; }
+.threaded-comments-box.paper-discussion .threaded-action-btn:hover { color: var(--vermilion, #b7362a); text-decoration: underline; }
+.threaded-comments-box.paper-discussion .threaded-replies-tray { display: grid; gap: 18px; margin: 12px 0 0 18px; padding: 0 0 0 18px; border-left: 1px solid var(--rule, #d8cdb7); }
+.threaded-comments-box.paper-discussion .threaded-replies-tray .threaded-replies-tray { margin-left: 0; padding-left: 0; border-left: 0; }
+.threaded-comments-box.paper-discussion .threaded-new-form { margin: 26px 0 0; padding-top: 22px; border-top: 1px solid var(--rule, #d8cdb7); }
+.threaded-comments-box.paper-discussion .threaded-input-col > label { display: block; margin-bottom: 10px; font-size: 15px; font-weight: 700; }
+.threaded-comments-box.paper-discussion .threaded-input-area { padding: 14px; border: 1px solid var(--rule, #b7ac95); border-radius: 6px; background: var(--paper, #fffdf7); color: var(--ink, #18243e); font-size: 16px; line-height: 1.65; min-height: 110px; }
+.threaded-comments-box.paper-discussion .threaded-input-area:focus { background: var(--paper, #fffdf7); border-color: var(--teal-primary, #0f766e); box-shadow: none; }
+.threaded-comments-box.paper-discussion .threaded-input-help { margin: 8px 0 10px; color: var(--slate-600, #526475); font-size: 13px; line-height: 1.6; }
+.threaded-comments-box.paper-discussion .threaded-form-foot { margin-top: 8px; padding: 0; gap: 10px; }
+.threaded-comments-box.paper-discussion .threaded-form-foot > small { flex: 1 1 100px; font-size: 12px; }
+.threaded-comments-box.paper-discussion .threaded-submit-btn { min-height: 46px; padding: 10px 18px; border-radius: 5px; background: var(--ink, #18243e); font-size: 14px; }
+.threaded-comments-box.paper-discussion .threaded-submit-btn:hover:not(:disabled) { background: var(--teal-primary, #0f766e); }
+.threaded-comments-box.paper-discussion .threaded-reply-context { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; font-size: 13px; }
+.threaded-comments-box.paper-discussion .threaded-reply-context button { min-height: 44px; margin-left: auto; }
+.threaded-comments-box.paper-discussion .threaded-sign-in { padding-top: 18px; margin-top: 20px; border-top: 1px solid var(--rule, #d8cdb7); font-size: 15px; line-height: 1.6; }
+.threaded-comments-box.paper-discussion .threaded-sign-in a { display: inline-flex; align-items: center; min-height: 44px; color: var(--vermilion, #b7362a); }
+.threaded-comments-box.paper-discussion :is(a,button,textarea):focus-visible { outline: 3px solid var(--teal-primary, #0f766e); outline-offset: 4px; }
+@media (max-width: 480px) {
+ .threaded-comments-box.paper-discussion, .threaded-comments-box.paper-discussion.compact { padding: 16px; }
+ .threaded-comments-box.paper-discussion :is(.threaded-comment-node,.threaded-reply-item) { gap: 9px; }
+ .threaded-comments-box.paper-discussion .threaded-user-avatar { width: 28px; height: 28px; flex-basis: 28px; font-size: 11px; }
+ .threaded-comments-box.paper-discussion .threaded-bubble { padding: 12px; }
+ .threaded-comments-box.paper-discussion .threaded-replies-tray { margin-left: 9px; padding-left: 9px; }
+ .threaded-comments-box.paper-discussion .threaded-author-bar { gap: 3px 8px; }
+ .threaded-comments-box.paper-discussion .threaded-author-bar time { font-size: 12px; }
+ .threaded-comments-box.paper-discussion .threaded-submit-btn { flex: 1 1 100%; justify-content: center; }
+}

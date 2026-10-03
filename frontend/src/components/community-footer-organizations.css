@@ -1,0 +1,94 @@
+.organization-footer .community-footer-business > .community-footer-width { align-items: start; gap: 24px; padding: clamp(22px, 3vw, 36px); border-radius: 8px; }
+.organization-footer .footer-business-icon { width: 58px; height: 58px; border-radius: 8px; }
+.organization-footer .community-footer-business h2 { max-width: 680px; text-wrap: balance; }
+.organization-footer .community-footer-business p { font-size: 15px; line-height: 1.8; max-width: 640px; }
+.organization-footer .footer-claim-note { display: block; margin-top: 8px; font-size: 13px; line-height: 1.65; }
+.organization-footer .community-footer-business .community-footer-actions { flex: 0 1 285px; min-width: 0; padding-top: 12px; gap: 12px; }
+.organization-footer .community-footer-business .footer-outline-action { justify-content: center; min-height: 48px; width: 100%; white-space: normal; line-height: 1.5; text-align: center; }
+.organization-footer .community-footer-business .footer-outline-action svg { flex-shrink: 0; }
+.organization-footer .footer-text-action { display: inline-flex; align-items: center; min-height: 44px; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.organization-footer :is(a,button):focus-visible { outline: 3px solid currentColor; outline-offset: 4px; }
+
+/* Interactive Hover & Ripple Transitions */
+.organization-footer .footer-animated-btn {
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s ease, background-color 0.18s ease;
+}
+.organization-footer .footer-animated-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+.organization-footer .footer-animated-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.organization-footer .footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 32px;
+  color: var(--ink, #18243e);
+  font-size: 13.5px;
+  line-height: 1.5;
+  text-decoration: none;
+  transition: transform 0.18s ease, color 0.18s ease, padding-left 0.18s ease;
+}
+.organization-footer .footer-link:hover {
+  color: #0f766e;
+  transform: translateX(5px);
+  text-decoration: none;
+}
+.organization-footer .footer-link:active {
+  transform: translateX(3px) scale(0.98);
+}
+
+.organization-footer .footer-back-to-top {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.organization-footer .footer-back-to-top:hover {
+  background: #0f766e !important;
+  color: #ffffff !important;
+  border-color: #0f766e !important;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);
+}
+.organization-footer .footer-back-to-top:active {
+  transform: translateY(0);
+}
+
+.organization-footer .community-footer-base {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr 1fr 1.1fr;
+  gap: 28px 24px;
+  padding-top: 36px;
+  padding-bottom: 28px;
+}
+
+@media (max-width: 1024px) {
+  .organization-footer .community-footer-base {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px 20px;
+  }
+}
+
+@media (max-width: 900px) {
+ .organization-footer .community-footer-business > .community-footer-width { flex-wrap: wrap; }
+ .organization-footer .community-footer-business > .community-footer-width > div:not(.community-footer-actions) { flex-basis: calc(100% - 82px); }
+ .organization-footer .community-footer-business .community-footer-actions { flex-basis: 100%; width: 100%; padding-top: 0; }
+ .organization-footer .community-footer-business .footer-outline-action { width: auto; }
+}
+
+@media (max-width: 640px) {
+  .organization-footer .community-footer-base {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+ .organization-footer .community-footer-business > .community-footer-width { gap: 16px; padding: 20px; }
+ .organization-footer .footer-business-icon { width: 44px; height: 44px; }
+ .organization-footer .footer-business-icon svg { width: 24px; height: 24px; }
+ .organization-footer .community-footer-business > .community-footer-width > div:not(.community-footer-actions) { flex-basis: calc(100% - 60px); }
+ .organization-footer .community-footer-business h2 { font-size: 26px; }
+ .organization-footer .community-footer-business .footer-outline-action { width: 100%; }
+}

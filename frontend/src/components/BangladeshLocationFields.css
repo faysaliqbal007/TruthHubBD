@@ -1,0 +1,49 @@
+.bd-location-fields { display: grid; gap: 10px; min-width: 0; }
+.bd-location-search-label, .bd-location-selects label > span, .bd-location-scope > span { font-size: 13px; font-weight: 700; color: var(--ink); }
+.bd-location-search { display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 6px; padding: 0 12px; color: var(--mut); background: var(--raised); }
+.bd-location-search:focus-within { outline: 2px solid var(--verm); outline-offset: 2px; }
+.bd-location-search input { width: 100%; min-width: 0; min-height: 46px; border: 0; outline: 0; padding: 10px 0; background: transparent; color: var(--ink); font: inherit; font-size: 16px; }
+.bd-location-hint { margin: 0; color: var(--mut); font-size: 13px; line-height: 1.5; }
+.bd-location-selects { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.bd-location-selects label, .bd-location-scope { display: grid; gap: 6px; min-width: 0; }
+.bd-location-selects select, .bd-location-scope select { width: 100%; min-width: 0; min-height: 46px; padding: 10px 8px; border: 1px solid var(--line); border-radius: 6px; color: var(--ink); background: var(--raised); font: inherit; font-size: 16px; }
+.bd-location-selects select:disabled { opacity: .6; cursor: not-allowed; background: var(--tint); }
+.bd-location-selects select:focus-visible, .bd-location-scope select:focus-visible, .bd-location-results button:focus-visible, .bd-location-source summary:focus-visible, .bd-area-dialog button:focus-visible, .bd-location-source a:focus-visible { outline: 2px solid var(--verm); outline-offset: 2px; }
+.bd-location-results { max-height: 230px; overflow-y: auto; border: 1px solid var(--line); border-radius: 6px; overscroll-behavior: contain; background: var(--raised); }
+.bd-location-results ul { list-style: none; margin: 0; padding: 0; }
+.bd-location-results li + li { border-top: 1px solid var(--line); }
+.bd-location-results button { display: grid; gap: 3px; width: 100%; min-height: 50px; border: 0; padding: 10px 12px; text-align: left; color: var(--ink); background: transparent; cursor: pointer; font: inherit; }
+.bd-location-results button:hover { background: var(--tint); }
+.bd-location-results button span, .bd-location-results > p { color: var(--mut); font-size: 13px; line-height: 1.5; }
+.bd-location-results > p { padding: 12px; margin: 0; }
+.bd-location-source { color: var(--mut); font-size: 12px; line-height: 1.6; }
+.bd-location-source summary { display: list-item; min-height: 32px; padding-block: 5px; cursor: pointer; }
+.bd-location-source p { margin: 4px 0; }
+.bd-location-source a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.bd-location-picker { display: grid; min-width: 0; margin: 0; padding: 0; border: 0; gap: 12px; }
+.bd-location-picker legend { margin-bottom: 10px; padding: 0; color: var(--ink); font-size: 14px; font-weight: 700; }
+.bd-location-picker legend svg { vertical-align: middle; }
+.bd-location-confirmed { margin: 0; padding: 10px 12px; border-left: 3px solid var(--verm); background: var(--tint); color: var(--ink); font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
+.bd-location-confirmed > span { font-weight: 700; }
+.area-modal-card.bd-area-dialog { max-width: 640px; max-height: min(90vh, 780px); max-height: min(90dvh, 780px); }
+.bd-area-dialog .area-modal-header { gap: 12px; flex-shrink: 0; }
+.bd-area-dialog .area-modal-close { width: 44px; height: 44px; flex-shrink: 0; display: grid; place-items: center; }
+.bd-area-body { display: grid; gap: 18px; padding: 20px; overflow-y: auto; overscroll-behavior: contain; min-height: 0; }
+.bd-location-scope { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); align-items: center; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.bd-area-footer { align-items: flex-start; gap: 14px; flex-shrink: 0; }
+.bd-area-footer .area-current-selected { min-width: 0; flex: 1; overflow-wrap: anywhere; }
+.bd-area-footer .area-modal-buttons { flex-shrink: 0; flex-wrap: wrap; }
+.bd-area-footer button { min-height: 44px; }
+.bd-area-footer button:disabled { opacity: .5; cursor: not-allowed; }
+@media (max-width: 600px) {
+  .bd-location-selects { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .area-modal-backdrop.bd-area-backdrop { padding: 12px; align-items: center; }
+  .area-modal-card.bd-area-dialog { width: 100%; border-radius: 8px; max-height: 92vh; max-height: 92dvh; }
+  .bd-area-dialog .area-modal-header { padding: 14px 16px; }
+  .bd-area-dialog .area-modal-title { font-size: 19px; }
+  .bd-area-body { padding: 16px; }
+  .bd-area-footer { flex-direction: column; padding: 12px 16px; }
+  .bd-area-footer .area-modal-buttons { width: 100%; }
+  .bd-area-footer .area-modal-buttons button { flex: 1; }
+  .bd-location-scope { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+}

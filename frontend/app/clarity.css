@@ -1,0 +1,22 @@
+/* Action-first visual system: readable surfaces, visible controls and restrained depth. */
+:root{--action-ink:#123b38;--action-teal:#087f70;--action-border:#cfdfdc}
+body{background:#f4f7f6;color:#172d31}
+.workspace-heading h1,.scam-hero-titles h1{letter-spacing:-.045em}
+.workspace-card,.biz-sidebar-card,.location-card{border:1px solid var(--action-border);border-radius:20px;background:#fff;box-shadow:0 8px 28px #153c3709}
+.workspace-card p{line-height:1.7}
+.workspace-page .review-form-content label,.review-modal-box .review-label{color:#203e42;font-weight:650}
+.review-input,.review-textarea,.review-input-select,.workspace-page select{border:1px solid #b4cbc6;background:#fff;color:#142e32;border-radius:12px;min-height:48px;padding:12px 14px;width:100%;box-sizing:border-box}
+.workspace-page input:not([type=checkbox]):not([type=radio]):not([type=file]){min-height:48px}
+input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #169e8b;outline-offset:4px}
+.btn-teal-pill{background:#086b5f;color:#fff;min-height:46px;border:1px solid #086b5f;box-shadow:0 4px 12px #086b5f22}
+.btn-pill-light{background:#fff;color:#124d46;border:1px solid #a7c8bf;min-height:44px;padding:10px 16px;border-radius:12px;font-weight:700}
+button:disabled{opacity:.55;cursor:not-allowed}
+input[type=file]{display:block;width:100%;max-width:100%;padding:14px;background:#f0f8f5;border:1px dashed #669f90;border-radius:12px;color:#274d46;box-sizing:border-box;min-height:62px;font-size:.9rem}
+input[type=file]::file-selector-button{padding:11px 16px;margin-right:12px;border:0;border-radius:8px;background:#096b5e;color:white;font-weight:700;cursor:pointer}
+.evidence-upload{padding:22px;border:1px solid #9fc7bb;border-radius:18px;background:linear-gradient(135deg,#f0faf5,#fff);display:grid;gap:12px}
+.evidence-upload-header{display:flex;align-items:center;gap:12px;color:#14584e}.evidence-upload-header svg{flex-shrink:0}.evidence-upload label{display:grid;gap:12px}.evidence-upload small{color:#41645c;line-height:1.6}.evidence-upload-preview{max-width:100%;max-height:180px;object-fit:contain;border-radius:12px}.evidence-upload-status{display:flex;gap:10px;align-items:center;flex-wrap:wrap;overflow-wrap:anywhere}
+.profile-actions{padding:24px;background:#fff;border:1px solid var(--action-border);border-top:4px solid #0a8977;border-radius:18px;margin-bottom:20px;display:grid;gap:14px}.profile-actions h2{font-size:1.15rem;margin:0}.profile-actions p{color:#54706a;font-size:.88rem;line-height:1.6;margin:0}.profile-actions>a,.profile-actions button{width:100%;justify-content:center;box-sizing:border-box;text-align:center}.profile-actions .workspace-tabs{display:grid;gap:10px;margin:0}.profile-actions .workspace-tabs a{padding:12px;background:#f2f7f5;border-radius:10px;color:#225e51}.save-entity-button{display:flex;gap:10px;align-items:center;background:#e1f3ea;border:1px solid #70b699;color:#124e3c;font-weight:750;min-height:48px;border-radius:12px;padding:12px 18px}.save-entity-button[aria-pressed=true]{background:#12674e;color:#fff}
+.civic-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:24px 0}.civic-strip article{padding:22px;border:1px solid #d0dfda;border-radius:18px;background:#fff}.civic-strip span{display:block;font-size:.72rem;letter-spacing:.13em;color:#087c68;font-weight:750;margin-bottom:10px}.civic-strip h2{font-size:1.05rem;margin:0 0 8px}.civic-strip p{font-size:.9rem;color:#526963;line-height:1.7;margin:0}
+.scam-case-item-rich{border:1px solid #d3e2dd;box-shadow:0 6px 20px #123c3707}.scam-case-item-rich:hover{border-color:#55a58b;box-shadow:0 12px 28px #123c3712}
+.workspace-tabs button,.workspace-tabs select{min-height:42px;padding:10px 14px;border:1px solid #b6d1c8;border-radius:10px;background:#fff;color:#174f42}.workspace-tabs label{display:flex;align-items:center;gap:10px}.workspace-notice{border-left:4px solid #b18016;background:#fffbec;color:#604e24;padding:16px;border-radius:10px}
+@media(max-width:700px){.civic-strip{grid-template-columns:1fr;gap:10px}.civic-strip article{padding:18px}.profile-actions{padding:18px}.workspace-card{padding:20px}.workspace-tabs{flex-wrap:wrap}.evidence-upload{padding:16px}input[type=file]::file-selector-button{display:block;margin:0 0 10px;width:100%}}

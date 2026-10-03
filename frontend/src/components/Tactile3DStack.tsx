@@ -1,0 +1,16 @@
+"use client";
+import {useRef,useEffect} from 'react';
+import {LazyMotion,domAnimation,m,useMotionValue,useSpring,useReducedMotion} from 'motion/react';
+import {Link} from 'react-router-dom';
+import {ChevronRight,Lock,ShieldCheck,MapPin,MessageCircle} from 'lucide-react';
+export function Tactile3DStack({compact=false}:{compact?:boolean}){
+ const reduced=useReducedMotion();const targetX=useMotionValue(0),targetY=useMotionValue(0);const rx=useSpring(targetX,{stiffness:150,damping:22}),ry=useSpring(targetY,{stiffness:150,damping:22});
+ const frame=useRef(0);useEffect(()=>()=>cancelAnimationFrame(frame.current),[]);
+ return <LazyMotion features={domAnimation}><div className={`tactile-hero-right ${compact?'tactile-compact':''}`}><div className="tilt-scene" aria-hidden="true" onMouseMove={e=>{
+  if(reduced||!matchMedia('(pointer:fine) and (min-width:769px)').matches)return;
+  const rect=e.currentTarget.getBoundingClientRect();const x=(e.clientX-rect.left)/rect.width-.5,y=(e.clientY-rect.top)/rect.height-.5;
+  cancelAnimationFrame(frame.current);frame.current=requestAnimationFrame(()=>{targetX.set(-y*16);targetY.set(x*16);});
+ }} onMouseLeave={()=>{cancelAnimationFrame(frame.current);targetX.set(0);targetY.set(0);}}>
+ <m.div className="tilt-object" style={{rotateX:reduced?0:rx,rotateY:reduced?0:ry,transformPerspective:900}}><div className="paper-layer layer-back"/><div className="paper-layer layer-mid"/><div className="paper-layer layer-front"><span className="paper-bookmark-ribbon"/><div className="paper-stamp"><ShieldCheck size={18}/><span>COMMUNITY TRUST</span></div><div className="paper-title-area"><span className="paper-kicker">CHECK BEFORE YOU TRUST</span><h4 className="paper-main-heading">Your experience matters.</h4></div><div className="paper-doc-lines"><div className="doc-line doc-line-ink" style={{width:'70%'}}/><div className="doc-line doc-line-sep"/><div className="doc-line" style={{width:'90%'}}/><div className="doc-line" style={{width:'65%'}}/><span className="stamp-badge">BE INFORMED</span></div><div className="paper-footer-seal"><Lock size={16}/><span>Private evidence.<br/>Public accountability.</span></div></div></m.div><div className="civic-art-seal"><ShieldCheck size={22}/>A community,<br/>not a courtroom.</div></div>
+ {!compact&&<><p className="evidence-caption"><ShieldCheck size={16}/> Evidence is verified to protect privacy before public release.</p><div className="recent-activity-section"><div className="activity-label-row"><span>Make your next step count</span><span className="activity-rule"/></div><Link to="/scam-alerts" className="tactile-activity-card"><MessageCircle size={24}/><div className="activity-card-content"><b className="activity-card-title">Read public case updates</b><span className="activity-card-sub">Understand the report, response and resolution.</span></div><ChevronRight size={20}/></Link><Link to="/claim" className="tactile-activity-card"><MapPin size={24}/><div className="activity-card-content"><b className="activity-card-title">Own a business? Claim your listing</b><span className="activity-card-sub">Confirm your branch and submit private proof.</span></div><ChevronRight size={20}/></Link></div></>}</div></LazyMotion>;
+}

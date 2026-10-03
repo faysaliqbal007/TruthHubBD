@@ -1,0 +1,5 @@
+.civic-business-card .civic-business-tags { flex-wrap: wrap; }
+.civic-business-card .civic-business-tags > span { font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.civic-business-card .organization-unclaimed { color: var(--slate-600, #526475); }
+.civic-business-card .civic-business-footer { flex-wrap: wrap; gap: 8px 12px; }
+.civic-business-card .civic-business-footer > span { max-width: 100%; overflow-wrap: anywhere; }
