@@ -53,6 +53,19 @@ jobs:
         run: |
           scp -i ~/.ssh/cse3100_deploy -o BatchMode=yes scanner-release.tar.gz scanner-release.tar.gz.sha256 s20230204112@187.52.122.100:
       - name: Verify and enable scanner in own account folder
-        run: ssh -i ~/.ssh/cse3100_deploy -o BatchMode=yes s20230204112@187.52.122.100 'python3 -' < .github/scripts/deploy_scanner.py
+        run: |
+          set +e
+          ssh -i ~/.ssh/cse3100_deploy -o BatchMode=yes s20230204112@187.52.122.100 'python3 -' < .github/scripts/deploy_scanner.py 2>&1 | tee scanner-deployment.log
+          result=${PIPESTATUS[0]}
+          set -e
+          if [ "$result" -ne 0 ]; then
+            python3 - <<'PY'
+          from pathlib import Path
+          message = Path('scanner-deployment.log').read_text(errors='replace')[-6000:]
+          message = message.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+          print('::error title=VPS scanner deployment details::' + message)
+          PY
+            exit "$result"
+          fi
       - name: Check live health
         run: curl --fail --retry 3 --retry-delay 5 https://truthhub.austattendance.online/up

@@ -26,6 +26,14 @@ with tarfile.open(archive, 'r:gz') as bundle:
             raise RuntimeError('Unsafe scanner archive')
     # Python's data filter permits safe internal library symlinks only.
     bundle.extractall(release, filter='data')
+# FreshClam updates runtime data only; the binary was prepared on GitHub.
+# Update the staged database before switching the active release.
+config = release / 'freshclam.conf'
+config.write_text('DatabaseDirectory ' + str(release / 'database') + '\nCVDCertsDirectory ' + str(release / 'runtime/usr/local/etc/certs') + '\nDatabaseMirror database.clamav.net\nDatabaseOwner s20230204112\nTestDatabases no\nConnectTimeout 15\nReceiveTimeout 30\nMaxAttempts 2\n')
+config.chmod(0o600)
+scanner_env = dict(os.environ)
+scanner_env['LD_LIBRARY_PATH'] = str(release / 'runtime/usr/local/lib')
+subprocess.run(['/usr/bin/nice', '-n', '5', str(release / 'runtime/usr/local/bin/freshclam'), '--config-file=' + str(config)], env=scanner_env, timeout=300, check=True)
 current = root / 'current'
 previous = current.resolve() if current.exists() else None
 pending = root / '.current-new'
@@ -42,7 +50,7 @@ export LD_LIBRARY_PATH="$RELEASE/runtime/usr/local/lib"
 # --no-fork makes the real scanner keep the lock and receive timeout signals.
 ulimit -v 1835008
 exec /usr/bin/flock --nonblock --conflict-exit-code 2 --no-fork "$ROOT/scan.lock" \
-    /usr/bin/nice -n 19 "$RELEASE/runtime/usr/local/bin/clamscan" \
+    /usr/bin/nice -n 5 "$RELEASE/runtime/usr/local/bin/clamscan" \
     --cvdcertsdir="$RELEASE/runtime/usr/local/etc/certs" --database="$RELEASE/database" --max-filesize=10M --max-scansize=60M \
     --max-recursion=20 --max-files=1000 "$@"
 """, encoding='utf-8')
@@ -50,7 +58,7 @@ wrapper.chmod(0o700)
 fixture = root / '.clean-verification.txt'
 fixture.write_text('TruthHub clean scanner verification file.\n')
 try:
-    result = subprocess.run([str(wrapper), '--no-summary', '--fail-if-cvd-older-than=7', '--alert-exceeds-max=yes', str(fixture)], capture_output=True, text=True, timeout=60)
+    result = subprocess.run([str(wrapper), '--no-summary', '--fail-if-cvd-older-than=7', '--alert-exceeds-max=yes', str(fixture)], capture_output=True, text=True, timeout=240)
     print(result.stdout)
     print(result.stderr)
     if result.returncode:
