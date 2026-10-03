@@ -10,7 +10,6 @@ export type NotificationItem = {
 
 export function notificationDestination(value?: string | null): string | undefined {
   if (!value) return undefined;
-  if (value.startsWith('http://') || value.startsWith('https://')) return value;
   if (!value.startsWith('/') || value.startsWith('//') || /[\\\u0000-\u001f\u007f]/.test(value)) return undefined;
   try {
     const decoded = decodeURIComponent(value);

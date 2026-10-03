@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {AI_DEMO_ILLUSTRATION,isAiDemoIllustration,visiblePublicMedia} from '../src/lib/publicMedia.ts';
 
+process.env.NEXT_PUBLIC_API_URL = 'http://localhost:8001';
+
 const image=(url,kind='photo')=>({url,kind,alt:'Approved public copy'});
 test('known demo assets and AI illustration are allowed and identified explicitly',()=>{
  const ai=image(AI_DEMO_ILLUSTRATION,'illustration');

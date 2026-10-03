@@ -10,7 +10,7 @@
     "dev": "vite --config vite.config.ts",
     "build": "vite build --config vite.config.ts",
     "preview": "vite preview",
-    "test": "npm run build && node --test tests/rendered-html.test.mjs && npm run test:attachments && npm run test:i18n && npm run test:locations && npm run test:videos && npm run test:ads && node --experimental-strip-types --test tests/auth-return-path.test.mjs tests/discovery-params.test.mjs tests/organization-image-submission.test.mjs tests/public-media.test.mjs tests/notification-content.test.mjs tests/alert-feed-order.test.mjs",
+    "test": "npm run typecheck && npm run build && node --experimental-strip-types --test tests/advertisements.test.mjs tests/alert-feed-order.test.mjs tests/attachments.test.mjs tests/auth-return-path.test.mjs tests/bd-locations.test.mjs tests/discovery-params.test.mjs tests/i18n-content.test.mjs tests/notification-content.test.mjs tests/organization-image-submission.test.mjs tests/public-media.test.mjs tests/public-video-urls.test.mjs",
     "test:attachments": "node --experimental-strip-types --test tests/attachments.test.mjs",
     "test:i18n": "node --experimental-strip-types --test tests/i18n-content.test.mjs",
     "test:locations": "node --test tests/bd-locations.test.mjs",
