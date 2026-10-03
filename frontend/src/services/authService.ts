@@ -1,6 +1,6 @@
 import type { User } from "../types";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8001";
+const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "").replace(/\/$/, "");
 
 function getXsrfToken(): string | null {
   if (typeof document === "undefined") return null;
@@ -69,32 +69,43 @@ export const authService = {
     return request<{ message: string }>("/logout", { method: "POST" });
   },
 
-  updateProfile: async (body: { name: string; avatar_url?: string }) => {
+  updateProfile: async (body: { name: string; avatar?: File }) => {
     await csrf();
-    return request<{ user: User }>("/api/profile", {
-      method: "PATCH",
-      body: JSON.stringify(body),
+    if (body.avatar) {
+      const formData = new FormData();
+      formData.append('name', body.name);
+      formData.append('avatar', body.avatar);
+      formData.append('_method', 'PATCH');
+      const xsrfToken = getXsrfToken();
+      const headers: Record<string, string> = { Accept: 'application/json', ...(xsrfToken ? { 'X-XSRF-TOKEN': xsrfToken } : {}) };
+      const response = await fetch(API_URL + '/api/profile', { method: 'POST', credentials: 'include', headers, body: formData });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw Object.assign(new Error(data.message ?? 'Error'), { status: response.status });
+      return data as { user: User };
+    }
+    return request<{ user: User }>('/api/profile', {
+      method: 'PATCH',
+      body: JSON.stringify({ name: body.name }),
     });
   },
 
   /** Send a password reset link to the user's email */
   forgotPassword: async (email: string) => {
-    await csrf();
-    return request<{ message: string }>("/forgot-password", {
+    return request<{ message: string }>("/api/forgot-password", {
       method: "POST",
       body: JSON.stringify({ email }),
     });
   },
 
-  /** Reset password using token from the email link */
+  /** Reset password using 6-digit code or link token */
   resetPassword: async (body: {
-    token: string;
+    code?: string;
+    token?: string;
     email: string;
     password: string;
     password_confirmation: string;
   }) => {
-    await csrf();
-    return request<{ message: string }>("/reset-password", {
+    return request<{ message: string }>("/api/reset-password", {
       method: "POST",
       body: JSON.stringify(body),
     });
@@ -109,5 +120,17 @@ export const authService = {
     });
   },
 
+  /** Verify email using 6-digit verification code */
+  verifyCode: async (body: { email: string; code: string }) => {
+    await csrf();
+    return request<{ message: string; user?: User }>("/email/verify-code", {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
+  },
+
   googleUrl: `${API_URL}/auth/google/redirect`,
 };
+
+
+

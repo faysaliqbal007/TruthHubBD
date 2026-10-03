@@ -1,8 +1,16 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { AlertCircle, AlertTriangle, Camera, Facebook, MapPin, PlusCircle, Star, X } from "lucide-react";
+import React, { useEffect, useRef, useState } from "react";
+import { AlertCircle, AlertTriangle, Building2, Camera, Facebook, PlusCircle, Search, Star, X } from "lucide-react";
 import { businessService } from "../../services/businessService";
 import type { Business } from "../../types";
+
+import {MultiFilePicker} from '../MultiFilePicker';
+import {PublicVideoField} from '../PublicVideoLinks';
+import {parsePublicVideoUrls} from '../../lib/publicVideoUrls';
+import {useI18n} from '../../i18n/LanguageContext';
+import {useAuth} from '../../features/auth/AuthContext';
+import {formatNumber,translateCategory,localizedError} from '../../i18n/dictionary';
+
 
 export function WriteReviewModal({
   open,
@@ -10,16 +18,23 @@ export function WriteReviewModal({
   initialBusiness,
   onShowSoon,
   onOpenAddBusiness,
+  onReviewSubmitted,
 }: {
   open: boolean;
   onClose: () => void;
   initialBusiness?: Business | null;
   onShowSoon: (feature: string) => void;
   onOpenAddBusiness?: () => void;
+  onReviewSubmitted?: (review: any, businessId: number) => void;
 }) {
+  const {lang,t}=useI18n();
+  const {user}=useAuth();
   const [availableBusinesses, setAvailableBusinesses] = useState<Business[]>([]);
-  const [selectedEntityId, setSelectedEntityId] = useState<number>(1);
-  const [rating, setRating] = useState(5);
+  const [selectedEntityId, setSelectedEntityId] = useState<number>(0);
+  const [entityQuery,setEntityQuery]=useState('');
+  const [entityLoading,setEntityLoading]=useState(false);
+  const [entityError,setEntityError]=useState('');
+  const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
     const [serviceRating, setServiceRating] = useState(0);
     const [valueRating, setValueRating] = useState(0);
@@ -27,105 +42,89 @@ export function WriteReviewModal({
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   
-  // Issue #3: Location field state (Optional)
-  const [location, setLocation] = useState("");
+
   
   // Issue #4: Facebook Page URL field state (Optional)
   const [facebookUrl, setFacebookUrl] = useState("");
   
-  const [date, setDate] = useState("2026-08-15");
+  const [date, setDate] = useState('');
+  const [disclosure, setDisclosure] = useState('none');
   const [scamAlertRequested, setScamAlertRequested] = useState(false);
+  const [scamAmount, setScamAmount] = useState('');
+  const [videoUrls,setVideoUrls]=useState('');
+  const [videoConsent,setVideoConsent]=useState(false);
+  const [caseReference,setCaseReference]=useState('');
   
   // Issue #5: File upload states
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [selectedImagePreview, setSelectedImagePreview] = useState<string | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [fileError, setFileError] = useState<string | null>(null);
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccessMsg, setSubmitSuccessMsg] = useState<string | null>(null);
+  const dialog=useRef<HTMLDivElement>(null);
+  const submission=useRef(false);
 
-  // Load latest businesses list from API/Database
+  const selectedBusiness = availableBusinesses.find((b) => b.id === selectedEntityId) || (initialBusiness?.id === selectedEntityId ? initialBusiness : null);
+
+  useEffect(()=>{if(open){setSelectedEntityId(initialBusiness?.id||0);setEntityQuery(initialBusiness?.name||'');setRating(0);setServiceRating(0);setValueRating(0);setCommRating(0);setTitle('');setBody('');setSelectedFiles([]);setDate('');setFacebookUrl('');setScamAlertRequested(false);setScamAmount('');setVideoUrls('');setVideoConsent(false);setCaseReference('');setDisclosure('none');setFileError(null);setSubmitSuccessMsg(null);}},[open,initialBusiness]);
+  // Search the full directory, not just its first page. Never silently select a business.
   useEffect(() => {
+    if(!open)return;
+    let active=true;
     async function loadBusinesses() {
+      setEntityLoading(true);setEntityError('');
       try {
-        const list = await businessService.getAll();
-        setAvailableBusinesses(list);
-        if (initialBusiness) {
-          setSelectedEntityId(initialBusiness.id);
-        } else if (list.length > 0) {
-          setSelectedEntityId(list[0].id);
-        }
+        const list = await businessService.search(entityQuery);
+        if(active)setAvailableBusinesses(initialBusiness&&!list.some(b=>b.id===initialBusiness.id)?[initialBusiness,...list]:list);
       } catch (e) {
-        console.error("Failed to fetch businesses for modal", e);
-      }
+        if(active){setEntityError(t("Could not load organizations. Change the search to try again.","প্রতিষ্ঠানের তালিকা আসেনি। আবার খুঁজে চেষ্টা করুন।"));setAvailableBusinesses([]);}
+      } finally {if(active)setEntityLoading(false);}
     }
-    if (open) {
-      loadBusinesses();
-    }
-  }, [open, initialBusiness]);
+    const timer=setTimeout(loadBusinesses,250);
+    return()=>{active=false;clearTimeout(timer);};
+  }, [open, initialBusiness,entityQuery]);
+
 
   useEffect(() => {
     if (!open) return;
-    const listener = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    const previous=document.activeElement as HTMLElement|null;const overflow=document.body.style.overflow;document.body.style.overflow='hidden';
+    dialog.current?.querySelector<HTMLElement>('button')?.focus();
+    const listener = (e: KeyboardEvent) => {
+      if(e.key==='Escape'){e.preventDefault();if(!submission.current)onClose();}
+      if(e.key==='Tab'){const nodes=Array.from(dialog.current?.querySelectorAll<HTMLElement>('button:not([disabled]),a[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled])')||[]).filter(n=>n.getClientRects().length);const first=nodes[0],last=nodes[nodes.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last?.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first?.focus();}}
+    };
     document.addEventListener("keydown", listener);
-    return () => document.removeEventListener("keydown", listener);
+    return () => {document.removeEventListener("keydown", listener);document.body.style.overflow=overflow;previous?.focus();};
   }, [open, onClose]);
 
   if (!open) return null;
 
-  /**
-   * Issue #5: Validate selected file type and size (Max 5MB)
-   */
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFileError(null);
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      
-      // Validation 1: File Size check (5MB limit)
-      const MAX_SIZE_BYTES = 5 * 1024 * 1024; // 5 Megabytes
-      if (file.size > MAX_SIZE_BYTES) {
-        setFileError("File size exceeds 5MB limit. Please choose a smaller photo or document.");
-        setSelectedFile(null);
-        setSelectedImagePreview(null);
-        return;
-      }
-
-      // Validation 2: File Type check
-      const validTypes = ["image/jpeg", "image/png", "image/webp", "image/gif", "application/pdf"];
-      if (!validTypes.includes(file.type)) {
-        setFileError("Invalid file type. Please upload a JPEG, PNG, WEBP image, or PDF document.");
-        setSelectedFile(null);
-        setSelectedImagePreview(null);
-        return;
-      }
-
-      setSelectedFile(file);
-      if (file.type.startsWith("image/")) {
-        setSelectedImagePreview(URL.createObjectURL(file));
-      } else {
-        setSelectedImagePreview(null);
-      }
-    }
-  };
 
   /**
    * Issue #3, #4, #5: Form submission handler
    */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if(submission.current||submitSuccessMsg)return;
     setFileError(null);
     setSubmitSuccessMsg(null);
+    if(!selectedEntityId||entityLoading){setFileError(t("Search for and select the correct organization first.","আগে খুঁজে সঠিক প্রতিষ্ঠান নির্বাচন করুন।"));return;}
+    if(!rating){setFileError(t("Select a rating that reflects your experience.","আপনার অভিজ্ঞতার সঙ্গে মিল রেখে একটি রেটিং দিন।"));return;}
+    if(!title.trim()||!body.trim()){setFileError(t("Enter a title and description, not just spaces.","শিরোনাম ও অভিজ্ঞতার বিবরণ লিখুন; শুধু ফাঁকা জায়গা নয়।"));return;}
+    const videos=parsePublicVideoUrls(videoUrls);
+    if(videos.error || (videos.urls.length && !videoConsent)){setFileError(t('Add up to 3 supported HTTPS video links and confirm permission to share.','সর্বোচ্চ ৩টি সমর্থিত HTTPS ভিডিও লিংক দিন এবং শেয়ারের অনুমতি নিশ্চিত করুন।'));return;}
 
     // Issue #4: Optional Facebook URL validation
     if (facebookUrl.trim()) {
       const urlPattern = /^(https?:\/\/)?(www\.)?(facebook\.com|fb\.com)\/.+$/i;
-      if (!urlPattern.test(facebookUrl.trim()) && !facebookUrl.startsWith("http")) {
-        setFileError("Please enter a valid Facebook URL (e.g. https://facebook.com/yourpage)");
+      if (!urlPattern.test(facebookUrl.trim())) {
+        setFileError(t("Please enter a valid Facebook URL (e.g. https://facebook.com/yourpage)","সঠিক ফেসবুক পেজের লিংক দিন (যেমন https://facebook.com/yourpage)।"));
         return;
       }
     }
 
     try {
+      submission.current=true;
       setIsSubmitting(true);
 
       // Create FormData to support Issue #5 File Upload & Issue #3/#4 optional fields
@@ -136,11 +135,17 @@ export function WriteReviewModal({
         if (commRating > 0) formData.append("comm_rating", commRating.toString());
       formData.append("title", title.trim());
       formData.append("body", body.trim());
-      
-      // Issue #3: Location is optional - send if user filled it
-      if (location.trim()) {
-        formData.append("location", location.trim());
+      if (date) formData.append('experience_date', date);
+      formData.append('relationship_disclosure', disclosure);
+      formData.append('request_scam_alert', scamAlertRequested ? '1' : '0');
+      if (scamAlertRequested && scamAmount.trim()) {
+        formData.append('amount', scamAmount.trim());
       }
+      videos.urls.forEach(url=>formData.append('public_video_urls[]',url));
+      formData.append('public_video_consent',videoConsent?'1':'0');
+      
+
+
       
       // Issue #4: Facebook Page is optional - send if user filled it
       if (facebookUrl.trim()) {
@@ -148,33 +153,47 @@ export function WriteReviewModal({
       }
       
       // Issue #5: Attach file if uploaded
-      if (selectedFile) {
-        formData.append("file", selectedFile);
+      selectedFiles.forEach(file=>formData.append('evidence[]',file));
+
+      if (!user) {
+        setIsSubmitting(false);
+        setFileError(t("You must be signed in to submit a review.", "রিভিউ জমা দিতে অনুগ্রহ করে প্রথমে সাইন ইন করুন।"));
+        return;
       }
 
-      await businessService.submitReview(selectedEntityId, formData);
-
+      const result = await businessService.submitReview(selectedEntityId, formData);
+      setCaseReference(result.linked_case?.case_code || '');
+      setSelectedFiles([]);
       setIsSubmitting(false);
-      setSubmitSuccessMsg("Your review has been submitted successfully!");
+
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(
+          new CustomEvent('truthhub:review_created', {
+            detail: { businessId: selectedEntityId, review: result }
+          })
+        );
+      }
+      onReviewSubmitted?.(result, selectedEntityId);
+
+      setSubmitSuccessMsg(scamAlertRequested ? t("Review and linked scam alert received. They will be published once verified by moderators.","রিভিউ ও সংশ্লিষ্ট স্ক্যাম অ্যালার্ট গৃহীত হয়েছে। মডারেটরদের যাচাইয়ের পর তা সবার জন্য প্রকাশিত হবে।") : t("Your review has been submitted successfully!","আপনার রিভিউ জমা হয়েছে।"));
       
-      setTimeout(() => {
-        onClose();
-        setSubmitSuccessMsg(null);
-      }, 1500);
     } catch (err: any) {
       setIsSubmitting(false);
-      setFileError(err.message || "Failed to submit review. Please try again.");
+      setFileError(localizedError(err.message,lang));
+    } finally {
+      submission.current=false;
     }
   };
 
   return (
     <div
       className="modal-overlay"
-      onMouseDown={(e) => e.target === e.currentTarget && onClose()}
+      onMouseDown={(e) => e.target === e.currentTarget && !submission.current && onClose()}
       style={{ overflowY: "auto", padding: "20px 16px" }}
     >
       <div
         className="review-modal-box"
+        ref={dialog}
         role="dialog"
         aria-modal="true"
         aria-labelledby="write-review-title"
@@ -182,39 +201,73 @@ export function WriteReviewModal({
         <button
           className="modal-close-btn"
           onClick={onClose}
-          aria-label="Close modal"
+          disabled={isSubmitting}
+          aria-label={t("Close modal","বন্ধ করুন")}
         >
           <X size={18} />
         </button>
 
         <div className="review-modal-header">
           <h2 id="write-review-title" className="review-modal-title">
-            Write a Review
+            {t("Write a Review","রিভিউ লিখুন")}
           </h2>
           <p className="review-modal-subtitle">
-            Structured experience submission. Reviews attach to canonical entities.
+            {t("Share your experience and help others make a confident choice.","আপনার অভিজ্ঞতা জানান, যাতে অন্যরা তথ্য জেনে সিদ্ধান্ত নিতে পারেন।")}
           </p>
         </div>
 
+        {!user && !submitSuccessMsg && (
+          <div style={{ padding: '12px 16px', background: '#fffbeb', border: '1px solid #fed7aa', borderRadius: '8px', marginBottom: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#9a3412', fontSize: '13px', fontWeight: 600 }}>
+              <AlertCircle size={16} />
+              <span>{t("You must be signed in to submit a review.", "রিভিউ জমা দিতে অনুগ্রহ করে প্রথমে সাইন ইন করুন।")}</span>
+            </div>
+            <a
+              href={`/login?next=${encodeURIComponent(typeof window !== 'undefined' ? window.location.pathname + window.location.search : '/')}`}
+              className="btn-teal-pill"
+              style={{ padding: '6px 14px', fontSize: '12px', textDecoration: 'none', borderRadius: '999px', whiteSpace: 'nowrap' }}
+            >
+              {t("Sign in", "সাইন ইন")} →
+            </a>
+          </div>
+        )}
+
         {submitSuccessMsg && (
           <div style={{ backgroundColor: "#f0fdf4", color: "#15803d", padding: "12px", borderRadius: "8px", fontSize: "0.9rem", fontWeight: 600, marginBottom: "16px" }}>
-            ✓ {submitSuccessMsg}
+            ✓ {submitSuccessMsg}{caseReference&&<p>{t('Case reference:','কেস রেফারেন্স:')} <strong>{caseReference}</strong> · <a href="/activity">{t('Track my submission','আমার রিপোর্টের অগ্রগতি')}</a></p>}
           </div>
         )}
 
         {fileError && (
-          <div style={{ backgroundColor: "#fef2f2", color: "#b91c1c", padding: "12px", borderRadius: "8px", fontSize: "0.85rem", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
+          <div role="alert" style={{ backgroundColor: "#fef2f2", color: "#b91c1c", padding: "12px", borderRadius: "8px", fontSize: "0.85rem", marginBottom: "16px", display: "flex", alignItems: "center", gap: "8px" }}>
             <AlertCircle size={16} />
             <span>{fileError}</span>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="review-form-content">
+        {submitSuccessMsg ? (
+          <div style={{ display: 'flex', gap: 10, marginTop: 10 }}>
+            {selectedBusiness?.slug ? (
+              <a
+                href={`/business/${selectedBusiness.slug}`}
+                className="civic-primary"
+                style={{ textDecoration: 'none', textAlign: 'center', padding: '10px 18px', display: 'inline-block' }}
+                onClick={onClose}
+              >
+                {t("View Organization & Reviews", "প্রতিষ্ঠান ও রিভিউ দেখুন")} →
+              </a>
+            ) : null}
+            <button className="btn-pill-light" onClick={onClose} type="button" style={{ padding: '10px 18px' }}>
+              {t("Done", "সম্পন্ন")}
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="review-form-content">
           {/* 1. Select Entity */}
           <div className="entity-select-field">
             <div className="entity-select-top">
-              <label htmlFor="entity-select" className="review-label">
-                1. What entity are you reviewing? *
+              <label htmlFor="review-entity-search" className="review-label">
+                {t("1. Which organization are you reviewing? *","১. কোন প্রতিষ্ঠানের রিভিউ লিখছেন? *")}
               </label>
               <button
                 type="button"
@@ -228,26 +281,148 @@ export function WriteReviewModal({
                   }
                 }}
               >
-                <PlusCircle size={14} /> Entity missing? Add it to TruthHubBD
+                <PlusCircle size={14} /> {t("Organization missing? Add it","প্রতিষ্ঠান নেই? যোগ করুন")}
               </button>
             </div>
-            <select
-              id="entity-select"
-              className="review-input-select"
-              value={selectedEntityId}
-              onChange={(e) => setSelectedEntityId(Number(e.target.value))}
-            >
-              {availableBusinesses.map((b) => (
-                <option key={b.id} value={b.id}>
-                  {b.name} ({b.category} {b.location ? `- ${b.location}` : ""})
-                </option>
-              ))}
-            </select>
+            {selectedEntityId && selectedBusiness ? (
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', background: '#f0fdfa', border: '1.5px solid #99f6e4', borderRadius: '10px', marginTop: '6px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div style={{ width: 40, height: 40, minWidth: 40, borderRadius: 8, overflow: 'hidden', background: '#e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {selectedBusiness.image ? (
+                      <img
+                        src={selectedBusiness.image.startsWith('/') || selectedBusiness.image.startsWith('http') ? selectedBusiness.image : '/' + selectedBusiness.image}
+                        alt=""
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        onError={e => { (e.currentTarget as HTMLElement).style.display = 'none'; }}
+                      />
+                    ) : (
+                      <Building2 size={20} color="#0f766e" />
+                    )}
+                  </div>
+                  <div>
+                    <strong style={{ fontSize: '14.5px', color: '#0f172a', display: 'block' }}>{lang==='bn'&&selectedBusiness.bengaliName?selectedBusiness.bengaliName:selectedBusiness.name}</strong>
+                    <small style={{ fontSize: '12.5px', color: '#64748b' }}>{translateCategory(selectedBusiness.category,lang)} {selectedBusiness.location ? `• ${selectedBusiness.location}` : ''}</small>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => { setSelectedEntityId(0); setEntityQuery(''); }}
+                  className="btn-paper-outline"
+                  style={{ fontSize: '12px', padding: '4px 10px', borderRadius: '6px', cursor: 'pointer' }}
+                >
+                  {t("Change","বদলান")}
+                </button>
+              </div>
+            ) : (
+              <div style={{ position: 'relative' }}>
+                <div style={{ display: 'flex', alignItems: 'center', position: 'relative' }}>
+                  <Search size={16} color="var(--slate-400)" style={{ position: 'absolute', left: '12px', pointerEvents: 'none' }} />
+                  <input
+                    id="review-entity-search"
+                    className="review-input"
+                    type="search"
+                    maxLength={255}
+                    style={{ paddingLeft: '36px' }}
+                    value={entityQuery}
+                    placeholder={t("Type organization, doctor, university or shop name...","প্রতিষ্ঠান, চিকিৎসক, বিশ্ববিদ্যালয় বা দোকানের নাম লিখুন…")}
+                    onChange={(e) => {
+                      setEntityQuery(e.target.value);
+                      setSelectedEntityId(0);
+                    }}
+                    autoComplete="off"
+                  />
+                </div>
+
+                {entityLoading && <p role="status" style={{ fontSize: '12.5px', color: 'var(--mut)', margin: '6px 0 0' }}>{t("Searching…","খোঁজা হচ্ছে…")}</p>}
+                {entityError && <p role="alert" style={{ fontSize: '12.5px', color: '#b91c1c', margin: '6px 0 0' }}>{entityError}</p>}
+
+                {/* Dropdown search results */}
+                {!entityLoading && entityQuery.trim() && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '100%',
+                      left: 0,
+                      right: 0,
+                      background: '#ffffff',
+                      border: '1.5px solid #18243e',
+                      borderRadius: '8px',
+                      boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+                      zIndex: 40,
+                      maxHeight: '220px',
+                      overflowY: 'auto',
+                      marginTop: '4px',
+                    }}
+                  >
+                    {availableBusinesses.length > 0 ? (
+                      availableBusinesses.map((b) => (
+                        <button
+                          type="button"
+                          key={b.id}
+                          onClick={() => {
+                            setSelectedEntityId(b.id);
+                            setEntityQuery(b.name);
+                          }}
+                          style={{
+                            padding: '10px 14px',
+                            borderBottom: '1px solid #f1f5f9',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            width:'100%',textAlign:'left',background:'#fff',border:0,
+                          }}
+                          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#f8fafc')}
+                          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#ffffff')}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                            <div style={{ width: 34, height: 34, minWidth: 34, borderRadius: 6, overflow: 'hidden', background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                              {b.image ? (
+                                <img
+                                  src={b.image.startsWith('/') || b.image.startsWith('http') ? b.image : '/' + b.image}
+                                  alt=""
+                                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                  onError={e => { (e.currentTarget as HTMLElement).style.display = 'none'; }}
+                                />
+                              ) : (
+                                <Building2 size={18} color="#0f766e" />
+                              )}
+                            </div>
+                            <div>
+                              <strong style={{ fontSize: '14px', color: '#0f172a', display: 'block' }}>{b.name}</strong>
+                              <small style={{ fontSize: '12px', color: '#64748b' }}>
+                                {translateCategory(b.category,lang)} {b.location ? `• ${b.location}` : ''}
+                              </small>
+                            </div>
+                          </div>
+                          <span style={{ fontSize: '12px', color: '#0f766e', fontWeight: 600 }}>{t("Select →","নির্বাচন করুন →")}</span>
+                        </button>
+                      ))
+                    ) : (
+                      <div style={{ padding: '14px', textAlign: 'center', color: '#64748b', fontSize: '13px' }}>
+                        {t("No matches for","কোনো প্রতিষ্ঠান পাওয়া যায়নি:")} &ldquo;{entityQuery}&rdquo;.<br />
+                        <button
+                          type="button"
+                          style={{ border: 0, background: 'none', color: '#0f766e', fontWeight: 700, cursor: 'pointer', marginTop: '6px' }}
+                          onClick={() => {
+                            onClose();
+                            if (onOpenAddBusiness) onOpenAddBusiness();
+                            else onShowSoon('Add Missing Canonical Entity');
+                          }}
+                        >
+                          + {t("Add to TruthHubBD:","TruthHubBD-তে যোগ করুন:")} &ldquo;{entityQuery}&rdquo;
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
 
           {/* Overall Rating */}
           <div className="review-form-group">
-            <label className="review-label">Overall Rating *</label>
+            <label className="review-label">{t("Overall Rating *","সামগ্রিক রেটিং *")}</label>
             <div className="rating-interactive-row">
               <div className="stars-cluster">
                 {[1, 2, 3, 4, 5].map((star) => (
@@ -258,7 +433,8 @@ export function WriteReviewModal({
                     onClick={() => setRating(star)}
                     onMouseEnter={() => setHoverRating(star)}
                     onMouseLeave={() => setHoverRating(0)}
-                    aria-label={`Rate ${star} stars`}
+                    aria-label={t(`Rate ${star} stars`,`${formatNumber(star,lang)} তারকা দিন`)}
+                    aria-pressed={rating===star}
                   >
                     <Star
                       size={24}
@@ -269,21 +445,22 @@ export function WriteReviewModal({
                   </button>
                 ))}
               </div>
-              <span className="rating-text-score">{hoverRating || rating} / 5</span>
+              <span className="rating-text-score">{formatNumber(hoverRating || rating,lang)} / {formatNumber(5,lang)}</span>
             </div>
           </div>
 
           {/* Review Title */}
           <div className="review-form-group">
             <label htmlFor="review-title" className="review-label">
-              Review Title *
+              {t("Review Title *","রিভিউয়ের শিরোনাম *")}
             </label>
             <input
               id="review-title"
               type="text"
               className="review-input"
-              placeholder="Summarize your key experience in a clear headline..."
+              placeholder={t("Summarize your key experience in a clear headline...","একটি স্পষ্ট শিরোনামে অভিজ্ঞতার মূল বিষয় লিখুন…")}
               value={title}
+              maxLength={255}
               onChange={(e) => setTitle(e.target.value)}
               required
             />
@@ -292,91 +469,53 @@ export function WriteReviewModal({
           {/* Experience Details */}
           <div className="review-form-group">
             <label htmlFor="review-body" className="review-label">
-              Experience Details *
+              {t("Experience Details *","অভিজ্ঞতার বিবরণ *")}
             </label>
             <textarea
               id="review-body"
               className="review-textarea"
               rows={4}
-              placeholder="Describe what happened clearly and factually..."
+              placeholder={t("Describe what happened clearly and factually...","কী ঘটেছে তা স্পষ্টভাবে তথ্যসহ লিখুন…")}
               value={body}
+              maxLength={5000}
               onChange={(e) => setBody(e.target.value)}
               required
             />
           </div>
 
-          {/* Issue #3: Location Field (Optional) */}
-          <div className="review-form-group">
-            <label htmlFor="review-location" className="review-label" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <MapPin size={15} color="#0f766e" /> Location (Optional)
-            </label>
-            <input
-              id="review-location"
-              type="text"
-              className="review-input"
-              placeholder="e.g. Dhanmondi Branch, Dhaka (Optional - you can leave this empty)"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-            />
-            </div>
+
+
 
           {/* Issue #4: Facebook Page URL Field (Optional) */}
           <div className="review-form-group">
             <label htmlFor="review-facebook" className="review-label" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <Facebook size={15} color="#1877f2" /> Facebook Page / Profile URL (Optional)
+              <Facebook size={15} color="#1877f2" /> {t("Organization Facebook page URL (optional)","প্রতিষ্ঠানের ফেসবুক পেজের লিংক (ঐচ্ছিক)")}
             </label>
             <input
               id="review-facebook"
               type="url"
               className="review-input"
-              placeholder="https://facebook.com/your-page-or-profile (Optional)"
+              placeholder="https://facebook.com/business-page"
               value={facebookUrl}
               onChange={(e) => setFacebookUrl(e.target.value)}
             />
             </div>
 
-          {/* Issue #5: File Upload for Reviews */}
-          <div className="review-form-group">
-            <label className="review-label" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-              <Camera size={15} color="#0f766e" /> Add Photos / Receipts (Optional, Max 5MB)
-            </label>
-            <label className="image-upload-zone" style={{ cursor: "pointer" }}>
-              <input
-                type="file"
-                accept="image/jpeg,image/png,image/webp,image/gif,application/pdf"
-                onChange={handleFileChange}
-                style={{ display: "none" }}
-              />
-              {selectedImagePreview ? (
-                <div className="uploaded-preview-wrap">
-                  <img src={selectedImagePreview} alt="Uploaded preview" className="uploaded-preview-img" style={{ maxHeight: "140px", objectFit: "cover" }} />
-                  <span className="uploaded-change-text">Click to change photo ({selectedFile?.name})</span>
-                </div>
-              ) : selectedFile ? (
-                <div className="upload-placeholder" style={{ color: "#0f766e" }}>
-                  <span>File Selected: {selectedFile.name} ({(selectedFile.size / 1024).toFixed(1)} KB)</span>
-                  <span className="uploaded-change-text" style={{ fontSize: "0.75rem", color: "#64748b" }}>Click to change file</span>
-                </div>
-              ) : (
-                <div className="upload-placeholder">
-                  <Camera size={20} className="upload-icon" />
-                  <span>Upload receipt, invoice, photo, or PDF (Max 5MB)</span>
-                </div>
-              )}
-            </label>
-            </div>
+          <MultiFilePicker files={selectedFiles} onChange={setSelectedFiles} maxMB={5} maxFiles={20} disabled={isSubmitting} label={t("Supporting photos & documents (optional)","সহায়ক ছবি ও প্রমাণাদি (ঐচ্ছিক)")}/>
+          <PublicVideoField value={videoUrls} onChange={setVideoUrls} consent={videoConsent} onConsent={setVideoConsent} privateIntake={scamAlertRequested} disabled={isSubmitting}/>
 
           {/* Experience Date & Conflict */}
           <div className="review-grid-2">
             <div className="review-form-group">
               <label htmlFor="exp-date" className="review-label">
-                Experience Date
+                {t("Experience Date","অভিজ্ঞতার তারিখ")}
               </label>
               <input
                 id="exp-date"
                 type="date"
                 className="review-input"
                 value={date}
+                max={new Date().toISOString().slice(0, 10)}
                 onChange={(e) => setDate(e.target.value)}
               />
             </div>
@@ -389,26 +528,49 @@ export function WriteReviewModal({
             <div className="scam-box-top">
               <div className="scam-box-title">
                 <AlertTriangle size={17} color="#be123c" />
-                <span>Request Scam Alert Classification</span>
+                <span>{t("Also report suspected fraud","সন্দেহজনক প্রতারণার রিপোর্টও দিন")}</span>
               </div>
               <input
                 type="checkbox"
                 checked={scamAlertRequested}
                 onChange={(e) => setScamAlertRequested(e.target.checked)}
                 className="scam-checkbox"
-                aria-label="Request scam alert classification"
+                aria-label={t("Also report suspected fraud","সন্দেহজনক প্রতারণার রিপোর্টও দিন")}
               />
             </div>
             <p className="scam-box-note">
-              Scam Alert is a moderated evidence workflow, not an instant accusation badge. Evidence is stored privately by default.
+              {t("Your review and linked scam alert will be verified by moderators before being published publicly on the scam alerts board.","আপনার রিভিউ ও সংশ্লিষ্ট স্ক্যাম অ্যালার্ট মডারেটরদের দ্বারা যাচাইয়ের পর সবার দেখার জন্য পাবলিক স্ক্যাম বোর্ডে প্রকাশিত হবে।")}
             </p>
+            {scamAlertRequested && (
+              <div style={{ marginTop: 10 }}>
+                <label className="review-label" htmlFor="scam-loss-amount" style={{ fontSize: '12.5px', color: '#9a3412', fontWeight: 700 }}>
+                  {t("Estimated financial loss in BDT (৳) (optional)", "আর্থিক ক্ষতির পরিমাণ (৳) (ঐচ্ছিক)")}
+                </label>
+                <input
+                  id="scam-loss-amount"
+                  type="number"
+                  min="0"
+                  step="any"
+                  placeholder="e.g. 5000"
+                  className="review-input"
+                  value={scamAmount}
+                  onChange={e => setScamAmount(e.target.value)}
+                  style={{ background: '#fff', borderColor: '#fed7aa' }}
+                />
+              </div>
+            )}
           </div>
 
+          <label className="review-label" htmlFor="relationship">{t("Relationship disclosure","প্রতিষ্ঠানের সঙ্গে সম্পর্ক")}</label>
+          <select id="relationship" className="review-input" value={disclosure} onChange={e => setDisclosure(e.target.value)}>
+            <option value="none">{t("Independent customer","স্বাধীন গ্রাহক")}</option><option value="employee">{t("Employee","কর্মী")}</option><option value="competitor">{t("Competitor","প্রতিযোগী")}</option><option value="incentive">{t("Received an incentive","কোনো সুবিধা পেয়েছি")}</option><option value="family">{t("Family relationship","পারিবারিক সম্পর্ক")}</option><option value="other">{t("Other connection","অন্য সম্পর্ক")}</option>
+          </select>
           {/* Submit Button */}
-          <button type="submit" className="btn-submit-review" disabled={isSubmitting}>
-            {isSubmitting ? "Submitting Review..." : "Submit Structured Review"}
+          <button type="submit" className="btn-submit-review" disabled={isSubmitting || !user}>
+            {isSubmitting ? t("Submitting review…","রিভিউ জমা হচ্ছে…") : !user ? t("Sign in to submit review", "রিভিউ জমা দিতে সাইন ইন করুন") : t("Submit review","রিভিউ জমা দিন")}
           </button>
         </form>
+        )}
       </div>
     </div>
   );
