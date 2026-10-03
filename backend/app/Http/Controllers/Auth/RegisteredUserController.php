@@ -36,7 +36,8 @@ class RegisteredUserController extends Controller
         $user->sendEmailVerificationNotification();
 
         return response()->json([
-            'message' => 'Account created! We sent a verification link to ' . $user->email . '. Please check your inbox and click the link to activate your account.',
+            'message' => 'Account created! We sent a 6-digit verification code to ' . $user->email . '. Please check your inbox and enter the code to activate your account.',
+            'email'   => $user->email,
         ], 201);
     }
 }

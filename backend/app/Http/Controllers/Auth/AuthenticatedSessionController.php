@@ -21,6 +21,21 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
+        // Block restricted accounts from logging in
+        if ($request->user()->is_restricted) {
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            $reason = $request->user()->restricted_reason ?: 'Your account has been restricted by an administrator.';
+            return response()->json([
+                'message' => $reason,
+                'errors'  => [
+                    'email' => [$reason],
+                ],
+            ], 403);
+        }
+
         // Block unverified email/password accounts from logging in
         if (! $request->user()->hasVerifiedEmail()) {
             Auth::guard('web')->logout();
