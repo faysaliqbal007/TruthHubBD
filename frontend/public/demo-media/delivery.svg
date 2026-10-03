@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480" role="img" aria-labelledby="title desc">
+  <title id="title">Delivery service demo illustration</title><desc id="desc">A flat editorial drawing of a delivery van. This illustration is not evidence.</desc>
+  <rect width="640" height="480" fill="#eae2cb"/><path d="M0 332H640V430H0Z" fill="#d8cdb7"/>
+  <path d="M0 330H640M72 373H143M479 373H558" stroke="#b8ad96" stroke-width="3"/>
+  <rect x="66" y="158" width="290" height="174" rx="12" fill="#b7362a"/><path d="M356 204H454L522 270V332H356Z" fill="#18243e"/>
+  <path d="M381 221H444L490 267H381Z" fill="#eae2cb"/><path d="M400 285H420" stroke="#faf6eb" stroke-width="5" stroke-linecap="round"/>
+  <rect x="102" y="192" width="174" height="88" rx="5" fill="#faf6eb"/><path d="M132 216H246M132 237H217M132 258H187" stroke="#b7362a" stroke-width="7" stroke-linecap="round"/>
+  <circle cx="154" cy="333" r="42" fill="#18243e"/><circle cx="154" cy="333" r="19" fill="#faf6eb"/><circle cx="442" cy="333" r="42" fill="#18243e"/><circle cx="442" cy="333" r="19" fill="#faf6eb"/>
+  <path d="M382 130H543M412 108H564" stroke="#b8ad96" stroke-width="5" stroke-linecap="round"/>
+  <rect y="430" width="640" height="50" fill="#18243e"/><text x="28" y="460" fill="#faf6eb" font-family="Arial,sans-serif" font-size="17" letter-spacing="2">DEMO ILLUSTRATION · NOT EVIDENCE</text>
+</svg>

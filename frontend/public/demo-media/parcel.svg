@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480" role="img" aria-labelledby="title desc">
+  <title id="title">Parcel demo illustration</title><desc id="desc">A flat drawing of a cardboard package and a sample label. Not a photograph of evidence.</desc>
+  <rect width="640" height="480" fill="#e5eadf"/><rect x="102" y="117" width="414" height="271" rx="9" fill="#cdaa77" stroke="#a17e50" stroke-width="3"/>
+  <path d="M274 117H341V388H274Z" fill="#f4dca7"/><path d="M304 117V388" stroke="#b89b6f" stroke-width="2" stroke-dasharray="8 7"/>
+  <rect x="371" y="182" width="104" height="133" rx="4" fill="#fffdf7"/><path d="M386 207H458M386 225H445M386 243H454" stroke="#18243e" stroke-width="4"/>
+  <path d="M386 267V291M395 267V291M405 267V291M418 267V291M426 267V291M437 267V291M451 267V291" stroke="#18243e" stroke-width="3"/>
+  <path d="M155 280V331M180 280V331M147 288L155 280L163 288M172 288L180 280L188 288M144 341H191" fill="none" stroke="#18243e" stroke-width="4"/>
+  <circle cx="86" cy="91" r="31" fill="#b7362a"/><path d="M70 91L81 102L101 80" fill="none" stroke="#fffdf7" stroke-width="5" stroke-linecap="round"/>
+  <rect y="430" width="640" height="50" fill="#18243e"/><text x="28" y="460" fill="#faf6eb" font-family="Arial,sans-serif" font-size="17" letter-spacing="2">DEMO ILLUSTRATION · NOT EVIDENCE</text>
+</svg>

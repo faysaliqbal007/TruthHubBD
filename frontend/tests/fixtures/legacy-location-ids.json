@@ -1,0 +1,434 @@
+[
+  {
+    "id": "dhanmondi",
+    "districtId": "dhaka-district"
+  },
+  {
+    "id": "gulshan",
+    "districtId": "dhaka-district"
+  },
+  {
+    "id": "mirpur",
+    "districtId": "dhaka-district"
+  },
+  {
+    "id": "uttara",
+    "districtId": "dhaka-district"
+  },
+  {
+    "id": "mohammadpur",
+    "districtId": "dhaka-district"
+  },
+  {
+    "id": "banani",
+    "districtId": "dhaka-district"
+  },
+  {
+    "id": "motijheel",
+    "districtId": "dhaka-district"
+  },
+  {
+    "id": "panthapath",
+    "districtId": "dhaka-district"
+  },
+  {
+    "id": "elephant-road",
+    "districtId": "dhaka-district"
+  },
+  {
+    "id": "badda",
+    "districtId": "dhaka-district"
+  },
+  {
+    "id": "khilgaon",
+    "districtId": "dhaka-district"
+  },
+  {
+    "id": "bashundhara",
+    "districtId": "dhaka-district"
+  },
+  {
+    "id": "old-dhaka",
+    "districtId": "dhaka-district"
+  },
+  {
+    "id": "tejgaon",
+    "districtId": "dhaka-district"
+  },
+  {
+    "id": "savar",
+    "districtId": "dhaka-district"
+  },
+  {
+    "id": "keraniganj",
+    "districtId": "dhaka-district"
+  },
+  {
+    "id": "dohar",
+    "districtId": "dhaka-district"
+  },
+  {
+    "id": "nawabganj-dhaka",
+    "districtId": "dhaka-district"
+  },
+  {
+    "id": "gazipur-sadar",
+    "districtId": "gazipur"
+  },
+  {
+    "id": "kaliakair",
+    "districtId": "gazipur"
+  },
+  {
+    "id": "kaliganj-gazipur",
+    "districtId": "gazipur"
+  },
+  {
+    "id": "kapasia",
+    "districtId": "gazipur"
+  },
+  {
+    "id": "sreepur",
+    "districtId": "gazipur"
+  },
+  {
+    "id": "narayanganj-sadar",
+    "districtId": "narayanganj"
+  },
+  {
+    "id": "araihazar",
+    "districtId": "narayanganj"
+  },
+  {
+    "id": "bandar",
+    "districtId": "narayanganj"
+  },
+  {
+    "id": "rupganj",
+    "districtId": "narayanganj"
+  },
+  {
+    "id": "sonargaon",
+    "districtId": "narayanganj"
+  },
+  {
+    "id": "ctg-city",
+    "districtId": "chittagong-district"
+  },
+  {
+    "id": "anwara",
+    "districtId": "chittagong-district"
+  },
+  {
+    "id": "boalkhali",
+    "districtId": "chittagong-district"
+  },
+  {
+    "id": "chandanaish",
+    "districtId": "chittagong-district"
+  },
+  {
+    "id": "fatikchhari",
+    "districtId": "chittagong-district"
+  },
+  {
+    "id": "hathazari",
+    "districtId": "chittagong-district"
+  },
+  {
+    "id": "lohagara",
+    "districtId": "chittagong-district"
+  },
+  {
+    "id": "mirsharai",
+    "districtId": "chittagong-district"
+  },
+  {
+    "id": "patiya",
+    "districtId": "chittagong-district"
+  },
+  {
+    "id": "rangunia",
+    "districtId": "chittagong-district"
+  },
+  {
+    "id": "raozan",
+    "districtId": "chittagong-district"
+  },
+  {
+    "id": "sandwip",
+    "districtId": "chittagong-district"
+  },
+  {
+    "id": "satkania",
+    "districtId": "chittagong-district"
+  },
+  {
+    "id": "sitakunda",
+    "districtId": "chittagong-district"
+  },
+  {
+    "id": "coxs-bazar-sadar",
+    "districtId": "cox-bazar"
+  },
+  {
+    "id": "chakaria",
+    "districtId": "cox-bazar"
+  },
+  {
+    "id": "maheshkhali",
+    "districtId": "cox-bazar"
+  },
+  {
+    "id": "ramu",
+    "districtId": "cox-bazar"
+  },
+  {
+    "id": "teknaf",
+    "districtId": "cox-bazar"
+  },
+  {
+    "id": "ukhia",
+    "districtId": "cox-bazar"
+  },
+  {
+    "id": "rajshahi-city",
+    "districtId": "rajshahi-district"
+  },
+  {
+    "id": "bagha",
+    "districtId": "rajshahi-district"
+  },
+  {
+    "id": "bagmara",
+    "districtId": "rajshahi-district"
+  },
+  {
+    "id": "charghat",
+    "districtId": "rajshahi-district"
+  },
+  {
+    "id": "durgapur-rajshahi",
+    "districtId": "rajshahi-district"
+  },
+  {
+    "id": "godagari",
+    "districtId": "rajshahi-district"
+  },
+  {
+    "id": "mohanpur",
+    "districtId": "rajshahi-district"
+  },
+  {
+    "id": "paba",
+    "districtId": "rajshahi-district"
+  },
+  {
+    "id": "putia",
+    "districtId": "rajshahi-district"
+  },
+  {
+    "id": "tanore",
+    "districtId": "rajshahi-district"
+  },
+  {
+    "id": "khulna-city",
+    "districtId": "khulna-district"
+  },
+  {
+    "id": "batiaghata",
+    "districtId": "khulna-district"
+  },
+  {
+    "id": "dacope",
+    "districtId": "khulna-district"
+  },
+  {
+    "id": "dumuria",
+    "districtId": "khulna-district"
+  },
+  {
+    "id": "dighalia",
+    "districtId": "khulna-district"
+  },
+  {
+    "id": "koyra",
+    "districtId": "khulna-district"
+  },
+  {
+    "id": "paikgachha",
+    "districtId": "khulna-district"
+  },
+  {
+    "id": "phultala",
+    "districtId": "khulna-district"
+  },
+  {
+    "id": "rupsa",
+    "districtId": "khulna-district"
+  },
+  {
+    "id": "terokhada",
+    "districtId": "khulna-district"
+  },
+  {
+    "id": "sylhet-city",
+    "districtId": "sylhet-district"
+  },
+  {
+    "id": "beanibazar",
+    "districtId": "sylhet-district"
+  },
+  {
+    "id": "bishwanath",
+    "districtId": "sylhet-district"
+  },
+  {
+    "id": "company-ganj",
+    "districtId": "sylhet-district"
+  },
+  {
+    "id": "golapganj",
+    "districtId": "sylhet-district"
+  },
+  {
+    "id": "gowainghat",
+    "districtId": "sylhet-district"
+  },
+  {
+    "id": "jaintiapur",
+    "districtId": "sylhet-district"
+  },
+  {
+    "id": "kanaighat",
+    "districtId": "sylhet-district"
+  },
+  {
+    "id": "sylhet-sadar",
+    "districtId": "sylhet-district"
+  },
+  {
+    "id": "zakiganj",
+    "districtId": "sylhet-district"
+  },
+  {
+    "id": "barisal-city",
+    "districtId": "barisal-district"
+  },
+  {
+    "id": "agailjhara",
+    "districtId": "barisal-district"
+  },
+  {
+    "id": "babuganj",
+    "districtId": "barisal-district"
+  },
+  {
+    "id": "bakerganj",
+    "districtId": "barisal-district"
+  },
+  {
+    "id": "banaripara",
+    "districtId": "barisal-district"
+  },
+  {
+    "id": "gaurnadi",
+    "districtId": "barisal-district"
+  },
+  {
+    "id": "hizla",
+    "districtId": "barisal-district"
+  },
+  {
+    "id": "mehendiganj",
+    "districtId": "barisal-district"
+  },
+  {
+    "id": "muladi",
+    "districtId": "barisal-district"
+  },
+  {
+    "id": "wazirpur",
+    "districtId": "barisal-district"
+  },
+  {
+    "id": "rangpur-city",
+    "districtId": "rangpur-district"
+  },
+  {
+    "id": "badarganj",
+    "districtId": "rangpur-district"
+  },
+  {
+    "id": "gangachara",
+    "districtId": "rangpur-district"
+  },
+  {
+    "id": "kaunia",
+    "districtId": "rangpur-district"
+  },
+  {
+    "id": "mithapukur",
+    "districtId": "rangpur-district"
+  },
+  {
+    "id": "pirgacha",
+    "districtId": "rangpur-district"
+  },
+  {
+    "id": "pirganj-rangpur",
+    "districtId": "rangpur-district"
+  },
+  {
+    "id": "taraganj",
+    "districtId": "rangpur-district"
+  },
+  {
+    "id": "mymensingh-city",
+    "districtId": "mymensingh-district"
+  },
+  {
+    "id": "bhaluka",
+    "districtId": "mymensingh-district"
+  },
+  {
+    "id": "dhobaura",
+    "districtId": "mymensingh-district"
+  },
+  {
+    "id": "fulbaria",
+    "districtId": "mymensingh-district"
+  },
+  {
+    "id": "gaffargaon",
+    "districtId": "mymensingh-district"
+  },
+  {
+    "id": "gauripur",
+    "districtId": "mymensingh-district"
+  },
+  {
+    "id": "haluaghat",
+    "districtId": "mymensingh-district"
+  },
+  {
+    "id": "ishwarganj",
+    "districtId": "mymensingh-district"
+  },
+  {
+    "id": "muktagachha",
+    "districtId": "mymensingh-district"
+  },
+  {
+    "id": "nandail",
+    "districtId": "mymensingh-district"
+  },
+  {
+    "id": "phulpur",
+    "districtId": "mymensingh-district"
+  },
+  {
+    "id": "trishal",
+    "districtId": "mymensingh-district"
+  }
+]

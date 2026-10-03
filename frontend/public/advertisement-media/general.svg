@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="320" height="180" viewBox="0 0 320 180" fill="none">
+  <circle cx="163" cy="86" r="70" fill="#E4E5D1"/><ellipse cx="164" cy="157" rx="84" ry="8" fill="#CBCEB1" opacity=".6"/>
+  <path d="M109 75h103v78H109z" fill="#FFFCEF" stroke="#69705A" stroke-width="2"/><path d="M102 66h117v15H102z" fill="#A95A41"/><path d="M111 68h8v11h-8zm18 0h8v11h-8zm18 0h8v11h-8zm18 0h8v11h-8zm18 0h8v11h-8zm18 0h8v11h-8z" fill="#EEC8A6"/>
+  <path d="M120 94h31v30h-31zm51 0h31v30h-31z" fill="#C4D8C7" stroke="#718473" stroke-width="2"/><path d="M144 135h33v18h-33z" fill="#305248"/>
+  <path d="M225 42h31a9 9 0 0 1 9 9v19a9 9 0 0 1-9 9h-16l-12 9V79h-3a9 9 0 0 1-9-9V51a9 9 0 0 1 9-9Z" fill="#305248"/><path d="M226 55h28m-28 10h18" stroke="#E3EBCF" stroke-width="3" stroke-linecap="round"/>
+  <path d="M81 113v39" stroke="#72805F" stroke-width="4"/><circle cx="81" cy="106" r="17" fill="#94A275"/><circle cx="86" cy="96" r="11" fill="#ABB78B"/>
+  <path d="m102 42 4 4m-4 0 4-4m139 74 4 4m-4 0 4-4" stroke="#A5AA88" stroke-width="2" stroke-linecap="round"/>
+</svg>

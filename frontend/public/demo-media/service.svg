@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480" role="img" aria-labelledby="title desc">
+  <title id="title">Service desk demo illustration</title><desc id="desc">A flat illustration of a service counter, an open sign and a tool. This is not evidence.</desc>
+  <rect width="640" height="480" fill="#dde4e8"/><rect x="81" y="132" width="478" height="267" rx="8" fill="#fffdf7" stroke="#bcb19d" stroke-width="3"/>
+  <path d="M69 132L94 76H546L571 132Z" fill="#b7362a"/><path d="M134 76V132M217 76V132M299 76V132M381 76V132M464 76V132" stroke="#f4dca7" stroke-width="24"/>
+  <rect x="117" y="171" width="165" height="184" fill="#eae2cb"/><rect x="303" y="171" width="214" height="121" fill="#18243e"/>
+  <rect x="345" y="205" width="130" height="48" rx="3" fill="#f4dca7"/><text x="365" y="236" fill="#18243e" font-family="Arial,sans-serif" font-size="23" font-weight="bold" letter-spacing="3">OPEN</text>
+  <path d="M203 227L185 251L198 266L224 247M198 266L168 310" fill="none" stroke="#18243e" stroke-width="14" stroke-linecap="round"/>
+  <path d="M306 315H515M306 337H471M306 359H498" stroke="#bcb19d" stroke-width="6"/>
+  <rect y="430" width="640" height="50" fill="#18243e"/><text x="28" y="460" fill="#faf6eb" font-family="Arial,sans-serif" font-size="17" letter-spacing="2">DEMO ILLUSTRATION · NOT EVIDENCE</text>
+</svg>

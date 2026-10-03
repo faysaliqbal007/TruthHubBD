@@ -1,0 +1,14 @@
+.env
+.env.*
+node_modules
+backend/vendor
+backend/public/app
+backend/storage/*.key
+backend/storage/logs/*.log
+frontend/node_modules
+frontend/dist
+release.tar.gz
+*.log
+
+*.tsbuildinfo
+backend/.phpunit.result.cache

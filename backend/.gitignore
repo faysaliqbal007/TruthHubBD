@@ -1,7 +1,11 @@
 /vendor
 /storage/*.key
 /storage/logs/*.log
+/public/app
 .env
 .env.backup
 .env.production
 .phpunit.result.cache
+
+/public/storage
+/bootstrap/cache/*.php

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="480" viewBox="0 0 640 480" role="img" aria-labelledby="title desc">
+  <title id="title">Sample receipt demo illustration</title><desc id="desc">An illustrated sample receipt with placeholder lines. It is not an actual receipt or evidence.</desc>
+  <rect width="640" height="480" fill="#eeded0"/><circle cx="480" cy="154" r="93" fill="#e2c5ae"/>
+  <path d="M176 58H454V387L436 373L418 387L400 373L382 387L364 373L346 387L328 373L310 387L292 373L274 387L256 373L238 387L220 373L202 387L184 373L176 382Z" fill="#fffdf7" stroke="#d8cdb7" stroke-width="2"/>
+  <text x="211" y="112" fill="#18243e" font-family="Arial,sans-serif" font-size="24" font-weight="bold" letter-spacing="5">SAMPLE</text>
+  <path d="M209 139H417M209 167H328M209 192H417M209 215H352M209 242H417M209 270H371" stroke="#bcb19d" stroke-width="5"/>
+  <path d="M209 306H417" stroke="#18243e" stroke-width="2" stroke-dasharray="5 6"/>
+  <rect x="233" y="321" width="163" height="32" rx="4" fill="#f8e9da"/><text x="254" y="343" fill="#b7362a" font-family="Arial,sans-serif" font-size="17" letter-spacing="3">EXAMPLE</text>
+  <rect y="430" width="640" height="50" fill="#18243e"/><text x="28" y="460" fill="#faf6eb" font-family="Arial,sans-serif" font-size="17" letter-spacing="2">DEMO ILLUSTRATION · NOT EVIDENCE</text>
+</svg>
