@@ -11,3 +11,5 @@
 /bootstrap/cache/*.php
 
 /storage/framework/testing
+/public/uploads/businesses/*
+!/public/uploads/businesses/.gitkeep
