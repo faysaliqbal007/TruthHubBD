@@ -20,7 +20,7 @@ class BusinessController extends Controller
      */
     private function computeRatingStats($business)
     {
-        $reviews = $business->reviews;
+        $reviews = $business->reviews->where('status', 'published');
         $total = $reviews->count();
 
         $c5 = $reviews->where('rating', 5)->count();
@@ -58,9 +58,9 @@ class BusinessController extends Controller
     /**
      * Format a Business Eloquent model into API response array.
      */
-    private function formatBusiness($b)
+    private function formatBusiness($b, bool $includeReviews = true)
     {
-        $stats = $this->computeRatingStats($b);
+        $stats = $includeReviews ? $this->computeRatingStats($b) : ['ratingCounts'=>['star5'=>0,'star4'=>0,'star3'=>0,'star2'=>0,'star1'=>0],'distribution'=>[0,0,0,0,0]];
 
         return [
             'id' => $b->id,
@@ -70,37 +70,26 @@ class BusinessController extends Controller
             'category' => $b->category,
             'description' => $b->description,
             'location' => $b->location,
-            'rating' => (float) $b->rating,
-            'reviewCount' => (int) $b->review_count,
+            'presence' => $b->presence,
+            'googlePlaceId' => $b->google_place_id,
+            'sourceUrl'=>$b->source_url,'sourceFetchedAt'=>$b->source_fetched_at,'latitude'=>$b->latitude,'longitude'=>$b->longitude,
+            'operatingStatus'=>$b->operating_status,
+            'rating' => round(($includeReviews ? $b->reviews->where('status', 'published')->avg('rating') : $b->published_review_rating) ?? 0, 1),
+            'reviewCount' => $includeReviews ? $b->reviews->where('status', 'published')->count() : (int)$b->published_review_count,
             'verified' => (bool) $b->verified,
             'phone' => $b->phone,
             'website' => $b->website,
             'facebookUrl' => $b->facebook_url,
             'color' => $b->color ?: '#0f766e',
-            'image' => $b->image,
+            'image' => $b->image ?: (\App\Models\BusinessProfileImage::where('business_id', $b->id)->where('status', 'approved')->exists() ? '/api/businesses/' . $b->id . '/profile-image' : null),
             'branches' => $b->branches ?: [],
             'userId' => $b->user_id,
             'status' => $b->status ?: 'approved',
+            'is_demo' => (bool) $b->is_demo,
             'ratingCounts' => $stats['ratingCounts'],
             'distribution' => $stats['distribution'],
-            'reviews' => $b->reviews->map(function ($r) {
-                return [
-                    'id' => $r->id,
-                    'author' => $r->author,
-                    'initials' => $r->initials ?: strtoupper(substr($r->author, 0, 2)),
-                    'rating' => (int) $r->rating,
-                    'title' => $r->title,
-                    'body' => $r->body,
-                    'date' => $r->date ?: date('Y-m-d'),
-                    'disclaimer' => $r->disclaimer,
-                    'verifiedExperience' => (bool) $r->verified_experience,
-                    'location' => $r->location,
-                    'facebookUrl' => $r->facebook_url,
-                    'imagePath' => $r->image_path,
-                    'helpfulCount' => (int) $r->helpful_count,
-                    'discussionCount' => (int) $r->discussion_count,
-                ];
-            }),
+            'reviews' => $includeReviews ? $b->reviews->where('status', 'published')->values()
+                ->map(fn ($review) => \App\Support\PublicReview::serialize($review)) : [],
         ];
     }
 
@@ -109,13 +98,13 @@ class BusinessController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Business::with('reviews')->where(function ($q) {
-            $q->where('status', 'approved')->orWhereNull('status');
-        });
+        $request->validate(['id' => ['sometimes', 'integer', 'min:1']]);
+        $query = Business::publicDirectory()->withCount(['reviews as published_review_count'=>fn($q)=>$q->where('status','published')])->withAvg(['reviews as published_review_rating'=>fn($q)=>$q->where('status','published')],'rating');
+        if ($request->filled('id')) $query->whereKey((int) $request->input('id'));
 
         // Search text matching
         if ($request->has('q') && !empty(trim($request->input('q')))) {
-            $keyword = strtolower(trim($request->input('q')));
+            foreach(array_slice(preg_split('/\s+/u',mb_strtolower(trim($request->input('q')))),0,12) as $keyword) {
             $query->where(function ($q) use ($keyword) {
                 $q->whereRaw('LOWER(name) LIKE ?', ["%{$keyword}%"])
                   ->orWhereRaw('LOWER(bengali_name) LIKE ?', ["%{$keyword}%"])
@@ -123,7 +112,15 @@ class BusinessController extends Controller
                   ->orWhereRaw('LOWER(location) LIKE ?', ["%{$keyword}%"])
                   ->orWhereRaw('LOWER(description) LIKE ?', ["%{$keyword}%"]);
             });
+            }
         }
+
+        // Match meaningful address components before pagination and counting.
+        $request->validate(['location'=>'nullable|string|max:255','claimable'=>'nullable|boolean']);
+        if ($request->boolean('claimable')) {
+            $query->whereNull('user_id')->where('verified', false);
+        }
+        \App\Support\DirectoryAreaFilter::apply($query, $request->input('location', ''));
 
         // Filter by Category
         if ($request->has('category') && $request->input('category') !== 'All' && $request->input('category') !== 'All Categories') {
@@ -135,16 +132,22 @@ class BusinessController extends Controller
         if ($request->has('min_rating') && is_numeric($request->input('min_rating'))) {
             $minRating = (float) $request->input('min_rating');
             if ($minRating > 0) {
-                $query->where('rating', '>=', $minRating);
+                $query->whereRaw('CAST((SELECT AVG(rating) FROM reviews WHERE business_id = businesses.id AND status = ?) AS DECIMAL(10,2)) >= ?', ['published', $minRating]);
             }
         }
 
+        $request->validate(['limit'=>'nullable|integer|min:1|max:50','page'=>'nullable|integer|min:1','q'=>'nullable|string|max:255']);
+        $limit=(int)$request->input('limit',50);$page=(int)$request->input('page',1);
+        $total=(clone $query)->count();
+        $query->orderBy('id')->offset(($page-1)*$limit)->limit($limit);
         $businesses = $query->get();
-        $formatted = $businesses->map(fn ($b) => $this->formatBusiness($b));
+        $formatted = $businesses->map(fn ($b) => $this->formatBusiness($b, false));
 
         return response()->json([
             'success' => true,
             'count' => $formatted->count(),
+            'total'=>$total,'page'=>$page,'last_page'=>max(1,(int)ceil($total/$limit)),
+            'imported_count'=>Business::whereNotNull('source_ref')->count(),
             'data' => $formatted,
         ]);
     }
@@ -154,7 +157,17 @@ class BusinessController extends Controller
      */
     public function show($slug)
     {
-        $business = Business::with('reviews')->where('slug', $slug)->first();
+        $merged = Business::where(function ($q) use ($slug) {
+            $q->where('slug', $slug);
+            if (is_numeric($slug)) $q->orWhere('id', (int) $slug);
+        })->whereNotNull('merged_into_id')->first();
+        if ($merged) { $target=Business::findOrFail($merged->merged_into_id); return $this->show($target->slug); }
+        $business = Business::with(['reviews' => fn ($q) => $q->withPublicDiscussionCount()])
+            ->where(function ($q) use ($slug) {
+                $q->where('slug', $slug);
+                if (is_numeric($slug)) $q->orWhere('id', (int) $slug);
+            })
+            ->whereIn('status', ['approved', 'pending'])->first();
 
         if (!$business) {
             return response()->json([
@@ -174,23 +187,12 @@ class BusinessController extends Controller
      */
     public function recentReviews()
     {
-        $reviews = Review::with('business')
-            ->orderBy('created_at', 'desc')
+        $reviews = Review::with('business')->withPublicDiscussionCount()
+            ->where('status', 'published')
+            ->orderBy('created_at', 'desc')->orderBy('id', 'desc')
             ->take(6)
             ->get()
-            ->map(function ($r) {
-                return [
-                    'id' => $r->id,
-                    'author' => $r->author,
-                    'initials' => $r->initials ?: strtoupper(substr($r->author, 0, 2)),
-                    'rating' => (int) $r->rating,
-                    'title' => $r->title,
-                    'body' => $r->body,
-                    'date' => $r->date ?: date('Y-m-d'),
-                    'businessName' => $r->business ? $r->business->name : 'Business Entity',
-                    'businessSlug' => $r->business ? $r->business->slug : '',
-                ];
-            });
+            ->map(fn ($review) => \App\Support\PublicReview::serialize($review, true));
 
         return response()->json([
             'success' => true,
@@ -207,21 +209,11 @@ class BusinessController extends Controller
     {
         $user = $request->user();
 
-        // Enforce 1 business account per user limit
-        if ($user) {
-            $existing = Business::where('user_id', $user->id)
-                ->whereIn('status', ['pending', 'approved'])
-                ->first();
-
-            if ($existing) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'You have already created or submitted a business account. Each user account is allowed only one business entity.',
-                ], 422);
-            }
+        if (!$user) {
+            return response()->json(['success' => false, 'message' => 'Sign in before adding an entity.'], 401);
         }
 
-        $validated = $request->validate([
+        $validated = $request->validate(\App\Support\OrganizationProfileImage::rules()+\App\Support\AdministrativeLocation::rules()+[
             'name' => 'required|string|max:255',
             'bengali_name' => 'nullable|string|max:255',
             'category' => 'required|string|max:255',
@@ -232,7 +224,17 @@ class BusinessController extends Controller
             'facebook_url' => 'nullable|url|max:255',
         ]);
 
-        $baseSlug = Str::slug($validated['name']);
+        $mapData=$request->validate(['presence'=>'nullable|in:physical,online,both','google_place_id'=>'nullable|string|max:255']);
+        $validated['location']=\App\Support\AdministrativeLocation::normalize($request,$validated['location']??null,$mapData['presence']??null);
+        if(in_array($mapData['presence']??null,['physical','both'],true) && !trim($validated['location']??'')) throw \Illuminate\Validation\ValidationException::withMessages(['location'=>'A physical organization requires an address.']);
+        if(($mapData['presence']??null)==='online') $mapData['google_place_id']=null;
+        if(!empty($mapData['google_place_id'])) {
+            $existing=Business::where('google_place_id',$mapData['google_place_id'])->whereIn('status',['pending','approved'])->first();
+            if($existing) return response()->json(['message'=>'This Maps place already has a profile. Select the existing business instead.','existing_slug'=>$existing->slug],409);
+        }
+        $baseSlug = Str::slug($validated['name']) ?: 'entity-'.Str::lower(Str::random(10));
+        $same=Business::whereRaw('LOWER(TRIM(name)) = ?', [mb_strtolower(trim($validated['name']))])->whereRaw('LOWER(TRIM(COALESCE(location,\'\'))) = ?', [mb_strtolower(trim($validated['location']??''))])->whereIn('status',['pending','approved'])->first();
+        if($same)return response()->json(['message'=>'This name and location already have a listing. Use the existing entity.','existing_slug'=>$same->slug],409);
         $slug = $baseSlug;
         $count = 1;
 
@@ -241,8 +243,15 @@ class BusinessController extends Controller
             $count++;
         }
 
+        $storedImagePath = null;
+        $profileImage = null;
+        try {
+        $business = \DB::transaction(function () use ($request, $user, $validated, $mapData, $slug, &$storedImagePath, &$profileImage) {
         $business = Business::create([
-            'user_id' => $user ? $user->id : null,
+            'user_id' => null,
+            'created_by_user_id' => $user->id,
+            'presence' => $mapData['presence']??null,
+            'google_place_id' => $mapData['google_place_id']??null,
             'status' => 'pending', // Pending approval by Admin
             'name' => $validated['name'],
             'bengali_name' => $validated['bengali_name'] ?? null,
@@ -258,11 +267,48 @@ class BusinessController extends Controller
             'verified' => false,
             'color' => '#0f766e',
         ]);
+        $profileImage = \App\Support\OrganizationProfileImage::quarantine($request, $business, $storedImagePath);
+        if ($request->filled('latitude') && $request->filled('longitude')) {
+            $lat = (float) $request->input('latitude');
+            $lng = (float) $request->input('longitude');
+            $business->latitude = $lat;
+            $business->longitude = $lng;
+            $business->save();
+
+            $pointWkt = sprintf('POINT(%F %F)', $lng, $lat);
+            $entityLoc = \App\Models\EntityLocation::updateOrCreate(
+                ['entity_id' => $business->id],
+                [
+                    'division_id' => $request->input('division_id'),
+                    'district_id' => $request->input('district_id'),
+                    'upazila_id' => $request->input('upazila_id'),
+                    'latitude' => $lat,
+                    'longitude' => $lng,
+                    'road' => $request->input('road'),
+                    'area' => $request->input('area'),
+                    'postcode' => $request->input('postcode'),
+                    'detected_address' => $request->input('detected_address'),
+                    'confirmed_address' => $business->location,
+                    'accuracy_level' => 'resolved',
+                    'user_confirmed' => true,
+                ]
+            );
+            \DB::statement(
+                'UPDATE entity_locations SET location = ST_SRID(ST_GeomFromText(?), 4326) WHERE id = ?',
+                [$pointWkt, $entityLoc->id]
+            );
+        }
+        return $business;
+        });
+        } catch (\Throwable $error) {
+            if ($storedImagePath) \Illuminate\Support\Facades\Storage::disk('private')->delete($storedImagePath);
+            throw $error;
+        }
 
         return response()->json([
             'success' => true,
-            'message' => 'Business account creation request submitted successfully! It is pending approval from the Admin.',
-            'data' => $this->formatBusiness($business),
+            'message' => 'Community entity created. You may review it immediately while moderators check its details.',
+            'data' => $this->formatBusiness($business) + ['profileImageStatus' => $profileImage ? 'pending' : null],
         ], 201);
     }
 
@@ -276,14 +322,14 @@ class BusinessController extends Controller
         $user = $request->user();
 
         // Enforce ownership check
-        if (!$user || $business->user_id !== $user->id) {
+        if (!$user || !$business->verified || $business->user_id !== $user->id) {
             return response()->json([
                 'success' => false,
                 'message' => 'Unauthorized. This business account can only be edited by the user who created it.',
             ], 403);
         }
 
-        $validated = $request->validate([
+        $validated = $request->validate(\App\Support\OrganizationProfileImage::rules()+\App\Support\AdministrativeLocation::rules()+[
             'name' => 'sometimes|required|string|max:255',
             'bengali_name' => 'nullable|string|max:255',
             'category' => 'sometimes|required|string|max:255',
@@ -292,24 +338,27 @@ class BusinessController extends Controller
             'phone' => 'nullable|string|max:255',
             'website' => 'nullable|url|max:255',
             'facebook_url' => 'nullable|url|max:255',
-            'image' => 'nullable|string',
-            'file' => 'nullable|file|mimes:jpeg,png,jpg,webp|max:5120',
         ]);
 
-        // Handle image upload if present
-        if ($request->hasFile('file') && $request->file('file')->isValid()) {
-            $uploadedFile = $request->file('file');
-            $fileName = time() . '_' . Str::random(10) . '.' . $uploadedFile->getClientOriginalExtension();
-            $uploadedFile->move(public_path('uploads/businesses'), $fileName);
-            $validated['image'] = '/uploads/businesses/' . $fileName;
+        if($request->hasAny(['division_id','district_id','upazila_id'])) $validated['location']=\App\Support\AdministrativeLocation::normalize($request,$validated['location']??null,$business->presence);
+        unset($validated['division_id'],$validated['district_id'],$validated['upazila_id'],$validated['file'],$validated['profile_image'],$validated['profile_image_consent']);
+        $storedImagePath = null;
+        $profileImage = null;
+        try {
+            \DB::transaction(function () use ($request, $business, $validated, &$storedImagePath, &$profileImage) {
+                $profileImage = \App\Support\OrganizationProfileImage::quarantine($request, $business, $storedImagePath);
+                if(isset($validated['location']) && $validated['location'] !== $business->location) {$business->google_place_id=null;$business->latitude=null;$business->longitude=null;}
+                $business->update(array_filter($validated, fn ($value) => $value !== null));
+            });
+        } catch (\Throwable $error) {
+            if ($storedImagePath) \Illuminate\Support\Facades\Storage::disk('private')->delete($storedImagePath);
+            throw $error;
         }
-
-        $business->update(array_filter($validated, fn ($value) => $value !== null));
 
         return response()->json([
             'success' => true,
             'message' => 'Business profile updated successfully in the database!',
-            'data' => $this->formatBusiness($business->fresh('reviews')),
+            'data' => $this->formatBusiness($business->fresh('reviews')) + ['profileImageStatus' => $profileImage ? 'pending' : null],
         ]);
     }
 
@@ -330,57 +379,107 @@ class BusinessController extends Controller
             ], 403);
         }
 
-        $validated = $request->validate([
+        $validated = $request->validate(\App\Support\PublicVideoLinks::rules() + [
             'author' => 'nullable|string|max:255',
             'rating' => 'required|integer|min:1|max:5',
             'service_rating' => 'nullable|integer|min:1|max:5',
             'value_rating' => 'nullable|integer|min:1|max:5',
             'comm_rating' => 'nullable|integer|min:1|max:5',
             'title' => 'required|string|max:255',
-            'body' => 'required|string',
+            'body' => 'required|string|max:5000',
+            'request_scam_alert' => 'sometimes|boolean',
+            'experience_date' => 'nullable|date|before_or_equal:today',
+            'relationship_disclosure' => 'nullable|in:none,employee,competitor,incentive,family,other',
             'location' => 'nullable|string|max:255',
             'facebook_url' => 'nullable|url|max:255',
-            'file' => 'nullable|file|mimes:jpeg,png,jpg,webp,gif,pdf|max:5120',
+            'file' => 'nullable|file|mimes:jpeg,png,jpg,webp,pdf|max:5120',
+            'evidence' => 'nullable|array|max:20',
+            'evidence.*' => 'required|file|mimes:jpeg,png,jpg,webp,pdf|max:5120',
         ]);
 
-        $imagePath = null;
-        if ($request->hasFile('file') && $request->file('file')->isValid()) {
-            $uploadedFile = $request->file('file');
-            $fileName = time() . '_' . Str::random(10) . '.' . $uploadedFile->getClientOriginalExtension();
-            $uploadedFile->move(public_path('uploads/reviews'), $fileName);
-            $imagePath = '/uploads/reviews/' . $fileName;
+        $files = $request->file('evidence', []);
+        if ($request->hasFile('file')) $files[] = $request->file('file');
+        abort_if(count($files) > 20, 422, 'Attach up to 20 files in total.');
+        $storedPaths = [];
+        try {
+        $review = \DB::transaction(function () use ($files, &$storedPaths, $user, $business, $validated, $request) {
+        $evidencePaths = [];
+        foreach ($files as $file) {
+            $path = $file->store('review-evidence', 'private');
+            if (!$path) throw new \RuntimeException('Evidence could not be stored.');
+            $storedPaths[] = $path;
+            $evidencePaths[] = ['path' => $path, 'mime' => $file->getMimeType()];
         }
+        $imagePath = $storedPaths ? 'private:' . $storedPaths[0] : null;
 
-        $authorName = $validated['author'] ?? ($user ? $user->name : 'Anonymous User');
+        // A signed-in identity is the source of authorship. Accepting a posted
+        // author name here would let one account impersonate another reviewer.
+        $authorName = $user->name;
         $initials = strtoupper(substr($authorName, 0, 2));
 
         $review = Review::create([
             'business_id' => $business->id,
+            'user_id' => $user->id,
             'author' => $authorName,
             'initials' => $initials,
             'rating' => $validated['rating'],
+            'service_rating' => $validated['service_rating'] ?? null,
+            'value_rating' => $validated['value_rating'] ?? null,
+            'comm_rating' => $validated['comm_rating'] ?? null,
             'title' => $validated['title'],
             'body' => $validated['body'],
             'date' => date('Y-m-d'),
+            'experience_date' => $validated['experience_date'] ?? null,
             'disclaimer' => 'Independent Customer Review',
-            'verified_experience' => true,
+            'relationship_disclosure' => $validated['relationship_disclosure'] ?? 'none',
+            'status' => $request->boolean('request_scam_alert') ? 'under_review' : 'published',
+            'verified_experience' => false,
             'location' => $validated['location'] ?? null,
             'facebook_url' => $validated['facebook_url'] ?? null,
             'image_path' => $imagePath,
+            'evidence_paths' => $evidencePaths,
+            'public_video_urls' => \App\Support\PublicVideoLinks::visible($validated['public_video_urls'] ?? []),
+            'public_video_consent' => $request->boolean('public_video_consent'),
         ]);
+
+        if ($request->boolean('request_scam_alert')) {
+            $case = \App\Models\ScamCase::create([
+                'case_code' => 'THB-'.now()->format('Y').'-'.strtoupper(Str::random(8)),
+                'business_id' => $business->id,
+                'review_id' => $review->id,
+                'reporter_user_id' => $user->id,
+                'title' => $review->title,
+                'summary' => $review->body,
+                'public_summary' => null,
+                'status' => 'submitted',
+                'published_at' => null,
+                'amount' => $request->filled('amount') ? (float)$request->input('amount') : null,
+                'incoming_video_urls' => $review->public_video_urls,
+                'public_video_consent' => $review->public_video_consent,
+            ]);
+            foreach ($evidencePaths as $evidence) $case->evidence()->create(['uploaded_by_user_id' => $user->id, 'storage_path' => $evidence['path'], 'mime_type' => $evidence['mime'], 'is_private' => true]);
+            \DB::table('audit_logs')->insert(['actor_user_id' => $user->id, 'action' => 'scam_case.submitted', 'auditable_type' => \App\Models\ScamCase::class, 'auditable_id' => $case->id, 'created_at' => now(), 'updated_at' => now()]);
+        }
 
         // Recalculate average rating and count
-        $allReviews = $business->reviews()->get();
+        $allReviews = $business->reviews()->where('status', 'published')->get();
         $avgRating = $allReviews->avg('rating');
         $business->update([
-            'rating' => round($avgRating, 1),
+            'rating' => round($avgRating ?? 0, 1),
             'review_count' => $allReviews->count(),
         ]);
+        return $review;
+        });
+        } catch (\Throwable $error) {
+            \Illuminate\Support\Facades\Storage::disk('private')->delete($storedPaths);
+            throw $error;
+        }
 
+        $case = $review->scamCase;
         return response()->json([
             'success' => true,
-            'message' => 'Review submitted successfully!',
-            'data' => $review,
+            'message' => $case ? 'Review and linked case sent privately for moderation.' : 'Review submitted successfully!',
+            'data' => $review->toArray() + ['linked_case'=>$case ? ['case_code'=>$case->case_code,'status'=>$case->status,'url'=>'/activity'] : null],
         ], 201);
     }
 }

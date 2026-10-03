@@ -14,6 +14,12 @@ class Business extends Model
     use HasFactory;
 
     protected $fillable = [
+        'is_demo',
+        'source_ref','source_url','source_fetched_at','latitude','longitude',
+        'presence',
+        'google_place_id',
+        'created_by_user_id',
+        'merged_into_id',
         'slug',
         'name',
         'bengali_name',
@@ -34,6 +40,7 @@ class Business extends Model
     ];
 
     protected $casts = [
+        'is_demo' => 'boolean',
         'branches' => 'array',
         'verified' => 'boolean',
         'rating' => 'float',
@@ -54,5 +61,14 @@ class Business extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class)->latest();
+    }
+    public function cases() { return $this->hasMany(ScamCase::class); }
+    public function locationDetail() { return $this->hasOne(EntityLocation::class, 'entity_id'); }
+
+    public function scopePublicDirectory($query)
+    {
+        return $query->whereNull('merged_into_id')->where(function ($q) {
+            $q->whereIn('status', ['approved', 'pending'])->orWhereNull('status');
+        });
     }
 }
