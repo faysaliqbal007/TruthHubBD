@@ -40,6 +40,26 @@ class DirectorySafetyTest extends TestCase {
   $b=$this->entity();$this->actingAs(User::factory()->create())->postJson('/api/businesses/'.$b->id.'/scam-cases',['title'=>'Test','summary'=>'Private test','evidence'=>[UploadedFile::fake()->create('proof.pdf',10,'application/pdf')]])->assertStatus(503);
   $this->assertDatabaseCount('scam_cases',0);$this->assertSame($before,Storage::disk('private')->allFiles());
  }
+ public function test_all_uploads_are_checked_in_one_scanner_process():void {
+  Storage::fake('private');Process::fake(['*'=>Process::result(exitCode:0)]);$this->app->instance(MalwareScanner::class,new MalwareScanner);
+  $files=[UploadedFile::fake()->create('first.pdf',10,'application/pdf'),UploadedFile::fake()->create('second.pdf',10,'application/pdf')];
+  $paths=array_map(fn($file)=>$file->getRealPath(),$files);
+  $b=$this->entity();$this->actingAs(User::factory()->create())->postJson('/api/businesses/'.$b->id.'/scam-cases',['title'=>'Batch test','summary'=>'Private test','evidence'=>$files])->assertCreated();
+  Process::assertRanTimes(fn()=>true,1);
+  Process::assertRan(fn($process)=>is_array($process->command)&&count(array_intersect($paths,$process->command))===2);
+  $this->assertDatabaseCount('scam_case_evidence',2);
+  $this->assertSame(2,DB::table('audit_logs')->where('action','upload.scan_passed')->count());
+ }
+ public function test_infected_batch_stores_no_attachments_or_success_audits():void {
+  Storage::fake('private');$before=Storage::disk('private')->allFiles();Process::fake(['*'=>Process::result(exitCode:1)]);$this->app->instance(MalwareScanner::class,new MalwareScanner);
+  $files=[UploadedFile::fake()->create('first.pdf',10,'application/pdf'),UploadedFile::fake()->create('second.pdf',10,'application/pdf')];
+  $b=$this->entity();$this->actingAs(User::factory()->create())->postJson('/api/businesses/'.$b->id.'/scam-cases',['title'=>'Batch test','summary'=>'Private test','evidence'=>$files])->assertUnprocessable()->assertJsonPath('message','This file did not pass the malware safety check.');
+  Process::assertRanTimes(fn()=>true,1);
+  $this->assertDatabaseCount('scam_cases',0);
+  $this->assertDatabaseCount('scam_case_evidence',0);
+  $this->assertSame(0,DB::table('audit_logs')->where('action','upload.scan_passed')->count());
+  $this->assertSame($before,Storage::disk('private')->allFiles());
+ }
  public function test_incident_validation_and_private_reporter_updates():void {
   $b=$this->entity();$user=User::factory()->create();$admin=User::factory()->create(['role'=>'admin']);
   $payload=['title'=>'Private test','summary'=>'Private summary','incident_type'=>'non_delivery','incident_date'=>now()->addDay()->toDateString()];
