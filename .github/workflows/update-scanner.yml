@@ -37,7 +37,8 @@ jobs:
           chmod 600 ~/.ssh/cse3100_deploy
           ssh-keyscan -H 187.52.122.100 >> ~/.ssh/known_hosts
       - name: Copy prepared scanner with scp
-        run: scp -i ~/.ssh/cse3100_deploy -o BatchMode=yes scanner-release.tar.gz scanner-release.tar.gz.sha256 s20230204112@187.52.122.100:
+        run: |
+          scp -i ~/.ssh/cse3100_deploy -o BatchMode=yes scanner-release.tar.gz scanner-release.tar.gz.sha256 s20230204112@187.52.122.100:
       - name: Verify and enable scanner in own account folder
         run: ssh -i ~/.ssh/cse3100_deploy -o BatchMode=yes s20230204112@187.52.122.100 'python3 -' < .github/scripts/deploy_scanner.py
       - name: Check live health
