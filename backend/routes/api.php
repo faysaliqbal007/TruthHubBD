@@ -129,6 +129,7 @@ Route::middleware([
     Route::post('/scam-cases/{scamCase}/appeals', [OperationsController::class, 'appeal']);
     Route::post('/scam-cases/{scamCase}/evidence', [ScamCaseController::class, 'addEvidence']);
     Route::post('/scam-cases/{scamCase}/subject-response', [ScamCaseController::class, 'subjectResponse']);
+    Route::post('/scam-cases/{scamCase}/reporter-response', [ScamCaseController::class, 'reporterResponse']);
     Route::post('/scam-cases/{scamCase}/resolve', [ScamCaseController::class, 'resolve']);
     Route::get('/my-cases/{caseCode}', [ScamCaseController::class, 'myCase']);
     Route::patch('/profile', [ProfileController::class, 'update']);
@@ -163,6 +164,8 @@ Route::middleware([
     Route::patch('/admin/users/{id}/claim-access', [AdminController::class, 'toggleClaimAccess']);
     Route::delete('/admin/users/{id}', [AdminController::class, 'deleteUser']);
     Route::delete('/admin/reviews/{id}', [AdminController::class, 'deleteReview']);
+    Route::post('/admin/reviews/{id}/broadcast', [AdminController::class, 'broadcastReview']);
+    Route::delete('/admin/reviews/{id}/broadcast', [AdminController::class, 'declineReviewBroadcast']);
     Route::delete('/admin/scam-cases/{id}', [AdminController::class, 'deleteScamCase']);
     Route::post('/admin/broadcast-notification', [AdminController::class, 'broadcastNotification']);
     Route::post('/admin/users/{id}/verify-email', [AdminController::class, 'verifyUserEmail']);

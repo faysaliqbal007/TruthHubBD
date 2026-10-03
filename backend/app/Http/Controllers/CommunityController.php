@@ -58,6 +58,17 @@ class CommunityController extends Controller
         
         $isOwnerOfThisOrg = ($review->business->user_id !== null && (int)$request->user()->id === (int)$review->business->user_id);
         $authorName = $isOwnerOfThisOrg ? $review->business->name : $request->user()->name;
+        $baseUrl = rtrim(config('app.url', 'http://localhost:8001'), '/');
+        $avatar = null;
+        if ($isOwnerOfThisOrg) {
+            $bizImg = $review->business->image ?: (\App\Models\BusinessProfileImage::where('business_id', $review->business->id)->whereIn('status', ['approved', 'pending'])->exists() ? '/api/businesses/' . $review->business->id . '/profile-image' : null);
+            if ($bizImg) {
+                $avatar = str_starts_with($bizImg, 'http') ? $bizImg : ($baseUrl . (str_starts_with($bizImg, '/') ? '' : '/') . $bizImg);
+            }
+        } elseif (!empty($request->user()->avatar_url)) {
+            $uAvatar = $request->user()->avatar_url;
+            $avatar = str_starts_with($uAvatar, 'http') ? $uAvatar : ($baseUrl . (str_starts_with($uAvatar, '/') ? '' : '/') . $uAvatar);
+        }
 
         if ($review->user_id && $review->user_id !== $request->user()->id) {
             \DB::table('notifications')->insert([
@@ -75,6 +86,7 @@ class CommunityController extends Controller
             'success' => true,
             'data' => array_merge((array) $created, [
                 'author' => $authorName,
+                'avatar_url' => $avatar,
                 'is_organization' => $isOwnerOfThisOrg,
                 'badge' => $isOwnerOfThisOrg ? 'Official Organization' : null
             ])

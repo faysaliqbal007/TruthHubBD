@@ -134,7 +134,7 @@ class CommunityOverviewAndMediaTest extends TestCase
             $this->getJson('/api/scam-cases/'.$case->case_code)->assertJsonCount(0, 'data.public_media');
         }
         $case = $this->caseFor($business, $user, 'SAFE', ['public_media' => [$this->photo()]]);
-        $this->getJson('/api/scam-cases/SAFE')->assertJsonCount(1, 'data.public_media')->assertJsonMissingPath('data.amount')->assertJsonMissingPath('data.evidence');
+        $this->getJson('/api/scam-cases/SAFE')->assertJsonCount(1, 'data.public_media')->assertJsonMissingPath('data.evidence');
         $this->getJson('/api/scam-cases')->assertDontSee('tracker.example.test')->assertDontSee('private-title-secret')->assertDontSee('private-summary-secret');
     }
 

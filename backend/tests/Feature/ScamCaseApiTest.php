@@ -11,9 +11,9 @@ class ScamCaseApiTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_evidence_is_private_and_invalid_upload_does_not_create_a_case(): void
+    public function test_evidence_is_public_and_invalid_upload_does_not_create_a_case(): void
     {
-        \Illuminate\Support\Facades\Storage::fake('private');
+        \Illuminate\Support\Facades\Storage::fake('public');
         $this->actingAs(User::factory()->create(['email_verified_at' => now()]), 'sanctum');
         $business = Business::create(['name'=>'Fictional upload test','slug'=>'upload-test','category'=>'Products']);
         $payload = ['title'=>'Test report','summary'=>'Fictional evidence submission.'];
@@ -22,24 +22,24 @@ class ScamCaseApiTest extends TestCase
         $response = $this->postJson("/api/businesses/{$business->id}/scam-cases", $payload + ['evidence'=>[\Illuminate\Http\UploadedFile::fake()->create('receipt.pdf',10,'application/pdf')]])->assertCreated();
         $case = \App\Models\ScamCase::findOrFail($response->json('data.id'));
         $evidence = $case->evidence()->firstOrFail();
-        $this->assertTrue((bool) $evidence->is_private);
-        \Illuminate\Support\Facades\Storage::disk('private')->assertExists($evidence->storage_path);
-        $this->getJson('/api/scam-cases/'.$case->case_code)->assertNotFound();
+        $this->assertFalse((bool) $evidence->is_private);
+        \Illuminate\Support\Facades\Storage::disk('public')->assertExists($evidence->storage_path);
+        $this->getJson('/api/scam-cases/'.$case->case_code)->assertOk();
     }
 
-    public function test_reporter_can_submit_a_private_case_and_only_admin_can_publish_it(): void
+    public function test_reporter_can_submit_a_public_case_and_admin_can_moderate_it(): void
     {
         $reporter = User::factory()->create(['email_verified_at' => now()]);
         $moderator = User::factory()->create(['role' => 'moderator', 'email_verified_at' => now()]);
         $admin = User::factory()->create(['role' => 'admin', 'email_verified_at' => now()]);
         $business = Business::create(['name' => 'Case Target', 'slug' => 'case-target', 'category' => 'Businesses & Services']);
 
-        $created = $this->actingAs($reporter, 'sanctum')->postJson("/api/businesses/{$business->id}/scam-cases", ['title' => 'Unfulfilled order report', 'summary' => 'I submitted private evidence for an order that was not fulfilled.', 'amount' => 4500]);
-        $created->assertCreated()->assertJsonPath('data.status', 'submitted');
+        $created = $this->actingAs($reporter, 'sanctum')->postJson("/api/businesses/{$business->id}/scam-cases", ['title' => 'Unfulfilled order report', 'summary' => 'I submitted public evidence for an order that was not fulfilled.', 'amount' => 4500]);
+        $created->assertCreated()->assertJsonPath('data.status', 'published');
         $caseId = $created->json('data.id');
 
-        $this->actingAs($moderator, 'sanctum')->patchJson("/api/moderation/scam-cases/{$caseId}", ['status' => 'published'])->assertForbidden();
-        $this->actingAs($admin, 'sanctum')->patchJson("/api/moderation/scam-cases/{$caseId}", ['status' => 'published', 'public_summary' => 'Evidence reviewed under platform policy.', 'decision_rationale'=>'Redaction and consent checked under platform policy.'])->assertOk()->assertJsonPath('data.status', 'published');
+        $this->actingAs($reporter, 'sanctum')->patchJson("/api/moderation/scam-cases/{$caseId}", ['status' => 'restricted'])->assertForbidden();
+        $this->actingAs($admin, 'sanctum')->patchJson("/api/moderation/scam-cases/{$caseId}", ['status' => 'restricted', 'public_summary' => 'Evidence reviewed under platform policy.', 'decision_rationale'=>'Redaction and consent checked under platform policy.'])->assertOk()->assertJsonPath('data.status', 'restricted');
     }
 
     public function test_scam_case_submission_stores_images_in_public_media_and_sets_alert_requested(): void

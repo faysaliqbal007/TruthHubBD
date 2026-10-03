@@ -44,9 +44,14 @@ class Review extends Model
         'service_rating',
         'value_rating',
         'comm_rating',
+        'broadcast_requested',
+        'broadcast_approved_at',
+        'broadcast_approved_by_user_id',
     ];
 
     protected $casts = [
+        'broadcast_requested' => 'boolean',
+        'broadcast_approved_at' => 'datetime',
         'is_demo' => 'boolean',
         'public_media' => 'array',
         'public_video_urls' => 'array',

@@ -670,7 +670,7 @@ class AdminController extends Controller
     {
         abort_unless(in_array($request->user()?->role, ['admin', 'moderator'], true), 403, 'Staff access is required.');
         $data = $request->validate(['alert_enabled' => 'required|boolean']);
-        $case = \App\Models\ScamCase::findOrFail($id);
+        $case = \App\Models\ScamCase::with('business')->findOrFail($id);
 
         $case->alert_enabled = $data['alert_enabled'];
         if ($data['alert_enabled']) {
@@ -678,10 +678,33 @@ class AdminController extends Controller
             if (!$case->alert_broadcast_started_at) {
                 $case->alert_audience_max_user_id = \DB::table('users')->max('id') ?? 0;
                 $case->alert_broadcast_started_at = now();
+                $case->alert_broadcast_completed_at = now();
             }
             if (in_array($case->status, ['submitted', 'under_review', 'needs_evidence'])) {
                 $case->status = 'published';
                 $case->published_at = $case->published_at ?: now();
+            }
+
+            // Broadcast notification to all active users
+            $userIds = \DB::table('users')->pluck('id');
+            $notifications = [];
+            $now = now();
+            $bizName = $case->business->name ?? 'Organization';
+            foreach ($userIds as $uid) {
+                $notifications[] = [
+                    'user_id' => $uid,
+                    'type' => 'case_alert',
+                    'title' => '🚨 Scam Alert Notice: ' . $bizName,
+                    'body' => 'Verified community scam alert for ' . $bizName . ': ' . \Illuminate\Support\Str::limit($case->summary, 120),
+                    'url' => '/scam-alerts/' . $case->case_code,
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
+            }
+            if (!empty($notifications)) {
+                foreach (array_chunk($notifications, 500) as $chunk) {
+                    \DB::table('notifications')->insert($chunk);
+                }
             }
         }
         $case->save();
@@ -698,6 +721,59 @@ class AdminController extends Controller
         ]);
 
         return response()->json(['success' => true, 'message' => 'Alert status updated.', 'alert_enabled' => $case->alert_enabled]);
+    }
+
+    public function broadcastReview(Request $request, $id)
+    {
+        abort_unless(in_array($request->user()?->role, ['admin', 'moderator'], true), 403, 'Staff access is required.');
+        $review = \App\Models\Review::with('business')->findOrFail($id);
+        $review->broadcast_approved_at = now();
+        $review->broadcast_approved_by_user_id = $request->user()->id;
+        $review->save();
+
+        $userIds = \DB::table('users')->pluck('id');
+        $notifications = [];
+        $now = now();
+        $bizName = $review->business->name ?? 'Organization';
+        foreach ($userIds as $uid) {
+            $notifications[] = [
+                'user_id' => $uid,
+                'type' => 'community_broadcast',
+                'title' => 'Community Broadcast: ' . $bizName,
+                'body' => $review->author . ' shared an experience for ' . $bizName . ': ' . \Illuminate\Support\Str::limit($review->body, 120),
+                'url' => '/reviews/' . $review->id,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ];
+        }
+        if (!empty($notifications)) {
+            foreach (array_chunk($notifications, 500) as $chunk) {
+                \DB::table('notifications')->insert($chunk);
+            }
+        }
+
+        \DB::table('audit_logs')->insert([
+            'actor_user_id' => $request->user()->id,
+            'action' => 'review.broadcast_approved',
+            'auditable_type' => \App\Models\Review::class,
+            'auditable_id' => $review->id,
+            'metadata' => json_encode(['review_id' => $review->id]),
+            'ip_address' => $request->ip(),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return response()->json(['success' => true, 'message' => 'Review successfully broadcasted to all citizens!']);
+    }
+
+    public function declineReviewBroadcast(Request $request, $id)
+    {
+        abort_unless(in_array($request->user()?->role, ['admin', 'moderator'], true), 403, 'Staff access is required.');
+        $review = \App\Models\Review::findOrFail($id);
+        $review->broadcast_requested = false;
+        $review->save();
+
+        return response()->json(['success' => true, 'message' => 'Broadcast request declined. Review remains publicly visible.']);
     }
 
     /**

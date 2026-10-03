@@ -14,29 +14,14 @@ final class PublicReview
         if ($review->scamCase()->exists()) $videos = $case ? array_values(array_intersect($videos, PublicVideoLinks::visible($case->public_video_urls))) : [];
         $viewerId = $user?->id;
         $reactions = \DB::table('review_reactions')->where('review_id', $review->id);
-        $hasScamCase = $review->scamCase()->exists();
-        $hasPublicMedia = !empty($review->public_media);
-        $rawPath = $review->image_path ?? '';
-        $isSecretOrDoc = str_contains($rawPath, 'secret') || str_contains($rawPath, 'receipt') || str_ends_with(strtolower($rawPath), '.pdf');
-        if (!empty($review->evidence_paths) && is_array($review->evidence_paths)) {
-            foreach ($review->evidence_paths as $ep) {
-                $p = $ep['path'] ?? '';
-                $m = $ep['mime'] ?? '';
-                if ($m === 'application/pdf' || str_contains($p, 'secret') || str_contains($p, 'receipt') || str_ends_with(strtolower($p), '.pdf')) {
-                    $isSecretOrDoc = true;
-                    break;
-                }
-            }
-        }
-        $isPrivate = $hasScamCase || $hasPublicMedia || $isSecretOrDoc;
         $baseUrl = rtrim(config('app.url', 'http://localhost:8001'), '/');
         $attachmentUrls = [];
-        if (!$isPrivate && !empty($review->evidence_paths) && is_array($review->evidence_paths)) {
+        if (!empty($review->evidence_paths) && is_array($review->evidence_paths)) {
             foreach (array_keys($review->evidence_paths) as $idx) {
                 $attachmentUrls[] = $baseUrl . '/api/reviews/'.$review->id.'/attachments/'.$idx;
             }
         }
-        $imageUrl = (!$isPrivate && !empty($review->image_path)) ? ($baseUrl . '/api/reviews/'.$review->id.'/image') : ($attachmentUrls[0] ?? null);
+        $imageUrl = !empty($review->image_path) ? ($baseUrl . '/api/reviews/'.$review->id.'/image') : ($attachmentUrls[0] ?? null);
         if ($imageUrl && empty($attachmentUrls)) {
             $attachmentUrls[] = $imageUrl;
         }

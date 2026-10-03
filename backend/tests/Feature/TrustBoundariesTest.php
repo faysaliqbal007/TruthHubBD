@@ -23,12 +23,13 @@ class TrustBoundariesTest extends TestCase
         $case->update(['status'=>'submitted','published_at'=>null]);
         $this->getJson('/api/scam-cases/TEST-1')->assertNotFound();
     }
-    public function test_review_attachment_is_private_and_scam_toggle_creates_case(): void {
-        Storage::fake('private');$u=User::factory()->create();$b=$this->entity();
+    public function test_review_is_decoupled_from_scam_cases_and_attachments_are_public(): void {
+        Storage::fake('public');$u=User::factory()->create();$b=$this->entity();
         $r=$this->actingAs($u)->postJson('/api/businesses/'.$b->id.'/reviews',['rating'=>4,'title'=>'Delivery experience','body'=>'Order arrived late','request_scam_alert'=>true,'file'=>UploadedFile::fake()->create('receipt.pdf',10,'application/pdf')])->assertCreated();
-        $this->assertDatabaseHas('scam_cases',['review_id'=>$r->json('data.id'),'status'=>'submitted']);
-        $review=Review::first(); Storage::disk('private')->assertExists(substr($review->image_path,8));
-        $this->getJson('/api/businesses/'.$b->slug)->assertJsonPath('data.reviews.0.imagePath',null);
+        $this->assertDatabaseCount('scam_cases', 0);
+        $review=Review::first();
+        $this->assertEquals('published', $review->status);
+        $this->assertNotNull($review->image_path);
     }
     public function test_comments_work_for_seeded_reviews_and_replies_cannot_cross_reviews(): void {
         $u=User::factory()->create();$b=$this->entity();$a=$this->review($b);$other=$this->review($b);

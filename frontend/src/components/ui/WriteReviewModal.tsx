@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { AlertCircle, AlertTriangle, Building2, Camera, Facebook, PlusCircle, Search, Star, X } from "lucide-react";
+import { AlertCircle, AlertTriangle, Building2, Camera, Facebook, PlusCircle, Radio, Search, Star, X } from "lucide-react";
 import { businessService } from "../../services/businessService";
 import type { Business } from "../../types";
 
@@ -49,8 +49,7 @@ export function WriteReviewModal({
   
   const [date, setDate] = useState('');
   const [disclosure, setDisclosure] = useState('none');
-  const [scamAlertRequested, setScamAlertRequested] = useState(false);
-  const [scamAmount, setScamAmount] = useState('');
+  const [broadcastRequested, setBroadcastRequested] = useState(false);
   const [videoUrls,setVideoUrls]=useState('');
   const [videoConsent,setVideoConsent]=useState(false);
   const [caseReference,setCaseReference]=useState('');
@@ -66,7 +65,7 @@ export function WriteReviewModal({
 
   const selectedBusiness = availableBusinesses.find((b) => b.id === selectedEntityId) || (initialBusiness?.id === selectedEntityId ? initialBusiness : null);
 
-  useEffect(()=>{if(open){setSelectedEntityId(initialBusiness?.id||0);setEntityQuery(initialBusiness?.name||'');setRating(0);setServiceRating(0);setValueRating(0);setCommRating(0);setTitle('');setBody('');setSelectedFiles([]);setDate('');setFacebookUrl('');setScamAlertRequested(false);setScamAmount('');setVideoUrls('');setVideoConsent(false);setCaseReference('');setDisclosure('none');setFileError(null);setSubmitSuccessMsg(null);}},[open,initialBusiness]);
+  useEffect(()=>{if(open){setSelectedEntityId(initialBusiness?.id||0);setEntityQuery(initialBusiness?.name||'');setRating(0);setServiceRating(0);setValueRating(0);setCommRating(0);setTitle('');setBody('');setSelectedFiles([]);setDate('');setFacebookUrl('');setBroadcastRequested(false);setVideoUrls('');setVideoConsent(false);setCaseReference('');setDisclosure('none');setFileError(null);setSubmitSuccessMsg(null);}},[open,initialBusiness]);
   // Search the full directory, not just its first page. Never silently select a business.
   useEffect(() => {
     if(!open)return;
@@ -137,10 +136,7 @@ export function WriteReviewModal({
       formData.append("body", body.trim());
       if (date) formData.append('experience_date', date);
       formData.append('relationship_disclosure', disclosure);
-      formData.append('request_scam_alert', scamAlertRequested ? '1' : '0');
-      if (scamAlertRequested && scamAmount.trim()) {
-        formData.append('amount', scamAmount.trim());
-      }
+      formData.append('broadcast_requested', broadcastRequested ? '1' : '0');
       videos.urls.forEach(url=>formData.append('public_video_urls[]',url));
       formData.append('public_video_consent',videoConsent?'1':'0');
       
@@ -175,7 +171,7 @@ export function WriteReviewModal({
       }
       onReviewSubmitted?.(result, selectedEntityId);
 
-      setSubmitSuccessMsg(scamAlertRequested ? t("Review and linked scam alert received. They will be published once verified by moderators.","রিভিউ ও সংশ্লিষ্ট স্ক্যাম অ্যালার্ট গৃহীত হয়েছে। মডারেটরদের যাচাইয়ের পর তা সবার জন্য প্রকাশিত হবে।") : t("Your review has been submitted successfully!","আপনার রিভিউ জমা হয়েছে।"));
+      setSubmitSuccessMsg(broadcastRequested ? t("Your review has been submitted and community broadcast request sent to moderators!","আপনার রিভিউ জমা হয়েছে এবং মডারেটরদের কাছে ব্রডকাস্টের অনুরোধ পাঠানো হয়েছে!") : t("Your review has been submitted successfully!","আপনার রিভিউ জমা হয়েছে।"));
       
     } catch (err: any) {
       setIsSubmitting(false);
@@ -502,7 +498,7 @@ export function WriteReviewModal({
             </div>
 
           <MultiFilePicker files={selectedFiles} onChange={setSelectedFiles} maxMB={5} maxFiles={20} disabled={isSubmitting} label={t("Supporting photos & documents (optional)","সহায়ক ছবি ও প্রমাণাদি (ঐচ্ছিক)")}/>
-          <PublicVideoField value={videoUrls} onChange={setVideoUrls} consent={videoConsent} onConsent={setVideoConsent} privateIntake={scamAlertRequested} disabled={isSubmitting}/>
+          <PublicVideoField value={videoUrls} onChange={setVideoUrls} consent={videoConsent} onConsent={setVideoConsent} privateIntake={false} disabled={isSubmitting}/>
 
           {/* Experience Date & Conflict */}
           <div className="review-grid-2">
@@ -523,42 +519,24 @@ export function WriteReviewModal({
             
           </div>
 
-          {/* Request Scam Alert Classification */}
-          <div className="scam-alert-checkbox-box">
+          {/* Request Community Broadcast */}
+          <div className="scam-alert-checkbox-box" style={{ background: '#f0fdfa', borderColor: '#99f6e4' }}>
             <div className="scam-box-top">
-              <div className="scam-box-title">
-                <AlertTriangle size={17} color="#be123c" />
-                <span>{t("Also report suspected fraud","সন্দেহজনক প্রতারণার রিপোর্টও দিন")}</span>
+              <div className="scam-box-title" style={{ color: '#0f766e' }}>
+                <Radio size={17} color="#0f766e" />
+                <span>{t("Request Community Broadcast","কমিউনিটি ব্রডকাস্টের অনুরোধ")}</span>
               </div>
               <input
                 type="checkbox"
-                checked={scamAlertRequested}
-                onChange={(e) => setScamAlertRequested(e.target.checked)}
+                checked={broadcastRequested}
+                onChange={(e) => setBroadcastRequested(e.target.checked)}
                 className="scam-checkbox"
-                aria-label={t("Also report suspected fraud","সন্দেহজনক প্রতারণার রিপোর্টও দিন")}
+                aria-label={t("Request Community Broadcast","কমিউনিটি ব্রডকাস্টের অনুরোধ")}
               />
             </div>
-            <p className="scam-box-note">
-              {t("Your review and linked scam alert will be verified by moderators before being published publicly on the scam alerts board.","আপনার রিভিউ ও সংশ্লিষ্ট স্ক্যাম অ্যালার্ট মডারেটরদের দ্বারা যাচাইয়ের পর সবার দেখার জন্য পাবলিক স্ক্যাম বোর্ডে প্রকাশিত হবে।")}
+            <p className="scam-box-note" style={{ color: '#134e4a' }}>
+              {t("Ask TruthHubBD admins to verify and broadcast this review to all community members across Bangladesh.","আপনার এই অভিজ্ঞতাটি জনস্বার্থে যাচাইয়ের পর সারা দেশের সকল সদস্যের কাছে ব্রডকাস্ট নোটিফিকেশন পাঠানোর জন্য অ্যাডমিনকে অনুরোধ করুন।")}
             </p>
-            {scamAlertRequested && (
-              <div style={{ marginTop: 10 }}>
-                <label className="review-label" htmlFor="scam-loss-amount" style={{ fontSize: '12.5px', color: '#9a3412', fontWeight: 700 }}>
-                  {t("Estimated financial loss in BDT (৳) (optional)", "আর্থিক ক্ষতির পরিমাণ (৳) (ঐচ্ছিক)")}
-                </label>
-                <input
-                  id="scam-loss-amount"
-                  type="number"
-                  min="0"
-                  step="any"
-                  placeholder="e.g. 5000"
-                  className="review-input"
-                  value={scamAmount}
-                  onChange={e => setScamAmount(e.target.value)}
-                  style={{ background: '#fff', borderColor: '#fed7aa' }}
-                />
-              </div>
-            )}
           </div>
 
           <label className="review-label" htmlFor="relationship">{t("Relationship disclosure","প্রতিষ্ঠানের সঙ্গে সম্পর্ক")}</label>

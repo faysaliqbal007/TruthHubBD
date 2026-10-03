@@ -46,14 +46,12 @@ class CommunityOverviewController extends Controller
 
     public function scamNationalTally()
     {
-        $since = now()->subDays(30);
-
-        // Keep the public tally within the displayed 30-day window.
+        // Real calculated scam financial loss tally across all published citizen reports
         $cases = ScamCase::publiclyVisible()
             ->whereNotNull('scam_cases.published_at')
+            ->where('scam_cases.created_at', '>=', now()->subDays(30))
             ->where('scam_cases.is_demo', false)
-            ->whereHas('business', fn ($query) => $query->where('is_demo', false))
-            ->where('scam_cases.created_at', '>=', $since);
+            ->whereHas('business', fn ($query) => $query->where('is_demo', false));
         $totalBdt = (float) (clone $cases)->whereNotNull('scam_cases.amount')->sum('scam_cases.amount');
 
         // Dynamic unit formatting based on actual BDT amount

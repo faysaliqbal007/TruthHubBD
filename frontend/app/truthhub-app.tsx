@@ -2482,6 +2482,11 @@ function ScamDetailPage({ openSoon }: { openSoon: (s: string) => void }) {
   const [orgSaving, setOrgSaving] = useState(false);
   const [orgErr, setOrgErr] = useState("");
 
+  const [reporterResponseOpen, setReporterResponseOpen] = useState(false);
+  const [reporterResponseText, setReporterResponseText] = useState("");
+  const [reporterSaving, setReporterSaving] = useState(false);
+  const [reporterErr, setReporterErr] = useState("");
+
   useEffect(() => {
     setIsSaved(alert ? bookmarkService.isAlertSaved(alert.slug || alert.caseCode) : false);
   }, [alert?.slug, alert?.caseCode]);
@@ -2503,8 +2508,8 @@ function ScamDetailPage({ openSoon }: { openSoon: (s: string) => void }) {
     setIsSaved(next);
   };
 
-  const isReporter = !!(user && alert && (alert as any).reporter_user_id === user.id);
-  const isOrgRep = !!(user && alert && (alert as any).business_user_id && (alert as any).business_user_id === user.id);
+  const isReporter = !!(user && alert && ((alert as any).reporter_user_id === user.id || (alert as any).reporterUserId === user.id));
+  const isOrgRep = !!(user && alert && ((alert as any).business_user_id === user.id || (alert as any).business?.user_id === user.id));
   const isStaff = !!(user && ['admin', 'moderator'].includes(user.role));
   const isAdminVerified = !!(alert && (alert as any).adminReviewed);
   const isResolved = !!(alert && alert.rawStatus === 'resolved');
@@ -2520,6 +2525,17 @@ function ScamDetailPage({ openSoon }: { openSoon: (s: string) => void }) {
     } catch (err: any) {
       window.alert(err?.message || 'Failed to toggle alert status.');
       setAlertToggling(false);
+    }
+  };
+
+  const handleDeleteCase = async () => {
+    if (!alert) return;
+    if (!window.confirm(lang === 'bn' ? 'আপনি কি নিশ্চিত যে এই স্ক্যাম কেসটি মুছে ফেলতে চান?' : 'Are you sure you want to permanently delete this scam case?')) return;
+    try {
+      await api(`/admin/scam-cases/${alert.id}`, 'DELETE');
+      navigate('/scam-alerts');
+    } catch (err: any) {
+      window.alert(err?.message || 'Failed to delete case.');
     }
   };
 
@@ -2546,6 +2562,19 @@ function ScamDetailPage({ openSoon }: { openSoon: (s: string) => void }) {
     } catch(e: any) {
       setOrgErr(e?.message || "Failed to submit response.");
       setOrgSaving(false);
+    }
+  };
+
+  const handleReporterResponse = async () => {
+    if (!alert || !reporterResponseText.trim()) return;
+    setReporterSaving(true); setReporterErr("");
+    try {
+      await api(`/scam-cases/${alert.id}/reporter-response`, "POST", { reporter_response: reporterResponseText });
+      setReporterResponseOpen(false);
+      window.location.reload();
+    } catch(e: any) {
+      setReporterErr(e?.message || "Failed to submit update.");
+      setReporterSaving(false);
     }
   };
 
@@ -2611,6 +2640,25 @@ function ScamDetailPage({ openSoon }: { openSoon: (s: string) => void }) {
               {alert.alertEnabled
                 ? (lang === 'bn' ? '🚨 অ্যালার্ট নোটিশ বন্ধ করুন' : 'Turn Alert OFF')
                 : (lang === 'bn' ? '🚨 জরুরি অ্যালার্ট নোটিশ চালু করুন' : '🚨 Turn Alert ON')}
+            </button>
+            <button
+              type="button"
+              onClick={handleDeleteCase}
+              style={{
+                background: '#FEF2F2',
+                color: '#DC2626',
+                border: '1.5px solid #FCA5A5',
+                borderRadius: 8,
+                padding: '8px 14px',
+                fontSize: 12.5,
+                fontWeight: 700,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6
+              }}
+            >
+              {lang === 'bn' ? '🗑 কেস মুছে ফেলুন' : '🗑 Delete Case'}
             </button>
             <Link
               to="/admin?tab=cases"
@@ -2754,6 +2802,21 @@ function ScamDetailPage({ openSoon }: { openSoon: (s: string) => void }) {
             </div>
           )}
 
+          {/* Reporter Public Follow-up / Response Box */}
+          {(alert as any).reporter_update && (
+            <div style={{ background: '#FFFBEB', border: '1px solid #FDE68A', borderLeft: '4px solid #D97706', borderRadius: 10, padding: '16px 20px', margin: '20px 0' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+                <MessageSquare size={18} color="#D97706" />
+                <strong style={{ fontSize: 14, color: '#92400E' }}>
+                  {lang === 'bn' ? 'অভিযোগকারী নাগরিকের আপডেট ও প্রতিক্রিয়া' : 'Citizen Reporter Follow-up & Response'}
+                </strong>
+              </div>
+              <p style={{ margin: 0, fontSize: 13.5, color: '#78350F', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>
+                {(alert as any).reporter_update}
+              </p>
+            </div>
+          )}
+
           {/* Case Disclaimer Stamp */}
           <div style={{ background: '#FFFDF7', border: '1px solid #E2D7C2', borderLeft: '4px solid #D97706', padding: '16px 20px', borderRadius: 8, fontSize: 13, lineHeight: 1.6, color: 'var(--slate-700)', margin: '22px 0' }}>
             <strong style={{ color: 'var(--ink)' }}>{lang === 'bn' ? 'প্ল্যাটফর্মের নোটিশ: ' : 'Platform notice: '}</strong>{lang === 'bn' ? 'রিপোর্ট একটি অভিযোগ, অপরাধের প্রমাণ নয়। মডারেশনের অবস্থা আদালতের রায় নয়। মূল নথি ও লেনদেনের শনাক্তকারী তথ্য প্রকাশ করা হয় না।' : 'A report is an allegation, not a finding of guilt. Moderation status is not a court judgment. Private attachments and transaction identifiers are not displayed publicly.'}
@@ -2805,6 +2868,62 @@ function ScamDetailPage({ openSoon }: { openSoon: (s: string) => void }) {
                           {orgSaving ? (lang === 'bn' ? 'সাবমিট হচ্ছে…' : 'Submitting…') : (lang === 'bn' ? 'জবাব সাবমিট করুন' : 'Submit Response')}
                         </button>
                         <button type="button" onClick={() => setOrgResponseOpen(false)} style={{ background: '#FFFFFF', border: '1px solid #BAE6FD', color: '#0284C7', borderRadius: 8, padding: '10px 16px', fontSize: 13, cursor: 'pointer' }}>
+                          {lang === 'bn' ? 'বাতিল' : 'Cancel'}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Citizen Reporter: Submit Follow-up Response */}
+          {isReporter && !isResolved && (
+            <div style={{ margin: '22px 0', background: '#FFFBEB', border: '1px solid #FDE68A', borderRadius: 10, padding: '18px 20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+                <MessageSquare size={18} color="#D97706" />
+                <strong style={{ fontSize: 14, color: '#92400E' }}>
+                  {lang === 'bn' ? 'আপনার প্রতিক্রিয়া বা ফলো-আপ আপডেট জানান' : 'Post Reporter Follow-up / Response'}
+                </strong>
+              </div>
+              {!(alert as any).reporter_update && !reporterResponseOpen && (
+                <button
+                  type="button"
+                  onClick={() => setReporterResponseOpen(true)}
+                  style={{ background: '#D97706', color: '#FFFFFF', border: 'none', borderRadius: 8, padding: '10px 20px', fontSize: 13, fontWeight: 700, cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 8 }}
+                >
+                  <MessageSquare size={15} /> {lang === 'bn' ? 'প্রতিক্রিয়া বা আপডেট লিখুন' : 'Write Follow-up Response'}
+                </button>
+              )}
+              {((alert as any).reporter_update || reporterResponseOpen) && (
+                <div>
+                  {(alert as any).reporter_update && (
+                    <div style={{ background: '#FEF3C7', borderRadius: 8, padding: '10px 14px', marginBottom: 12, fontSize: 13, color: '#78350F' }}>
+                      <strong>{lang === 'bn' ? 'আপনার বর্তমান প্রতিক্রিয়া:' : 'Your current update:'}</strong>
+                      <p style={{ margin: '6px 0 0', whiteSpace: 'pre-wrap' }}>{(alert as any).reporter_update}</p>
+                    </div>
+                  )}
+                  {!reporterResponseOpen && (
+                    <button type="button" onClick={() => { setReporterResponseText((alert as any).reporter_update || ""); setReporterResponseOpen(true); }} style={{ background: '#FFFFFF', border: '1px solid #FDE68A', color: '#B45309', borderRadius: 8, padding: '8px 16px', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
+                      {lang === 'bn' ? 'প্রতিক্রিয়া আপডেট করুন' : 'Update Your Follow-up'}
+                    </button>
+                  )}
+                  {reporterResponseOpen && (
+                    <div>
+                      <textarea
+                        value={reporterResponseText}
+                        onChange={e => setReporterResponseText(e.target.value)}
+                        rows={4}
+                        placeholder={lang === 'bn' ? 'প্রতিষ্ঠানের জবাবের প্রেক্ষিতে আপনার বক্তব্য, বর্তমান অবস্থা বা সমাধান হয়েছে কি না লিখুন...' : 'Write your response to the organization, current status, or further clarification...'}
+                        style={{ width: '100%', border: '1px solid #FDE68A', borderRadius: 8, padding: '12px', fontSize: 13, lineHeight: 1.6, resize: 'vertical', background: '#FFFFFF', boxSizing: 'border-box' }}
+                      />
+                      {reporterErr && <p style={{ color: '#DC2626', fontSize: 12, margin: '6px 0 0' }}>{reporterErr}</p>}
+                      <div style={{ display: 'flex', gap: 10, marginTop: 12 }}>
+                        <button type="button" disabled={reporterSaving || !reporterResponseText.trim()} onClick={handleReporterResponse} style={{ background: '#D97706', color: '#FFFFFF', border: 'none', borderRadius: 8, padding: '10px 20px', fontSize: 13, fontWeight: 700, cursor: reporterSaving ? 'wait' : 'pointer' }}>
+                          {reporterSaving ? (lang === 'bn' ? 'সাবমিট হচ্ছে…' : 'Submitting…') : (lang === 'bn' ? 'প্রতিক্রিয়া সাবমিট করুন' : 'Submit Follow-up')}
+                        </button>
+                        <button type="button" onClick={() => setReporterResponseOpen(false)} style={{ background: '#FFFFFF', border: '1px solid #FDE68A', color: '#B45309', borderRadius: 8, padding: '10px 16px', fontSize: 13, cursor: 'pointer' }}>
                           {lang === 'bn' ? 'বাতিল' : 'Cancel'}
                         </button>
                       </div>

@@ -59,7 +59,7 @@ class OperationsTest extends TestCase
         $this->actingAs(User::factory()->create(['role'=>'moderator']))->get('/api/moderation/evidence/'.$evidence->id)->assertOk();
         $this->assertDatabaseHas('audit_logs',['action'=>'evidence.accessed','auditable_id'=>$case->id]);
     }
-    public function test_case_followups_are_scoped_and_subject_response_stays_private(): void {
+    public function test_case_followups_are_scoped_and_subject_response_is_public(): void {
         Storage::fake('private'); $reporter=User::factory()->create(); $owner=User::factory()->create(); $b=$this->entity(); $b->update(['user_id'=>$owner->id,'verified'=>true]);
         $case=ScamCase::create(['case_code'=>'FOLLOWUP-1','business_id'=>$b->id,'reporter_user_id'=>$reporter->id,'title'=>'Private title','summary'=>'Private report','status'=>'needs_evidence']);
         $file=\Illuminate\Http\UploadedFile::fake()->create('proof.pdf',10,'application/pdf');
@@ -67,8 +67,8 @@ class OperationsTest extends TestCase
         $this->actingAs($reporter)->postJson('/api/scam-cases/'.$case->id.'/evidence',['evidence'=>[$file]])->assertCreated();
         $this->assertSame('under_review',$case->fresh()->status);
         $case->update(['status'=>'published','published_at'=>now(),'public_summary'=>'Public summary']);
-        $this->postJson('/api/scam-cases/'.$case->id.'/subject-response',['subject_response'=>'Private response'])->assertForbidden();
-        $this->actingAs($owner)->postJson('/api/scam-cases/'.$case->id.'/subject-response',['subject_response'=>'Private response'])->assertOk();
-        $this->getJson('/api/scam-cases/FOLLOWUP-1')->assertJsonPath('data.status','disputed')->assertDontSee('Private response');
+        $this->postJson('/api/scam-cases/'.$case->id.'/subject-response',['subject_response'=>'Public response'])->assertForbidden();
+        $this->actingAs($owner)->postJson('/api/scam-cases/'.$case->id.'/subject-response',['subject_response'=>'Public response'])->assertOk();
+        $this->getJson('/api/scam-cases/FOLLOWUP-1')->assertJsonPath('data.status','disputed')->assertSee('Public response');
     }
 }

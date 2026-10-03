@@ -50,7 +50,7 @@ class ScamCaseController extends Controller
         if ($request->filled('period') && $request->period !== 'all') $query->where('published_at','>=',now()->subDays((int)$request->period));
         if ($request->filled('q')) $query->where(function ($q) use ($request) { $q->where('case_code', 'like', '%' . $request->q . '%')->orWhere('public_summary','like','%'.$request->q.'%')->orWhereHas('business', fn ($b) => $b->where('name', 'like', '%' . $request->q . '%')->orWhere('category','like','%'.$request->q.'%')); });
         $direction = ($request->status !== 'trending' && $request->sort !== 'trending') && $request->sort === 'oldest' ? 'asc' : 'desc';
-        return response()->json(['success' => true, 'data' => $query->orderBy('published_at',$direction)->orderBy('id',$direction)->paginate(20)->through(fn ($case) => $this->publicCase($case))]);
+        return response()->json(['success' => true, 'data' => $query->orderBy('published_at',$direction)->orderBy('id',$direction)->paginate(20)->through(fn ($case) => $this->publicCase($case, false))]);
     }
 
     public function show(string $caseCode)
@@ -64,7 +64,7 @@ class ScamCaseController extends Controller
                 }
             })
             ->firstOrFail();
-        return response()->json(['success' => true, 'data' => $this->publicCase($case)]);
+        return response()->json(['success' => true, 'data' => $this->publicCase($case, true)]);
     }
 
     public function businessCases(Request $request, string $slug)
@@ -73,13 +73,13 @@ class ScamCaseController extends Controller
         $business = Business::publicDirectory()->where('slug', $slug)->firstOrFail();
         $cases = $business->cases()->with(['business','review'])->publiclyVisible()
             ->orderByDesc('published_at')->orderByDesc('id')->paginate(20);
-        return response()->json(['success'=>true,'data'=>$cases->through(fn ($case) => $this->publicCase($case))]);
+        return response()->json(['success'=>true,'data'=>$cases->through(fn ($case) => $this->publicCase($case, false))]);
     }
 
-    private function publicCase(ScamCase $case): array
+    private function publicCase(ScamCase $case, bool $full = true): array
     {
         $review = $case->review;
-        return [
+        $data = [
             'id' => $case->id,
             'case_code' => $case->case_code,
             'title' => 'Case concerning ' . $case->business->name,
@@ -108,11 +108,22 @@ class ScamCaseController extends Controller
                 'verified' => (bool) $case->business->verified,
                 'image' => $case->business->image ?: (\App\Models\BusinessProfileImage::where('business_id', $case->business->id)->whereIn('status', ['approved', 'pending'])->exists() ? '/api/businesses/' . $case->business->id . '/profile-image' : null)
             ],
+            'amount' => $case->amount,
             'public_video_urls' => PublicVideoLinks::visible($case->public_video_urls),
             'video_accessibility' => 'not_verified',
             'linked_review' => $review && $review->status === 'published' ? ['id' => $review->id, 'title' => $review->title, 'url' => '/reviews/' . $review->id] : null,
             'disclaimer' => 'Citizen report hosted on TruthHubBD. Platform moderation verifies factual submissions.'
         ];
+
+        if ($full) {
+            $data['subject_response'] = $case->subject_response;
+            $data['reporter_update'] = $case->reporter_update;
+            $data['resolution_note'] = $case->resolution_note;
+            $data['is_reporter'] = auth('sanctum')->check() && auth('sanctum')->id() === $case->reporter_user_id;
+            $data['is_business_owner'] = auth('sanctum')->check() && auth('sanctum')->id() === $case->business->user_id;
+        }
+
+        return $data;
     }
 
     public function store(Request $request, Business $business)
@@ -126,7 +137,6 @@ class ScamCaseController extends Controller
             'title' => 'required|string|max:255',
             'summary' => 'required|string|max:5000',
             'amount' => 'nullable|numeric|min:0',
-            'review_id' => 'nullable|exists:reviews,id',
             'evidence' => 'nullable|array|max:20',
             'evidence.*' => 'file|mimes:jpg,jpeg,png,webp,pdf|max:10240',
             'alert_requested' => 'nullable|boolean'
@@ -135,18 +145,7 @@ class ScamCaseController extends Controller
         $storedPaths = [];
         try {
             $case = \DB::transaction(function () use ($request, $business, $data, &$storedPaths) {
-                $review = null;
-                if (!empty($data['review_id'])) {
-                    $review = Review::whereKey($data['review_id'])->lockForUpdate()->firstOrFail();
-                    abort_unless($review->business_id === $business->id && $review->user_id === $request->user()->id, 422, 'Choose your own review for this organization.');
-                    abort_if($review->scamCase()->exists(), 409, 'This review already has a linked case. Add evidence or use its appeal workflow.');
-                    abort_unless(in_array($review->status, ['published', 'under_review'], true), 409, 'This review cannot be linked to a new case.');
-                    \DB::table('review_versions')->insert(['review_id' => $review->id, 'editor_user_id' => $request->user()->id, 'snapshot' => json_encode($review->only(['title', 'body', 'rating', 'status'])), 'created_at' => now()]);
-                    $review->update(['status' => 'under_review']);
-                    $business->update(['rating' => round($business->reviews()->where('status', 'published')->avg('rating') ?? 0, 1), 'review_count' => $business->reviews()->where('status', 'published')->count()]);
-                }
-
-                // Submitted citizen report awaiting review
+                // Public citizen report
                 $case = ScamCase::create([
                     'incoming_video_urls' => PublicVideoLinks::visible($data['public_video_urls'] ?? []),
                     'public_video_consent' => $request->boolean('public_video_consent'),
@@ -154,13 +153,13 @@ class ScamCaseController extends Controller
                     'incident_date' => $data['incident_date'] ?? null,
                     'case_code' => 'THB-' . now()->format('Y') . '-' . strtoupper(Str::random(6)),
                     'business_id' => $business->id,
-                    'review_id' => $review?->id,
+                    'review_id' => null, // Completely decoupled from reviews
                     'reporter_user_id' => $request->user()->id,
                     'title' => $data['title'],
                     'summary' => $data['summary'],
-                    'public_summary' => null,
-                    'status' => 'submitted',
-                    'published_at' => null,
+                    'public_summary' => $data['summary'],
+                    'status' => 'published',
+                    'published_at' => now(),
                     'amount' => $data['amount'] ?? null,
                     'alert_requested' => $request->boolean('alert_requested'),
                 ]);
@@ -169,20 +168,19 @@ class ScamCaseController extends Controller
                 foreach ($request->file('evidence', []) as $index => $file) {
                     $mime = $file->getMimeType();
                     $ext = strtolower($file->getClientOriginalExtension());
-                    $path = $file->store('scam-evidence', 'private');
-                    if (!$path) throw new \RuntimeException('Evidence could not be stored.');
-                    $storedPaths[] = $path;
+                    $filename = 'scam-' . $case->id . '-' . ($index + 1) . '-' . Str::random(8) . '.' . $ext;
+                    $storedPath = $file->storeAs('scam-media', $filename, 'public');
+                    if (!$storedPath) throw new \RuntimeException('Evidence could not be stored.');
+                    $storedPaths[] = $storedPath;
+
                     $case->evidence()->create([
                         'uploaded_by_user_id' => $request->user()->id,
-                        'storage_path' => $path,
+                        'storage_path' => $storedPath,
                         'mime_type' => $mime,
-                        'is_private' => true
+                        'is_private' => false
                     ]);
 
-                    // Store images in public storage so they can be viewed in media gallery
                     if (str_starts_with($mime, 'image/') || in_array($ext, ['jpg', 'jpeg', 'png', 'webp'])) {
-                        $filename = 'scam-' . $case->id . '-' . ($index + 1) . '-' . Str::random(8) . '.' . $ext;
-                        $file->storeAs('scam-media', $filename, 'public');
                         $publicMedia[] = [
                             'url' => '/storage/scam-media/' . $filename,
                             'alt' => 'Evidence photo ' . ($index + 1) . ' for case ' . $case->case_code,
@@ -202,7 +200,7 @@ class ScamCaseController extends Controller
                 \DB::table('scam_case_events')->insert([
                     'scam_case_id' => $case->id,
                     'status' => 'published',
-                    'summary' => 'Case published on TruthHubBD.',
+                    'summary' => 'Case published publicly on TruthHubBD.',
                     'is_public' => true,
                     'created_at' => now()
                 ]);
@@ -220,15 +218,30 @@ class ScamCaseController extends Controller
                     ]);
                 }
 
+                // If user requested scam alert broadcast, notify staff
+                if ($case->alert_requested) {
+                    $staffIds = \DB::table('users')->whereIn('role', ['admin', 'moderator'])->pluck('id');
+                    foreach ($staffIds as $staffId) {
+                        \DB::table('notifications')->insert([
+                            'user_id' => $staffId,
+                            'type' => 'admin_scam_alert_request',
+                            'title' => 'Scam Alert Broadcast Request',
+                            'body' => $request->user()->name . ' requested an urgent scam alert broadcast for case ' . $case->case_code . ' (' . $business->name . ').',
+                            'url' => '/scam-alerts/' . $case->case_code,
+                            'created_at' => now(),
+                            'updated_at' => now()
+                        ]);
+                    }
+                }
+
                 $this->audit($request, 'scam_case.submitted', $case);
                 return $case;
             });
         } catch (\Throwable $error) {
-            \Illuminate\Support\Facades\Storage::disk('private')->delete($storedPaths);
-            if ($error instanceof \Illuminate\Database\QueryException && !empty($data['review_id']) && ScamCase::where('review_id', $data['review_id'])->exists()) abort(409, 'This review already has a linked case.');
+            \Illuminate\Support\Facades\Storage::disk('public')->delete($storedPaths);
             throw $error;
         }
-        return response()->json(['success' => true, 'data' => $case->fresh()->toArray() + ['linked_review' => $case->review_id ? ['id' => $case->review_id, 'url' => '/activity'] : null]], 201);
+        return response()->json(['success' => true, 'data' => $this->publicCase($case->fresh())], 201);
     }
 
     public function queue(Request $request)
@@ -349,6 +362,48 @@ class ScamCaseController extends Controller
         }
 
         return response()->json(['success' => true, 'message' => 'Official response and resolution details submitted successfully.']);
+    }
+
+    public function reporterResponse(Request $request, ScamCase $scamCase)
+    {
+        $isReporter = ($scamCase->reporter_user_id === $request->user()->id);
+        $isAdmin = in_array($request->user()->role, ['admin', 'moderator'], true);
+        abort_unless($isReporter || $isAdmin, 403, 'Only the citizen reporter or an administrator can post a case update.');
+
+        $data = $request->validate([
+            'reporter_response' => 'required|string|max:5000',
+        ]);
+
+        \DB::transaction(function () use ($request, $scamCase, $data) {
+            $scamCase->update([
+                'reporter_update' => $data['reporter_response'],
+            ]);
+
+            \DB::table('scam_case_events')->insert([
+                'scam_case_id' => $scamCase->id,
+                'status' => $scamCase->status,
+                'summary' => 'Citizen reporter update: ' . Str::limit($data['reporter_response'], 120),
+                'is_public' => true,
+                'created_at' => now(),
+            ]);
+
+            // Notify organization if it has an assigned representative user
+            if ($scamCase->business->user_id) {
+                \DB::table('notifications')->insert([
+                    'user_id' => $scamCase->business->user_id,
+                    'type' => 'case_update',
+                    'title' => 'Reporter posted an update',
+                    'body' => 'Citizen reporter added a response/update on case ' . $scamCase->case_code . '.',
+                    'url' => '/scam-alerts/' . $scamCase->case_code,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            $this->audit($request, 'scam_case.reporter_responded', $scamCase);
+        });
+
+        return response()->json(['success' => true, 'message' => 'Your update has been published successfully.', 'data' => $this->publicCase($scamCase->fresh())]);
     }
 
     public function resolve(Request $request, ScamCase $scamCase)

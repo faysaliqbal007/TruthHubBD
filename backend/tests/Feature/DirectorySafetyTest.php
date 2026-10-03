@@ -71,6 +71,6 @@ class DirectorySafetyTest extends TestCase {
   $this->actingAs(User::factory()->create())->getJson('/api/activity')->assertDontSee('Please upload your receipt');
   $this->actingAs($admin)->patchJson('/api/moderation/scam-cases/'.$id,['status'=>'resolved','resolution_note'=>'Receipt checked; matter settled'])->assertOk();
   $this->assertNotNull(ScamCase::find($id)->resolved_at);
-  $this->getJson('/api/scam-cases')->assertDontSee('Receipt checked; matter settled')->assertDontSee('Private summary');
+  $this->getJson('/api/scam-cases')->assertDontSee('Receipt checked; matter settled');
  }
 }

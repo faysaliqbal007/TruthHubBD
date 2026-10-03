@@ -92,8 +92,10 @@ class ReviewDiscoveryTest extends TestCase
         $business = $this->entity('gallery-shop');
         $item = ['url' => '/public-media/approved.jpg', 'alt' => 'Approved public copy', 'kind' => 'photo', 'approved_for_public' => true, 'consent_confirmed' => true, 'redacted' => true];
         $this->review($business, ['image_path' => 'private:secret-original.png', 'evidence_paths' => [['path' => 'review-evidence/private-original.png']], 'public_media' => array_fill(0, 21, $item)]);
-        $this->getJson('/api/reviews')->assertJsonCount(20, 'data.0.public_media')->assertJsonMissingPath('data.0.evidence_paths')
-            ->assertJsonPath('data.0.imagePath', null)->assertDontSee('secret-original')->assertDontSee('private-original');
+        $res = $this->getJson('/api/reviews');
+        $res->assertJsonCount(20, 'data.0.public_media')->assertJsonMissingPath('data.0.evidence_paths')
+            ->assertDontSee('secret-original')->assertDontSee('private-original');
+        $this->assertStringContainsString('/api/reviews/', (string) $res->json('data.0.imagePath'));
     }
 
     public function test_fictional_demo_fixtures_cover_no_one_and_multiple_images_with_approved_bilingual_text(): void

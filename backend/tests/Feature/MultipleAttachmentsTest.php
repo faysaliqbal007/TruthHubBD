@@ -29,12 +29,13 @@ class MultipleAttachmentsTest extends TestCase {
   $this->post('/api/businesses/'.$b->id.'/reviews',$fields+['evidence'=>[UploadedFile::fake()->create('bad.exe',10,'application/x-msdownload')]],['Accept'=>'application/json'])->assertUnprocessable();
   $this->assertDatabaseCount('reviews',0);$this->assertSame($before,Storage::disk('private')->allFiles());
  }
- public function test_scam_report_accepts_multiple_images_and_linked_review_copies_all_attachments():void {
+ public function test_scam_report_accepts_multiple_images_and_reviews_remain_strictly_decoupled():void {
   Storage::fake('private');$b=$this->entity();$this->actingAs(User::factory()->create());
   $this->post('/api/businesses/'.$b->id.'/scam-cases',['title'=>'Concern','summary'=>'Description','evidence'=>$this->images(3)],['Accept'=>'application/json'])->assertCreated();
   $this->assertDatabaseCount('scam_case_evidence',3);
   $this->post('/api/businesses/'.$b->id.'/reviews',['rating'=>2,'title'=>'Concern','body'=>'Description','request_scam_alert'=>1,'evidence'=>$this->images(2)],['Accept'=>'application/json'])->assertCreated();
-  $this->assertDatabaseCount('scam_case_evidence',5);
+  // Reviews must not create scam case evidence
+  $this->assertDatabaseCount('scam_case_evidence',3);
  }
  public function test_twenty_review_images_are_private_and_combined_legacy_upload_limit_is_enforced():void {
   Storage::fake('private');$b=$this->entity();$this->actingAs(User::factory()->create());$fields=['rating'=>4,'title'=>'Experience','body'=>'Details'];

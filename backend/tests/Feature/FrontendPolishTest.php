@@ -28,8 +28,8 @@ class FrontendPolishTest extends TestCase {
   $this->getJson('/api/businesses?min_rating=4')->assertOk()->assertJsonPath('total',1)->assertJsonPath('data.0.rating',4)->assertJsonPath('data.0.reviewCount',1)->assertJsonCount(0,'data.0.reviews');
   $this->getJson('/api/businesses?min_rating=4.5')->assertOk()->assertJsonPath('total',0);
  }
- public function test_alert_filters_use_public_business_location_without_private_amounts():void{
+ public function test_alert_filters_use_public_business_location_with_public_amounts():void{
   $u=User::factory()->create();foreach(['Dhaka','Sylhet'] as $city){$b=$this->entity(strtolower($city),$city);ScamCase::create(['case_code'=>$city,'business_id'=>$b->id,'reporter_user_id'=>$u->id,'title'=>'Private','summary'=>'Private details','amount'=>12500,'public_summary'=>'Approved summary','status'=>'published','published_at'=>now()]);}
-  $this->getJson('/api/scam-cases?location=Sylhet')->assertOk()->assertJsonPath('data.total',1)->assertJsonPath('data.data.0.business.location','Sylhet')->assertJsonMissingPath('data.data.0.amount');
+  $this->getJson('/api/scam-cases?location=Sylhet')->assertOk()->assertJsonPath('data.total',1)->assertJsonPath('data.data.0.business.location','Sylhet')->assertJsonPath('data.data.0.amount','12500.00');
  }
 }

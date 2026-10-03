@@ -19,7 +19,7 @@ class ReviewedCaseAlertsTest extends TestCase
     {
         $business = Business::create(['name'=>'Fictional alert test organization','slug'=>'alert-test-'.Business::count(),'category'=>'Products','status'=>'approved']);
         $reporter = User::factory()->create();
-        return ScamCase::create($extra + ['business_id'=>$business->id,'reporter_user_id'=>$reporter->id,'case_code'=>'ALERT-'.ScamCase::count(),'title'=>'private-title-marker','summary'=>'private-summary-marker','subject_response'=>'private-response-marker','decision_rationale'=>'private-rationale-marker','status'=>'published','published_at'=>now(),'public_summary'=>'An approved redacted summary.']);
+        return ScamCase::create($extra + ['business_id'=>$business->id,'reporter_user_id'=>$reporter->id,'case_code'=>'ALERT-'.ScamCase::count(),'title'=>'private-title-marker','summary'=>'private-summary-marker','decision_rationale'=>'private-rationale-marker','status'=>'published','published_at'=>now(),'public_summary'=>'An approved redacted summary.']);
     }
 
     private function approve(ScamCase $case, array $extra = [])

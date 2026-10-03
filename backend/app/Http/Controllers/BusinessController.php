@@ -347,6 +347,10 @@ class BusinessController extends Controller
         try {
             \DB::transaction(function () use ($request, $business, $validated, &$storedImagePath, &$profileImage) {
                 $profileImage = \App\Support\OrganizationProfileImage::quarantine($request, $business, $storedImagePath);
+                if ($profileImage) {
+                    $profileImage->update(['status' => 'approved']);
+                    $business->image = '/api/businesses/' . $business->id . '/profile-image';
+                }
                 if(isset($validated['location']) && $validated['location'] !== $business->location) {$business->google_place_id=null;$business->latitude=null;$business->longitude=null;}
                 $business->update(array_filter($validated, fn ($value) => $value !== null));
             });
@@ -358,7 +362,7 @@ class BusinessController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Business profile updated successfully in the database!',
-            'data' => $this->formatBusiness($business->fresh('reviews')) + ['profileImageStatus' => $profileImage ? 'pending' : null],
+            'data' => $this->formatBusiness($business->fresh('reviews')) + ['profileImageStatus' => $profileImage ? 'approved' : null],
         ]);
     }
 
@@ -387,7 +391,8 @@ class BusinessController extends Controller
             'comm_rating' => 'nullable|integer|min:1|max:5',
             'title' => 'required|string|max:255',
             'body' => 'required|string|max:5000',
-            'request_scam_alert' => 'sometimes|boolean',
+            'broadcast_requested' => 'sometimes|boolean',
+            'request_scam_alert' => 'sometimes|boolean', // legacy compatibility
             'experience_date' => 'nullable|date|before_or_equal:today',
             'relationship_disclosure' => 'nullable|in:none,employee,competitor,incentive,family,other',
             'location' => 'nullable|string|max:255',
@@ -412,10 +417,9 @@ class BusinessController extends Controller
         }
         $imagePath = $storedPaths ? 'private:' . $storedPaths[0] : null;
 
-        // A signed-in identity is the source of authorship. Accepting a posted
-        // author name here would let one account impersonate another reviewer.
         $authorName = $user->name;
         $initials = strtoupper(substr($authorName, 0, 2));
+        $broadcastRequested = $request->boolean('broadcast_requested');
 
         $review = Review::create([
             'business_id' => $business->id,
@@ -432,7 +436,8 @@ class BusinessController extends Controller
             'experience_date' => $validated['experience_date'] ?? null,
             'disclaimer' => 'Independent Customer Review',
             'relationship_disclosure' => $validated['relationship_disclosure'] ?? 'none',
-            'status' => $request->boolean('request_scam_alert') ? 'under_review' : 'published',
+            'status' => 'published', // Always published immediately
+            'broadcast_requested' => $broadcastRequested,
             'verified_experience' => false,
             'location' => $validated['location'] ?? null,
             'facebook_url' => $validated['facebook_url'] ?? null,
@@ -442,23 +447,19 @@ class BusinessController extends Controller
             'public_video_consent' => $request->boolean('public_video_consent'),
         ]);
 
-        if ($request->boolean('request_scam_alert')) {
-            $case = \App\Models\ScamCase::create([
-                'case_code' => 'THB-'.now()->format('Y').'-'.strtoupper(Str::random(8)),
-                'business_id' => $business->id,
-                'review_id' => $review->id,
-                'reporter_user_id' => $user->id,
-                'title' => $review->title,
-                'summary' => $review->body,
-                'public_summary' => null,
-                'status' => 'submitted',
-                'published_at' => null,
-                'amount' => $request->filled('amount') ? (float)$request->input('amount') : null,
-                'incoming_video_urls' => $review->public_video_urls,
-                'public_video_consent' => $review->public_video_consent,
-            ]);
-            foreach ($evidencePaths as $evidence) $case->evidence()->create(['uploaded_by_user_id' => $user->id, 'storage_path' => $evidence['path'], 'mime_type' => $evidence['mime'], 'is_private' => true]);
-            \DB::table('audit_logs')->insert(['actor_user_id' => $user->id, 'action' => 'scam_case.submitted', 'auditable_type' => \App\Models\ScamCase::class, 'auditable_id' => $case->id, 'created_at' => now(), 'updated_at' => now()]);
+        if ($broadcastRequested) {
+            $staffIds = \DB::table('users')->whereIn('role', ['admin', 'moderator'])->pluck('id');
+            foreach ($staffIds as $staffId) {
+                \DB::table('notifications')->insert([
+                    'user_id' => $staffId,
+                    'type' => 'admin_review_broadcast_request',
+                    'title' => 'Review Broadcast Request',
+                    'body' => $user->name . ' requested a community broadcast for their review on ' . $business->name . '.',
+                    'url' => '/reviews/' . $review->id,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+            }
         }
 
         // Recalculate average rating and count
@@ -475,11 +476,12 @@ class BusinessController extends Controller
             throw $error;
         }
 
-        $case = $review->scamCase;
         return response()->json([
             'success' => true,
-            'message' => $case ? 'Review and linked case sent privately for moderation.' : 'Review submitted successfully!',
-            'data' => $review->toArray() + ['linked_case'=>$case ? ['case_code'=>$case->case_code,'status'=>$case->status,'url'=>'/activity'] : null],
+            'message' => $review->broadcast_requested
+                ? 'Review submitted and community broadcast requested from moderators!'
+                : 'Review submitted successfully!',
+            'data' => $review->toArray(),
         ], 201);
     }
 }

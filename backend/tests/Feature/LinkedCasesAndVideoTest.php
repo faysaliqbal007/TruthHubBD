@@ -31,84 +31,13 @@ class LinkedCasesAndVideoTest extends TestCase
         return array_replace(['status'=>'published','public_summary'=>'Redacted platform-reviewed report.','decision_rationale'=>'Private screening rationale marker'], $overrides);
     }
 
-    public function test_flagged_review_returns_its_private_case_to_author_and_is_withheld_from_public_profiles(): void
+    public function test_reviews_and_scam_cases_are_strictly_decoupled(): void
     {
         $business=$this->organization();
         $response=$this->actingAs($this->user(),'sanctum')->postJson('/api/businesses/'.$business->id.'/reviews',$this->reviewPayload(['request_scam_alert'=>true]));
-        $response->assertCreated()->assertJsonPath('data.status','under_review')->assertJsonPath('data.linked_case.status','submitted');
-        $case=ScamCase::firstOrFail();
-        $response->assertJsonPath('data.linked_case.case_code',$case->case_code);
-        $this->getJson('/api/reviews/'.$case->review_id)->assertNotFound();
-        $this->getJson('/api/businesses/'.$business->slug)->assertOk()->assertJsonCount(0,'data.reviews')->assertDontSee($case->case_code);
-        $this->getJson('/api/businesses/'.$business->slug.'/scam-cases')->assertOk()->assertJsonCount(0,'data.data');
-        $this->getJson('/api/scam-cases/'.$case->case_code)->assertNotFound();
-        $this->getJson('/api/reviews')->assertDontSee('Private initial allegation marker');
-    }
-
-    public function test_two_way_public_links_require_each_item_to_be_visible_and_withdrawal_does_not_rewrite_review(): void
-    {
-        $business=$this->organization();
-        $this->actingAs($this->user(),'sanctum')->postJson('/api/businesses/'.$business->id.'/reviews',$this->reviewPayload(['request_scam_alert'=>true]))->assertCreated();
-        $case=ScamCase::firstOrFail();
-        $url='/api/moderation/scam-cases/'.$case->id;
-        $this->actingAs($this->user('admin'),'sanctum')->patchJson($url,$this->publishPayload())->assertOk();
-        $this->getJson('/api/scam-cases/'.$case->case_code)->assertOk()->assertJsonPath('data.linked_review',null)->assertDontSee('Private initial allegation marker')->assertDontSee('Private screening rationale marker');
-        $this->getJson('/api/businesses/'.$business->slug.'/scam-cases')->assertJsonCount(1,'data.data');
-        $this->patchJson($url,$this->publishPayload(['publish_linked_review'=>true]))->assertUnprocessable();
-        $this->patchJson($url,$this->publishPayload(['publish_linked_review'=>true,'linked_review_public_title'=>'Reviewed title','linked_review_public_body'=>'Redacted reviewed experience.','linked_review_decision_rationale'=>'Private linked review rationale']))->assertOk();
-        $this->getJson('/api/reviews/'.$case->review_id)->assertOk()->assertJsonPath('data.linked_case.case_code',$case->case_code)->assertJsonPath('data.body','Redacted reviewed experience.');
-        $this->getJson('/api/scam-cases/'.$case->case_code)->assertJsonPath('data.linked_review.id',$case->review_id);
-        $this->assertDatabaseHas('review_versions',['review_id'=>$case->review_id]);
-        $this->patchJson($url,['status'=>'restricted','decision_rationale'=>'Withdraw public case'])->assertOk();
-        $this->getJson('/api/reviews/'.$case->review_id)->assertOk()->assertJsonPath('data.linked_case',null)->assertJsonPath('data.body','Redacted reviewed experience.');
-        $this->getJson('/api/scam-cases/'.$case->case_code)->assertNotFound();
-        $this->assertDatabaseHas('reviews',['id'=>$case->review_id,'status'=>'published','body'=>'Redacted reviewed experience.']);
-    }
-
-    public function test_admin_publication_requires_private_rationale_and_cannot_bypass_linked_review_screening(): void
-    {
-        $business=$this->organization();
-        $this->actingAs($this->user(),'sanctum')->postJson('/api/businesses/'.$business->id.'/reviews',$this->reviewPayload(['request_scam_alert'=>true]))->assertCreated();
-        $case=ScamCase::firstOrFail();
-        $url='/api/moderation/scam-cases/'.$case->id;
-        $this->patchJson($url,$this->publishPayload())->assertForbidden();
-        $this->actingAs($this->user('moderator'),'sanctum')->patchJson($url,$this->publishPayload())->assertForbidden();
-        $this->patchJson('/api/moderation/content/review/'.$case->review_id,['status'=>'published','reason'=>'Bypass'])->assertUnprocessable();
-        $this->actingAs($this->user('admin'),'sanctum')->patchJson($url,['status'=>'published','public_summary'=>'Explicit public summary'])->assertUnprocessable();
-        $this->patchJson($url,$this->publishPayload(['decision_rationale'=>'   ']))->assertUnprocessable();
-        $this->patchJson($url,$this->publishPayload(['public_summary'=>'   ']))->assertUnprocessable();
-        $this->patchJson($url,['status'=>'published','public_summary'=>'Explicit public summary','note'=>'Private note retained'])->assertOk();
-        $this->assertDatabaseHas('scam_cases',['id'=>$case->id,'decision_rationale'=>'Private note retained']);
-        $this->assertStringContainsString('Private note retained',\DB::table('audit_logs')->where('action','scam_case.published')->value('metadata'));
-    }
-
-    public function test_public_review_does_not_disclose_a_pending_linked_case_or_its_video_urls(): void
-    {
-        $business=$this->organization();$author=$this->user();
-        $review=Review::create(['business_id'=>$business->id,'user_id'=>$author->id,'author'=>'Test author','rating'=>3,'title'=>'Public experience','body'=>'Public experience','status'=>'published','public_video_urls'=>['https://vimeo.com/12345'],'public_video_consent'=>true]);
-        ScamCase::create(['case_code'=>'PRIVATE-CASE-MARKER','business_id'=>$business->id,'review_id'=>$review->id,'reporter_user_id'=>$author->id,'title'=>'Private allegation','summary'=>'Private allegation','incoming_video_urls'=>['https://vimeo.com/12345'],'public_video_consent'=>true,'status'=>'under_review']);
-        $this->getJson('/api/reviews/'.$review->id)->assertOk()->assertJsonPath('data.linked_case',null)->assertJsonCount(0,'data.public_video_urls')->assertDontSee('PRIVATE-CASE-MARKER')->assertDontSee('vimeo.com');
-        $this->getJson('/api/moderation/scam-cases')->assertUnauthorized();
-        $this->actingAs($this->user(),'sanctum')->getJson('/api/moderation/scam-cases')->assertForbidden();
-    }
-
-    public function test_duplicate_case_and_foreign_or_cross_organization_review_links_are_rejected(): void
-    {
-        $business=$this->organization();$otherBusiness=$this->organization('other');$author=$this->user();
-        $review=Review::create(['business_id'=>$business->id,'user_id'=>$author->id,'author'=>'Test author','rating'=>3,'title'=>'Experience','body'=>'Experience','status'=>'published']);
-        $payload=['title'=>'Private report','summary'=>'Private report summary','review_id'=>$review->id];
-        $this->actingAs($this->user(),'sanctum')->postJson('/api/businesses/'.$business->id.'/scam-cases',$payload)->assertUnprocessable();
-        $this->actingAs($author,'sanctum')->postJson('/api/businesses/'.$otherBusiness->id.'/scam-cases',$payload)->assertUnprocessable();
-        $this->postJson('/api/businesses/'.$business->id.'/scam-cases',$payload)->assertCreated();
-        $this->postJson('/api/businesses/'.$business->id.'/scam-cases',$payload)->assertStatus(409);
-        $this->assertDatabaseCount('scam_cases',1);
-        $this->assertSame('under_review',$review->fresh()->status);
-        try {
-            ScamCase::create(['business_id'=>$business->id,'review_id'=>$review->id,'reporter_user_id'=>$author->id,'case_code'=>'DUPLICATE','title'=>'Duplicate','summary'=>'Duplicate']);
-            $this->fail('Unique review constraint did not reject the duplicate.');
-        } catch (QueryException $error) {
-            $this->assertStringContainsString('UNIQUE',$error->getMessage());
-        }
+        $response->assertCreated()->assertJsonPath('data.status','published');
+        $this->assertDatabaseCount('scam_cases', 0);
+        $this->getJson('/api/businesses/'.$business->slug)->assertOk()->assertJsonCount(1,'data.reviews');
     }
 
     public function test_video_links_are_normalized_only_published_with_review_consent_and_never_fetched(): void
@@ -153,20 +82,6 @@ class LinkedCasesAndVideoTest extends TestCase
         $this->getJson('/api/scam-cases/'.$second->json('data.case_code'))->assertJsonCount(1,'data.public_video_urls')->assertJsonPath('data.public_video_urls.0','https://vimeo.com/12345')->assertDontSee('dQw4w9WgXc')->assertDontSee('Private screening rationale marker');
     }
 
-    public function test_linked_review_edit_requires_new_screening_and_case_decisions_preserve_review_content(): void
-    {
-        $business=$this->organization();$author=$this->user();
-        $this->actingAs($author,'sanctum')->postJson('/api/businesses/'.$business->id.'/reviews',$this->reviewPayload(['request_scam_alert'=>true,'public_video_urls'=>['https://vimeo.com/12345'],'public_video_consent'=>true]))->assertCreated();
-        $case=ScamCase::firstOrFail();
-        $this->actingAs($this->user('admin'),'sanctum')->patchJson('/api/moderation/scam-cases/'.$case->id,$this->publishPayload(['publish_linked_review'=>true,'linked_review_public_title'=>'Public title','linked_review_public_body'=>'Public body','linked_review_decision_rationale'=>'Review checked']))->assertOk();
-        $this->getJson('/api/reviews/'.$case->review_id)->assertJsonCount(0,'data.public_video_urls');
-        $this->actingAs($author,'sanctum')->patchJson('/api/reviews/'.$case->review_id,['title'=>'New private title','body'=>'New private allegation','rating'=>1,'public_video_urls'=>['https://vimeo.com/12345'],'public_video_consent'=>true])->assertOk();
-        $this->getJson('/api/reviews/'.$case->review_id)->assertNotFound();
-        $this->getJson('/api/scam-cases/'.$case->case_code)->assertJsonPath('data.linked_review',null)->assertDontSee('New private allegation');
-        $this->actingAs($this->user('admin'),'sanctum')->patchJson('/api/moderation/scam-cases/'.$case->id,['status'=>'not_enough_evidence','decision_rationale'=>'Evidence insufficient'])->assertOk();
-        $this->assertSame('New private allegation',Review::findOrFail($case->review_id)->body);
-        $this->assertSame('under_review',Review::findOrFail($case->review_id)->status);
-    }
 
     public function test_organization_cases_are_paginated_scoped_and_exclude_never_approved_or_restricted_cases(): void
     {

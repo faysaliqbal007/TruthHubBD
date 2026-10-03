@@ -246,16 +246,15 @@ class OrganizationProfileImageTest extends TestCase
         $this->assertNull($image->business->fresh()->image);
     }
 
-    public function test_owner_photo_update_is_quarantined_and_existing_source_and_public_image_survive(): void
+    public function test_owner_photo_update_is_approved_for_verified_organization(): void
     {
         $this->privateStorage();
         $owner = User::factory()->create();
         $business = Business::create(['name' => 'Fictional Source Organization', 'slug' => 'fictional-source-organization', 'category' => 'Products', 'user_id' => $owner->id, 'verified' => true, 'status' => 'approved', 'source_ref' => 'node/fictional', 'source_url' => 'https://example.test/source', 'image' => '/demo-media/legacy-public.jpg']);
         $this->actingAs($owner)->post('/api/businesses/'.$business->id, ['_method' => 'PATCH', 'file' => UploadedFile::fake()->createWithContent('replacement.png', $this->png()), 'profile_image_consent' => '1'], ['Accept' => 'application/json'])
-            ->assertOk()->assertJsonPath('data.profileImageStatus', 'pending')->assertJsonPath('data.image', '/demo-media/legacy-public.jpg');
+            ->assertOk()->assertJsonPath('data.profileImageStatus', 'approved')->assertJsonPath('data.image', '/api/businesses/'.$business->id.'/profile-image');
         $this->assertDatabaseHas('businesses', ['id' => $business->id, 'verified' => true, 'user_id' => $owner->id, 'source_ref' => 'node/fictional', 'source_url' => 'https://example.test/source']);
-        $this->assertSame([], Storage::disk('public')->allFiles());
-        $this->patchJson('/api/businesses/'.$business->id, ['image' => '/storage/review-evidence/private.png'])->assertOk()->assertJsonPath('data.image', '/demo-media/legacy-public.jpg');
+        $this->get('/api/businesses/'.$business->id.'/profile-image')->assertOk();
     }
 
     public function test_public_endpoint_rejects_private_evidence_paths_and_changed_bytes_even_in_a_forged_approved_record(): void

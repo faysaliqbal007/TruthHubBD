@@ -1,7 +1,7 @@
 "use client";
 import React, { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
-import { Bookmark, BookmarkCheck, Building2, CheckCircle2, MessageSquare, Share2, ShieldCheck, Search, Filter, RefreshCw } from 'lucide-react';
+import { Bookmark, BookmarkCheck, Building2, CheckCircle2, MessageSquare, Radio, Share2, ShieldCheck, Search, Filter, RefreshCw } from 'lucide-react';
 import { api, apiFileUrl, resolveMediaUrl } from '../services/api';
 import { bookmarkService } from '../services/bookmarkService';
 import { useAuth } from '../features/auth/AuthContext';
@@ -65,6 +65,8 @@ export function ReviewDetailPage() {
   const [message, setMessage] = useState(t("Loading review…","রিভিউ লোড হচ্ছে…"));
   const [isSaved, setIsSaved] = useState(() => bookmarkService.isReviewSaved(Number(id)));
   const [copied, setCopied] = useState(false);
+  const [broadcastBusy, setBroadcastBusy] = useState(false);
+  const isStaff = !!(user && ['admin', 'moderator'].includes(user.role));
   const requestVersion = useRef(0);
   const discussion = useRef<HTMLDivElement>(null);
 
@@ -77,6 +79,32 @@ export function ReviewDetailPage() {
       setMessage("");
     } catch (error) { if (request === requestVersion.current) setMessage(localizedError((error as Error).message,lang)); }
   }, [id,lang,user?.id]);
+
+  const handleApproveBroadcast = async () => {
+    if (!review) return;
+    setBroadcastBusy(true);
+    try {
+      await api(`/admin/reviews/${review.id}/broadcast`, 'POST');
+      void refresh();
+    } catch (e: any) {
+      window.alert(e?.message || 'Failed to broadcast review.');
+    } finally {
+      setBroadcastBusy(false);
+    }
+  };
+
+  const handleDeclineBroadcast = async () => {
+    if (!review) return;
+    setBroadcastBusy(true);
+    try {
+      await api(`/admin/reviews/${review.id}/broadcast`, 'DELETE');
+      void refresh();
+    } catch (e: any) {
+      window.alert(e?.message || 'Failed to decline broadcast.');
+    } finally {
+      setBroadcastBusy(false);
+    }
+  };
 
   useEffect(() => {
     setReview(undefined);
@@ -121,6 +149,85 @@ export function ReviewDetailPage() {
       <Link className="content-review-back" to="/search?view=reviews">{t("← Back to community reviews","← মানুষের রিভিউতে ফিরে যান")}</Link>
       <Notice text={message} />
       {review && <div className="content-review-detail-stack">
+        {/* Staff Broadcast Banner */}
+        {isStaff && (
+          <div style={{ background: '#F0FDF4', border: '1.5px solid #86EFAC', borderRadius: 10, padding: '14px 18px', marginBottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <Radio size={20} color="#15803D" />
+              <div>
+                <strong style={{ fontSize: 13.5, color: '#166534', display: 'block' }}>
+                  {lang === 'bn' ? 'স্টাফ ব্রডকাস্ট নিয়ন্ত্রণ' : 'Staff Broadcast Controls'}
+                </strong>
+                <span style={{ fontSize: 12, color: '#14532D' }}>
+                  {(review as any).broadcast_requested
+                    ? ((review as any).broadcast_approved_at
+                        ? (lang === 'bn' ? '✓ এই রিভিউটি সবার জন্য ব্রডকাস্ট করা হয়েছে।' : '✓ This review was broadcasted to all citizens.')
+                        : (lang === 'bn' ? '🔔 পর্যালোচনাকারী এই রিভিউটি সারাদেশে ব্রডকাস্ট করার অনুরোধ করেছেন।' : '🔔 Reviewer requested a community broadcast for this review.'))
+                    : (lang === 'bn' ? 'স্ট্যান্ডার্ড রিভিউ রেকর্ড।' : 'Standard citizen review record.')}
+                </span>
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+              {(review as any).broadcast_requested && !(review as any).broadcast_approved_at && (
+                <>
+                  <button
+                    type="button"
+                    disabled={broadcastBusy}
+                    onClick={handleApproveBroadcast}
+                    style={{
+                      background: '#15803D',
+                      color: '#FFFFFF',
+                      border: 'none',
+                      borderRadius: 8,
+                      padding: '8px 16px',
+                      fontSize: 12.5,
+                      fontWeight: 700,
+                      cursor: broadcastBusy ? 'wait' : 'pointer'
+                    }}
+                  >
+                    {lang === 'bn' ? '✓ ব্রডকাস্ট অনুমোদন করুন' : '✓ Approve Broadcast'}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={broadcastBusy}
+                    onClick={handleDeclineBroadcast}
+                    style={{
+                      background: '#FFFFFF',
+                      color: '#B91C1C',
+                      border: '1px solid #FCA5A5',
+                      borderRadius: 8,
+                      padding: '8px 14px',
+                      fontSize: 12.5,
+                      fontWeight: 700,
+                      cursor: broadcastBusy ? 'wait' : 'pointer'
+                    }}
+                  >
+                    {lang === 'bn' ? 'বাতিল করুন' : 'Decline'}
+                  </button>
+                </>
+              )}
+              {!(review as any).broadcast_requested && (
+                <button
+                  type="button"
+                  disabled={broadcastBusy}
+                  onClick={handleApproveBroadcast}
+                  style={{
+                    background: '#15803D',
+                    color: '#FFFFFF',
+                    border: 'none',
+                    borderRadius: 8,
+                    padding: '8px 16px',
+                    fontSize: 12.5,
+                    fontWeight: 700,
+                    cursor: broadcastBusy ? 'wait' : 'pointer'
+                  }}
+                >
+                  {lang === 'bn' ? '📢 ব্রডকাস্ট করুন' : '📢 Broadcast Review'}
+                </button>
+              )}
+            </div>
+          </div>
+        )}
         <article className="editorial-dossier-card content-review-dossier">
           <header className="content-review-detail-header">
             <div className="content-review-heading-copy">
