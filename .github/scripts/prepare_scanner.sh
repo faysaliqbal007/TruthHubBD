@@ -18,7 +18,7 @@ CONTAINER=$(docker create clamav/clamav:1.5)
 trap 'docker rm "$CONTAINER"' EXIT
 docker cp "$CONTAINER:/var/lib/clamav/." scanner-bundle/database/
 chmod -R u+rwX scanner-bundle
-find scanner-bundle/database -type f ! -name '*.cvd' ! -name '*.cld' -delete
+find scanner-bundle/database -maxdepth 1 -type f -name "freshclam.dat" -delete
 test -s scanner-bundle/database/daily.cvd || test -s scanner-bundle/database/daily.cld
 test -s scanner-bundle/database/main.cvd || test -s scanner-bundle/database/main.cld
 
@@ -34,9 +34,9 @@ Path('scanner-fixtures/eicar.txt').write_bytes(b'X5O!P%@AP[4'+bytes([92])+b'PZX5
 PY
 # Exercise the same memory ceiling and safety flags that the VPS wrapper uses.
 ulimit -v 1835008
-"$SCANNER" --database="$PWD/scanner-bundle/database" --no-summary --fail-if-cvd-older-than=7 --alert-exceeds-max=yes scanner-fixtures/clean.txt
+"$SCANNER" --cvdcertsdir="$PWD/scanner-bundle/runtime/usr/local/etc/certs" --database="$PWD/scanner-bundle/database" --no-summary --fail-if-cvd-older-than=7 --alert-exceeds-max=yes scanner-fixtures/clean.txt
 set +e
-"$SCANNER" --database="$PWD/scanner-bundle/database" --no-summary --fail-if-cvd-older-than=7 --alert-exceeds-max=yes scanner-fixtures/eicar.txt
+"$SCANNER" --cvdcertsdir="$PWD/scanner-bundle/runtime/usr/local/etc/certs" --database="$PWD/scanner-bundle/database" --no-summary --fail-if-cvd-older-than=7 --alert-exceeds-max=yes scanner-fixtures/eicar.txt
 RESULT=$?
 set -e
 test "$RESULT" -eq 1

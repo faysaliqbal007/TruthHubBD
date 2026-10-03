@@ -43,7 +43,7 @@ export LD_LIBRARY_PATH="$RELEASE/runtime/usr/local/lib"
 ulimit -v 1835008
 exec /usr/bin/flock --nonblock --conflict-exit-code 2 --no-fork "$ROOT/scan.lock" \
     /usr/bin/nice -n 19 "$RELEASE/runtime/usr/local/bin/clamscan" \
-    --database="$RELEASE/database" --max-filesize=10M --max-scansize=60M \
+    --cvdcertsdir="$RELEASE/runtime/usr/local/etc/certs" --database="$RELEASE/database" --max-filesize=10M --max-scansize=60M \
     --max-recursion=20 --max-files=1000 "$@"
 """, encoding='utf-8')
 wrapper.chmod(0o700)

@@ -26,7 +26,20 @@ jobs:
       - name: Get the code
         uses: actions/checkout@v4
       - name: Prepare official scanner and signed definitions on GitHub
-        run: bash .github/scripts/prepare_scanner.sh
+        run: |
+          set +e
+          bash .github/scripts/prepare_scanner.sh 2>&1 | tee scanner-preparation.log
+          result=${PIPESTATUS[0]}
+          set -e
+          if [ "$result" -ne 0 ]; then
+            python3 - <<'PY'
+          from pathlib import Path
+          message = Path('scanner-preparation.log').read_text(errors='replace')[-6000:]
+          message = message.replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
+          print('::error title=Scanner preparation details::' + message)
+          PY
+            exit "$result"
+          fi
       - name: Load deploy key
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
