@@ -171,7 +171,7 @@ Route::middleware([
     Route::post('/admin/users/{id}/verify-email', [AdminController::class, 'verifyUserEmail']);
     Route::get('/admin/businesses/{id}/details', [AdminController::class, 'getOrganization']);
     Route::get('/admin/businesses', [AdminController::class, 'allBusinesses']);
-    Route::patch('/admin/businesses/{id}/edit', [AdminController::class, 'editOrganization']);
+    Route::match(['patch', 'post'], '/admin/businesses/{id}/edit', [AdminController::class, 'editOrganization']);
     Route::delete('/admin/businesses/{id}', [AdminController::class, 'deleteOrganization']);
     Route::patch('/admin/scam-cases/{id}/alert', [AdminController::class, 'toggleCaseAlert']);
 });

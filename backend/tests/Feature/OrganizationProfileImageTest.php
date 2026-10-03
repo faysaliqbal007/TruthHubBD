@@ -19,6 +19,13 @@ class OrganizationProfileImageTest extends TestCase
         return base64_decode('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aJ1sAAAAASUVORK5CYII=');
     }
 
+    private function fakeFile(string $name, string $content): UploadedFile
+    {
+        $path = tempnam(sys_get_temp_dir(), 'img_test_');
+        file_put_contents($path, $content);
+        return new UploadedFile($path, $name, null, null, true);
+    }
+
     private function fields(): array
     {
         return ['name' => 'Fictional Photo Organization', 'category' => 'Products', 'presence' => 'online', 'website' => 'https://example.test'];
@@ -26,7 +33,7 @@ class OrganizationProfileImageTest extends TestCase
 
     private function upload(): array
     {
-        return $this->fields() + ['profile_image' => UploadedFile::fake()->createWithContent('fictional-logo.png', $this->png()), 'profile_image_consent' => '1'];
+        return $this->fields() + ['profile_image' => $this->fakeFile('fictional-logo.png', $this->png()), 'profile_image_consent' => '1'];
     }
 
     private function privateStorage(): void
@@ -96,9 +103,9 @@ class OrganizationProfileImageTest extends TestCase
         $this->privateStorage();
         $this->actingAs(User::factory()->create());
         $files = [
-            UploadedFile::fake()->createWithContent('active.svg', '<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>'),
-            UploadedFile::fake()->createWithContent('pretend.png', '<?php echo "not an image";'),
-            UploadedFile::fake()->createWithContent('too-large.png', $this->png().str_repeat("\0", 5 * 1024 * 1024)),
+            $this->fakeFile('active.svg', '<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>'),
+            $this->fakeFile('pretend.png', '<?php echo "not an image";'),
+            $this->fakeFile('too-large.png', $this->png().str_repeat("\0", 5 * 1024 * 1024)),
         ];
         foreach ($files as $file) {
             $this->post('/api/businesses', $this->fields() + ['profile_image' => $file, 'profile_image_consent' => '1'], ['Accept' => 'application/json'])->assertUnprocessable();
@@ -129,14 +136,14 @@ class OrganizationProfileImageTest extends TestCase
         $this->actingAs(User::factory()->create());
         $jpeg = base64_decode('/9j/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAj/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/AKpAB//Z');
         $clean = $this->fields(); $clean['name'] = 'Fictional Clean JPEG';
-        $this->post('/api/businesses', $clean + ['profile_image' => UploadedFile::fake()->createWithContent('clean.jpg', $jpeg), 'profile_image_consent' => '1'], ['Accept' => 'application/json'])->assertCreated();
+        $this->post('/api/businesses', $clean + ['profile_image' => $this->fakeFile('clean.jpg', $jpeg), 'profile_image_consent' => '1'], ['Accept' => 'application/json'])->assertCreated();
         $metadata = "Exif\0\0GPS location private";
         $withExif = substr($jpeg, 0, 2)."\xff\xe1".pack('n', strlen($metadata) + 2).$metadata.substr($jpeg, 2);
-        $files = [UploadedFile::fake()->createWithContent('camera.jpg', $withExif)];
+        $files = [$this->fakeFile('camera.jpg', $withExif)];
         foreach (['eXIf', 'tEXt', 'zTXt', 'iTXt', 'foOb'] as $type) {
             $value = 'GPS location private';
             $chunk = pack('N', strlen($value)).$type.$value.pack('N', crc32($type.$value));
-            $files[] = UploadedFile::fake()->createWithContent($type.'.png', substr($this->png(), 0, 33).$chunk.substr($this->png(), 33));
+            $files[] = $this->fakeFile($type.'.png', substr($this->png(), 0, 33).$chunk.substr($this->png(), 33));
         }
         $before = Storage::disk('private')->allFiles();
         foreach ($files as $file) {
@@ -172,11 +179,11 @@ class OrganizationProfileImageTest extends TestCase
         $this->actingAs(User::factory()->create());
         $webp = base64_decode('UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoBAAEAAUAmJaQAA3AA/vz0AAA=');
         $fields = $this->fields(); $fields['name'] = 'Fictional Clean WebP';
-        $this->post('/api/businesses', $fields + ['profile_image' => UploadedFile::fake()->createWithContent('clean.webp', $webp), 'profile_image_consent' => '1'], ['Accept' => 'application/json'])->assertCreated();
+        $this->post('/api/businesses', $fields + ['profile_image' => $this->fakeFile('clean.webp', $webp), 'profile_image_consent' => '1'], ['Accept' => 'application/json'])->assertCreated();
         $value = 'GPS location private';
         $chunk = 'EXIF'.pack('V', strlen($value)).$value.(strlen($value) % 2 ? "\0" : '');
         $withExif = 'RIFF'.pack('V', strlen($webp) + strlen($chunk) - 8).substr($webp, 8).$chunk;
-        $this->post('/api/businesses', $this->fields() + ['profile_image' => UploadedFile::fake()->createWithContent('camera.webp', $withExif), 'profile_image_consent' => '1'], ['Accept' => 'application/json'])
+        $this->post('/api/businesses', $this->fields() + ['profile_image' => $this->fakeFile('camera.webp', $withExif), 'profile_image_consent' => '1'], ['Accept' => 'application/json'])
             ->assertUnprocessable()->assertJsonValidationErrors('profile_image')->assertSee('Export a fresh');
         $this->assertDatabaseCount('businesses', 1);
         $this->assertDatabaseCount('business_profile_images', 1);
@@ -251,7 +258,7 @@ class OrganizationProfileImageTest extends TestCase
         $this->privateStorage();
         $owner = User::factory()->create();
         $business = Business::create(['name' => 'Fictional Source Organization', 'slug' => 'fictional-source-organization', 'category' => 'Products', 'user_id' => $owner->id, 'verified' => true, 'status' => 'approved', 'source_ref' => 'node/fictional', 'source_url' => 'https://example.test/source', 'image' => '/demo-media/legacy-public.jpg']);
-        $this->actingAs($owner)->post('/api/businesses/'.$business->id, ['_method' => 'PATCH', 'file' => UploadedFile::fake()->createWithContent('replacement.png', $this->png()), 'profile_image_consent' => '1'], ['Accept' => 'application/json'])
+        $this->actingAs($owner)->post('/api/businesses/'.$business->id, ['_method' => 'PATCH', 'file' => $this->fakeFile('replacement.png', $this->png()), 'profile_image_consent' => '1'], ['Accept' => 'application/json'])
             ->assertOk()->assertJsonPath('data.profileImageStatus', 'approved')->assertJsonPath('data.image', '/api/businesses/'.$business->id.'/profile-image');
         $this->assertDatabaseHas('businesses', ['id' => $business->id, 'verified' => true, 'user_id' => $owner->id, 'source_ref' => 'node/fictional', 'source_url' => 'https://example.test/source']);
         $this->get('/api/businesses/'.$business->id.'/profile-image')->assertOk();
@@ -291,7 +298,7 @@ class OrganizationProfileImageTest extends TestCase
 
         $response = $this->actingAs($user)->post('/api/businesses', $this->fields() + [
             'name' => 'Real PNG Entity',
-            'profile_image' => UploadedFile::fake()->createWithContent('logo.png', $realPng),
+            'profile_image' => $this->fakeFile('logo.png', $realPng),
             'profile_image_consent' => '1',
         ], ['Accept' => 'application/json'])->assertCreated();
 
@@ -316,7 +323,7 @@ class OrganizationProfileImageTest extends TestCase
 
         $this->actingAs($admin)->post('/api/businesses/' . $business->id, [
             '_method' => 'PATCH',
-            'file' => UploadedFile::fake()->createWithContent('admin-logo.png', $this->png()),
+            'file' => $this->fakeFile('admin-logo.png', $this->png()),
             'profile_image_consent' => '1',
         ], ['Accept' => 'application/json'])->assertOk()
           ->assertJsonPath('data.profileImageStatus', 'approved')

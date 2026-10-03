@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Building2, Image as ImageIcon, Edit3, RefreshCw, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Building2, Image as ImageIcon, Edit3, RefreshCw, CheckCircle2, AlertCircle, Trash2 } from 'lucide-react';
 import { api } from '../services/api';
 import { useAuth } from '../features/auth/AuthContext';
 import { useI18n } from '../i18n/LanguageContext';
@@ -69,6 +69,33 @@ export function AdminOrganizationQueue() {
           decision === 'approve'
             ? t('Listing approved. Ownership is not claimed.', 'তালিকা অনুমোদিত হয়েছে। মালিকানা দাবি অনুমোদন করা হয়নি।')
             : t('Listing rejected.', 'তালিকা প্রত্যাখ্যাত হয়েছে।')
+      });
+      setAttempt((value) => value + 1);
+    } catch (error) {
+      setNotice({ error: true, text: (error as Error).message });
+    } finally {
+      locks.current.delete(id);
+      setBusy((previous) => previous.filter((value) => value !== id));
+    }
+  }
+
+  async function deleteListing(id: number, name: string) {
+    const confirmed = window.confirm(
+      lang === 'bn'
+        ? `আপনি কি নিশ্চিত যে "${name}" প্রতিষ্ঠানটি স্থায়ীভাবে মুছে ফেলতে চান?\n\nএর সাথে সম্পর্কিত সমস্ত রিভিউ, কেলেঙ্কারি রিপোর্ট, দাবি ও তথ্য স্থায়ীভাবে মুছে যাবে। এই কাজটি আর ফিরিয়ে আনা যাবে না।`
+        : `Are you sure you want to permanently delete "${name}"?\n\nAll associated reviews, scam reports, claims, and media will be permanently deleted. This action cannot be undone.`
+    );
+    if (!confirmed) return;
+
+    if (locks.current.has(id)) return;
+    locks.current.add(id);
+    setBusy((previous) => [...previous, id]);
+    setNotice(undefined);
+    try {
+      const res = await api<{ success: boolean; message: string }>(`/admin/businesses/${id}`, 'DELETE');
+      setNotice({
+        error: false,
+        text: res?.message || (lang === 'bn' ? `"${name}" স্থায়ীভাবে মুছে ফেলা হয়েছে।` : `Organization "${name}" has been permanently deleted.`)
       });
       setAttempt((value) => value + 1);
     } catch (error) {
@@ -312,6 +339,16 @@ export function AdminOrganizationQueue() {
                         onClick={() => void decide(item.id, 'reject')}
                       >
                         {t('Reject listing', 'তালিকা প্রত্যাখ্যান')}
+                      </button>
+                      <button
+                        type="button"
+                        className="btn-pill-light"
+                        style={{ color: '#dc2626', borderColor: '#fca5a5' }}
+                        disabled={busy.includes(item.id)}
+                        onClick={() => void deleteListing(item.id, item.name)}
+                      >
+                        <Trash2 size={13} style={{ marginRight: 4 }} />
+                        {t('Delete listing', 'তালিকা মুছুন')}
                       </button>
                     </div>
                   </fieldset>

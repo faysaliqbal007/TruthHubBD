@@ -107,7 +107,7 @@ class OrganizationProfileImage
                 $allowedChunks = [
                     'IHDR', 'PLTE', 'IDAT', 'IEND',
                     'sRGB', 'gAMA', 'cHRM', 'pHYs', 'sBIT', 'bKGD', 'tRNS', 'hIST',
-                    'acTL', 'fcTL', 'fdAT'
+                    'acTL', 'fcTL', 'fdAT', 'iCCP'
                 ];
                 while ($offset + 8 <= $len) {
                     $chunkLen = unpack('N', substr($contents, $offset, 4))[1];

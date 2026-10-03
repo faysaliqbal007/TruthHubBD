@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, type FormEvent } from 'react';
-import { Building2, Save, Loader2, CheckCircle2, AlertTriangle, Search, Edit3, X, AlertCircle } from 'lucide-react';
-import { api } from '../services/api';
+import { Building2, Save, Loader2, CheckCircle2, AlertTriangle, Search, Edit3, X, AlertCircle, Trash2 } from 'lucide-react';
+import { api, resolveMediaUrl } from '../services/api';
 import { useI18n } from '../i18n/LanguageContext';
 
 const CATEGORIES = [
@@ -65,8 +65,10 @@ export function AdminOrganizationEdit({ initialOrgId, onClose, onUpdated }: Admi
   const [status, setStatus] = useState('approved');
   const [operatingStatus, setOperatingStatus] = useState('unknown');
   const [reason, setReason] = useState('');
+  const [fileToUpload, setFileToUpload] = useState<File | null>(null);
 
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const [saveResult, setSaveResult] = useState<{ success: boolean; message: string } | null>(null);
 
   const loadOrg = async (id: string) => {
@@ -76,6 +78,7 @@ export function AdminOrganizationEdit({ initialOrgId, onClose, onUpdated }: Admi
     setError('');
     setOrg(null);
     setSaveResult(null);
+    setFileToUpload(null);
     try {
       const res = await api<{ success: boolean; data: OrgData }>(`/admin/businesses/${idNum}/details`);
       if (res.data) {
@@ -94,6 +97,7 @@ export function AdminOrganizationEdit({ initialOrgId, onClose, onUpdated }: Admi
         setStatus(o.status || 'approved');
         setOperatingStatus(o.operating_status || 'unknown');
         setReason('');
+        setFileToUpload(null);
       }
     } catch (err) {
       setError((err as Error).message);
@@ -109,6 +113,7 @@ export function AdminOrganizationEdit({ initialOrgId, onClose, onUpdated }: Admi
       alert(bn ? 'ছবির সাইজ সর্বোচ্চ ১৫ মেগাবাইট হতে পারবে।' : 'Image size must be under 15MB.');
       return;
     }
+    setFileToUpload(file);
     const reader = new FileReader();
     reader.onload = () => {
       if (typeof reader.result === 'string') {
@@ -118,32 +123,84 @@ export function AdminOrganizationEdit({ initialOrgId, onClose, onUpdated }: Admi
     reader.readAsDataURL(file);
   };
 
+  const handleDelete = async () => {
+    if (!org || deleting || saving) return;
+    const confirmed = window.confirm(
+      bn
+        ? `আপনি কি নিশ্চিত যে "${org.name}" প্রতিষ্ঠানটি স্থায়ীভাবে মুছে ফেলতে চান?\n\nএর সাথে সম্পর্কিত সমস্ত রিভিউ, কেলেঙ্কারি রিপোর্ট, দাবি ও তথ্য স্থায়ীভাবে মুছে যাবে। এই কাজটি আর ফিরিয়ে আনা যাবে না।`
+        : `Are you sure you want to permanently delete "${org.name}"?\n\nAll associated reviews, scam reports, claims, and media will be permanently deleted. This action cannot be undone.`
+    );
+    if (!confirmed) return;
+
+    setDeleting(true);
+    setSaveResult(null);
+    setError('');
+    try {
+      const res = await api<{ success: boolean; message: string }>(`/admin/businesses/${org.id}`, 'DELETE');
+      alert(res?.message || (bn ? 'প্রতিষ্ঠানটি সফলভাবে মুছে ফেলা হয়েছে।' : 'Organization deleted successfully.'));
+      setOrg(null);
+      setSearchId('');
+      onUpdated?.();
+      onClose?.();
+    } catch (err) {
+      setError((err as Error).message);
+      alert((err as Error).message);
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   const handleSave = async (e: FormEvent) => {
     e.preventDefault();
-    if (!org || saving) return;
+    if (!org || saving || deleting) return;
     setSaving(true);
     setSaveResult(null);
     try {
-      const res = await api<{ success: boolean; message: string }>(
-        `/admin/businesses/${org.id}/edit`,
-        'PATCH',
-        {
-          name: name || undefined,
-          bengali_name: bengaliName || undefined,
-          category: category || undefined,
-          description: description || undefined,
-          location: location || undefined,
-          phone: phone || undefined,
-          website: website || undefined,
-          facebook_url: facebookUrl || undefined,
-          image: image || null,
-          verified: verified,
-          status: status,
-          operating_status: operatingStatus,
-          reason: reason.trim() || undefined,
-        }
-      );
+      let res: { success: boolean; message: string };
+      if (fileToUpload) {
+        const fd = new FormData();
+        fd.append('file', fileToUpload);
+        if (name) fd.append('name', name);
+        if (bengaliName) fd.append('bengali_name', bengaliName);
+        if (category) fd.append('category', category);
+        if (description) fd.append('description', description);
+        if (location) fd.append('location', location);
+        if (phone) fd.append('phone', phone);
+        if (website) fd.append('website', website);
+        if (facebookUrl) fd.append('facebook_url', facebookUrl);
+        fd.append('verified', verified ? '1' : '0');
+        fd.append('status', status);
+        fd.append('operating_status', operatingStatus);
+        if (reason.trim()) fd.append('reason', reason.trim());
+
+        res = await api<{ success: boolean; message: string }>(
+          `/admin/businesses/${org.id}/edit`,
+          'POST',
+          fd
+        );
+      } else {
+        res = await api<{ success: boolean; message: string }>(
+          `/admin/businesses/${org.id}/edit`,
+          'PATCH',
+          {
+            name: name || undefined,
+            bengali_name: bengaliName || undefined,
+            category: category || undefined,
+            description: description || undefined,
+            location: location || undefined,
+            phone: phone || undefined,
+            website: website || undefined,
+            facebook_url: facebookUrl || undefined,
+            image: image || null,
+            verified: verified,
+            status: status,
+            operating_status: operatingStatus,
+            reason: reason.trim() || undefined,
+          }
+        );
+      }
       setSaveResult({ success: true, message: res.message });
+      setFileToUpload(null);
       onUpdated?.();
       // Reload org data to show updated values
       await loadOrg(String(org.id));
@@ -319,10 +376,10 @@ export function AdminOrganizationEdit({ initialOrgId, onClose, onUpdated }: Admi
                 <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>
                   {image ? (
                     <div style={{ position: 'relative', width: 64, height: 64, borderRadius: 8, overflow: 'hidden', border: '1px solid #d8cdb7', background: '#fff', flexShrink: 0 }}>
-                      <img src={image} alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <img src={resolveMediaUrl(image)} alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                       <button
                         type="button"
-                        onClick={() => setImage('')}
+                        onClick={() => { setImage(''); setFileToUpload(null); }}
                         style={{ position: 'absolute', top: 2, right: 2, background: 'rgba(0,0,0,0.6)', color: '#fff', border: 'none', borderRadius: '50%', width: 18, height: 18, fontSize: 10, cursor: 'pointer', display: 'grid', placeItems: 'center' }}
                       >
                         ✕
@@ -416,10 +473,10 @@ export function AdminOrganizationEdit({ initialOrgId, onClose, onUpdated }: Admi
                 </div>
               )}
 
-              <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+              <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
                 <button
                   type="submit"
-                  disabled={saving}
+                  disabled={saving || deleting}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -431,12 +488,35 @@ export function AdminOrganizationEdit({ initialOrgId, onClose, onUpdated }: Admi
                     borderRadius: 8,
                     fontSize: 14,
                     fontWeight: 700,
-                    cursor: saving ? 'not-allowed' : 'pointer',
+                    cursor: saving || deleting ? 'not-allowed' : 'pointer',
                   }}
                 >
                   {saving ? <Loader2 size={15} style={{ animation: 'spin 1s linear infinite' }} /> : <Save size={15} />}
                   {saving ? t('Saving…', 'সংরক্ষণ হচ্ছে…') : t('Save Changes', 'পরিবর্তন সংরক্ষণ করুন')}
                 </button>
+
+                <button
+                  type="button"
+                  disabled={saving || deleting}
+                  onClick={handleDelete}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    padding: '12px 20px',
+                    background: deleting ? '#991b1b' : '#dc2626',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: 8,
+                    fontSize: 14,
+                    fontWeight: 700,
+                    cursor: saving || deleting ? 'not-allowed' : 'pointer',
+                  }}
+                >
+                  {deleting ? <Loader2 size={15} style={{ animation: 'spin 1s linear infinite' }} /> : <Trash2 size={15} />}
+                  {deleting ? t('Deleting…', 'মুছে ফেলা হচ্ছে…') : t('Delete Organization', 'প্রতিষ্ঠান মুছে ফেলুন')}
+                </button>
+
                 <span style={{ fontSize: 12, color: '#6b7283' }}>
                   {t('Changes are logged in the audit trail.', 'সব পরিবর্তন নিরীক্ষা লগে থাকবে।')}
                 </span>

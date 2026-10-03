@@ -638,16 +638,25 @@ class AdminController extends Controller
 
         if ($request->hasFile('file') || $request->hasFile('image')) {
             $file = $request->file('file') ?? $request->file('image');
-            $ext = $file->getClientOriginalExtension() ?: 'jpg';
+            $ext = strtolower($file->getClientOriginalExtension() ?: 'jpg');
             $filename = \Illuminate\Support\Str::uuid() . '.' . $ext;
             $file->storeAs('organization-profile-images', $filename, 'public');
             $storedPath = $file->storeAs('organization-profile-images', $filename, 'private');
+            $mimeType = match($ext) {
+                'jpg', 'jpeg' => 'image/jpeg',
+                'png' => 'image/png',
+                'webp' => 'image/webp',
+                'gif' => 'image/gif',
+                'svg' => 'image/svg+xml',
+                'avif' => 'image/avif',
+                default => $file->getMimeType() ?: 'image/jpeg',
+            };
             \App\Models\BusinessProfileImage::where('business_id', $id)->where('status', 'approved')->update(['status' => 'superseded']);
             \App\Models\BusinessProfileImage::create([
                 'business_id' => $id,
                 'uploaded_by_user_id' => $request->user()->id,
                 'storage_path' => $storedPath,
-                'mime_type' => $file->getMimeType(),
+                'mime_type' => $mimeType,
                 'bytes' => $file->getSize(),
                 'sha256' => hash_file('sha256', $file->getRealPath()),
                 'publication_consent' => true,
@@ -665,6 +674,15 @@ class AdminController extends Controller
                 'avif' => 'avif',
                 default => 'jpg',
             };
+            $mimeType = match($ext) {
+                'jpg' => 'image/jpeg',
+                'png' => 'image/png',
+                'webp' => 'image/webp',
+                'gif' => 'image/gif',
+                'svg' => 'image/svg+xml',
+                'avif' => 'image/avif',
+                default => 'image/jpeg',
+            };
             $decoded = base64_decode($matches[2]);
             if ($decoded !== false) {
                 $filename = \Illuminate\Support\Str::uuid() . '.' . $ext;
@@ -676,7 +694,7 @@ class AdminController extends Controller
                     'business_id' => $id,
                     'uploaded_by_user_id' => $request->user()->id,
                     'storage_path' => 'organization-profile-images/' . $filename,
-                    'mime_type' => 'image/' . $ext,
+                    'mime_type' => $mimeType,
                     'bytes' => strlen($decoded),
                     'sha256' => hash('sha256', $decoded),
                     'publication_consent' => true,

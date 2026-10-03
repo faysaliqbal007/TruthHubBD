@@ -77,11 +77,12 @@ class BusinessProfileImageController extends Controller
 
     private function imageResponse(BusinessProfileImage $image, string $path)
     {
+        $ext = OrganizationProfileImage::MIME_EXTENSIONS[$image->mime_type] ?? 'jpg';
         return response(file_get_contents($path), 200, [
-            'Content-Type' => $image->mime_type,
-            'Content-Disposition' => 'inline; filename="organization-profile.'.OrganizationProfileImage::MIME_EXTENSIONS[$image->mime_type].'"',
-            'Cache-Control' => 'private, no-store', 'X-Content-Type-Options' => 'nosniff',
-            'Content-Security-Policy' => "default-src 'none'; sandbox",
+            'Content-Type' => $image->mime_type ?: 'image/jpeg',
+            'Content-Disposition' => 'inline; filename="organization-profile.'.$ext.'"',
+            'Cache-Control' => 'public, max-age=86400',
+            'X-Content-Type-Options' => 'nosniff',
         ]);
     }
 

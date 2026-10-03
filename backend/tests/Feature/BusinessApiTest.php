@@ -125,4 +125,53 @@ class BusinessApiTest extends TestCase
             'slug' => 'green-life-diagnostic-center',
         ]);
     }
+
+    /**
+     * Unclaimed business creator cannot edit business facts without approved claim.
+     */
+    public function test_creator_cannot_edit_unclaimed_business_info(): void
+    {
+        $creator = User::factory()->create(['email_verified_at' => now()]);
+        $business = Business::create([
+            'name' => 'Unclaimed Business',
+            'slug' => 'unclaimed-business',
+            'category' => 'Businesses & Services',
+            'created_by_user_id' => $creator->id,
+            'user_id' => null,
+            'verified' => false,
+            'status' => 'approved',
+        ]);
+
+        $response = $this->actingAs($creator, 'sanctum')->patchJson("/api/businesses/{$business->id}", [
+            'name' => 'Hacked New Name',
+            'description' => 'Should be rejected',
+        ]);
+
+        $response->assertStatus(403)
+                 ->assertJsonPath('success', false)
+                 ->assertSee('Unauthorized. You must claim this organization account before you can edit its profile information.');
+    }
+
+    /**
+     * Admin can permanently delete an organization from admin panel.
+     */
+    public function test_admin_can_delete_organization(): void
+    {
+        $admin = User::factory()->create(['role' => 'admin']);
+        $business = Business::create([
+            'name' => 'To Be Deleted Business',
+            'slug' => 'to-be-deleted-business',
+            'category' => 'Products',
+            'status' => 'approved',
+        ]);
+
+        $response = $this->actingAs($admin, 'sanctum')->deleteJson("/api/admin/businesses/{$business->id}");
+
+        $response->assertStatus(200)
+                 ->assertJsonPath('success', true);
+
+        $this->assertDatabaseMissing('businesses', [
+            'id' => $business->id,
+        ]);
+    }
 }

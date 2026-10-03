@@ -1068,8 +1068,7 @@ function BusinessDetailPage({
 
   const isOwner = Boolean(
     user && business && (
-      (business.userId && (Number(user.id) === Number(business.userId) || String(user.id) === String(business.userId))) ||
-      (business.createdByUserId && (Number(user.id) === Number(business.createdByUserId) || String(user.id) === String(business.createdByUserId))) ||
+      (business.userId && (Number(user.id) === Number(business.userId) || String(user.id) === String(business.userId)) && business.verified) ||
       user.role === 'admin' ||
       user.role === 'moderator'
     )

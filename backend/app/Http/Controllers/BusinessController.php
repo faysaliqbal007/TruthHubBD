@@ -268,6 +268,12 @@ class BusinessController extends Controller
             'color' => '#0f766e',
         ]);
         $profileImage = \App\Support\OrganizationProfileImage::quarantine($request, $business, $storedImagePath);
+        if ($profileImage && $user && in_array($user->role, ['admin', 'moderator'], true)) {
+            $profileImage->update(['status' => 'approved']);
+            $business->image = '/api/businesses/' . $business->id . '/profile-image';
+            $business->status = 'approved';
+            $business->save();
+        }
         if ($request->filled('latitude') && $request->filled('longitude')) {
             $lat = (float) $request->input('latitude');
             $lng = (float) $request->input('longitude');
@@ -314,7 +320,7 @@ class BusinessController extends Controller
 
     /**
      * Update business profile facts & picture.
-     * Enforces: Only the owner (who created it) can edit it.
+     * Enforces: Only the owner (who claimed it) can edit it.
      */
     public function update(Request $request, $id)
     {
@@ -322,13 +328,13 @@ class BusinessController extends Controller
         $user = $request->user();
 
         // Enforce ownership or staff check
-        $isOwner = $user && $business->user_id && (int)$business->user_id === (int)$user->id && $business->verified;
+        $isOwner = $user && $business->user_id && (int)$business->user_id === (int)$user->id && (bool)$business->verified;
         $isStaff = $user && in_array($user->role, ['admin', 'moderator'], true);
 
         if (!$user || (!$isOwner && !$isStaff)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Unauthorized. This business account can only be edited by the verified owner or staff.',
+                'message' => 'Unauthorized. You must claim this organization account before you can edit its profile information.',
             ], 403);
         }
 
