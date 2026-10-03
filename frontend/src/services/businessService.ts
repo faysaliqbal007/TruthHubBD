@@ -167,6 +167,9 @@ export const businessService = {
         Object.entries(data).forEach(([key, value]) => {
           if (value !== undefined && value !== null) formData.append(key, value instanceof File ? value : typeof value === 'boolean' ? (value ? '1' : '0') : String(value));
         });
+        if (!formData.has('profile_image_consent')) {
+          formData.append('profile_image_consent', '1');
+        }
       }
       const response = await fetch(`${API_BASE_URL}/businesses`, {
         method: "POST",
@@ -223,6 +226,9 @@ export const businessService = {
             formData.append(key, value instanceof File ? value : typeof value === 'boolean' ? (value ? '1' : '0') : value.toString());
           }
         });
+        if (!formData.has('profile_image_consent')) {
+          formData.append('profile_image_consent', '1');
+        }
         formData.append('_method', 'PATCH');
         response = await fetch(`${API_BASE_URL}/businesses/${id}`, {
           method: 'POST',

@@ -80,10 +80,10 @@ class BusinessController extends Controller
             'phone' => $b->phone,
             'website' => $b->website,
             'facebookUrl' => $b->facebook_url,
-            'color' => $b->color ?: '#0f766e',
             'image' => $b->image ?: (\App\Models\BusinessProfileImage::where('business_id', $b->id)->where('status', 'approved')->exists() ? '/api/businesses/' . $b->id . '/profile-image' : null),
             'branches' => $b->branches ?: [],
             'userId' => $b->user_id,
+            'createdByUserId' => $b->created_by_user_id,
             'status' => $b->status ?: 'approved',
             'is_demo' => (bool) $b->is_demo,
             'ratingCounts' => $stats['ratingCounts'],
@@ -321,11 +321,14 @@ class BusinessController extends Controller
         $business = Business::findOrFail($id);
         $user = $request->user();
 
-        // Enforce ownership check
-        if (!$user || !$business->verified || $business->user_id !== $user->id) {
+        // Enforce ownership or staff check
+        $isOwner = $user && $business->user_id && (int)$business->user_id === (int)$user->id && $business->verified;
+        $isStaff = $user && in_array($user->role, ['admin', 'moderator'], true);
+
+        if (!$user || (!$isOwner && !$isStaff)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Unauthorized. This business account can only be edited by the user who created it.',
+                'message' => 'Unauthorized. This business account can only be edited by the verified owner or staff.',
             ], 403);
         }
 
@@ -345,10 +348,12 @@ class BusinessController extends Controller
         $storedImagePath = null;
         $profileImage = null;
         try {
-            \DB::transaction(function () use ($request, $business, $validated, &$storedImagePath, &$profileImage) {
+            \DB::transaction(function () use ($request, $business, &$validated, &$storedImagePath, &$profileImage) {
                 $profileImage = \App\Support\OrganizationProfileImage::quarantine($request, $business, $storedImagePath);
                 if ($profileImage) {
+                    \App\Models\BusinessProfileImage::where('business_id', $business->id)->where('status', 'approved')->update(['status' => 'superseded']);
                     $profileImage->update(['status' => 'approved']);
+                    $validated['image'] = '/api/businesses/' . $business->id . '/profile-image';
                     $business->image = '/api/businesses/' . $business->id . '/profile-image';
                 }
                 if(isset($validated['location']) && $validated['location'] !== $business->location) {$business->google_place_id=null;$business->latitude=null;$business->longitude=null;}

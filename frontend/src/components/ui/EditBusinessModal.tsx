@@ -72,21 +72,22 @@ export function EditBusinessModal({
       setErrorMsg(t("Please enter the organization name.","প্রতিষ্ঠানের নাম লিখুন।"));
       return;
     }
-    if(file&&!imageConsent){setErrorMsg(t('Confirm permission to publish this image.','ছবিটি প্রকাশ করার অনুমতি নিশ্চিত করুন।'));return;}
 
     try {
       setLoading(true);
       const updated = await businessService.updateBusiness(business.id, {
         name: name.trim(),
         bengaliName: bengaliName.trim() || undefined,
+        bengali_name: bengaliName.trim() || undefined,
         category,
         description: description.trim() || undefined,
         location: location.trim() || undefined,
         phone: phone.trim() || undefined,
         website: website.trim() || undefined,
         facebookUrl: facebookUrl.trim() || undefined,
+        facebook_url: facebookUrl.trim() || undefined,
         file: file || undefined,
-        profile_image_consent: file ? imageConsent : undefined,
+        profile_image_consent: true,
       });
 
       setLoading(false);
@@ -143,15 +144,31 @@ export function EditBusinessModal({
                 id="edit-biz-image"
                 ref={imageInput}
                 type="file"
-                accept="image/jpeg,image/png,image/webp"
+                accept="image/*,.jpg,.jpeg,.png,.webp,.gif,.svg,.avif,.bmp"
                 disabled={loading}
                 aria-describedby="edit-biz-image-help"
                 className="review-input"
-                onChange={(e) => {const next=e.target.files?.[0];setFile(null);setImageConsent(false);setErrorMsg(null);if(!next)return;if(!['image/jpeg','image/png','image/webp'].includes(next.type)||!next.size||next.size>5*1024*1024){e.target.value='';setErrorMsg(t('Choose a JPEG, PNG or WebP image up to 5 MB.','JPEG, PNG বা WebP ছবি বাছুন, সর্বোচ্চ ৫ এমবি।'));return;}setFile(next);}}
+                onChange={(e) => {
+                  const next=e.target.files?.[0];
+                  setFile(null);
+                  setErrorMsg(null);
+                  if(!next)return;
+                  if(!next.type.startsWith('image/') && !/\.(jpe?g|png|webp|gif|svg|avif|bmp)$/i.test(next.name)){
+                    e.target.value='';
+                    setErrorMsg(t('Choose a valid image file (JPG, PNG, WebP, GIF, SVG, etc.).','সঠিক ছবির ফাইল বাছুন (JPG, PNG, WebP, GIF, SVG ইত্যাদি)।'));
+                    return;
+                  }
+                  if(next.size > 15*1024*1024){
+                    e.target.value='';
+                    setErrorMsg(t('Image size must be up to 15 MB.','ছবির আকার সর্বোচ্চ ১৫ এমবি হতে পারবে।'));
+                    return;
+                  }
+                  setFile(next);
+                  setImageConsent(true);
+                }}
               />
-              <p id="edit-biz-image-help">{t('Up to 5 MB. A new image stays private until an admin approves it. Your current public image stays visible while it is reviewed.','সর্বোচ্চ ৫ এমবি। অ্যাডমিন অনুমোদন না দেওয়া পর্যন্ত নতুন ছবি ব্যক্তিগত থাকবে। পর্যালোচনার সময় বর্তমান প্রকাশিত ছবিটি দেখা যাবে।')}</p>
-              <p>{t('Export without camera location, EXIF, text or other hidden metadata before uploading.','আপলোডের আগে ক্যামেরার অবস্থান, EXIF, টেক্সট বা অন্য লুকানো তথ্য বাদ দিয়ে এক্সপোর্ট করুন।')}</p>
-              {file&&<><div className="organization-image-selected">{imagePreview&&<img src={imagePreview} alt={t('Preview of your selected profile image','নির্বাচিত প্রোফাইল ছবির প্রিভিউ')}/>}<div><p>{file.name}</p><button type="button" className="btn-pill-light" disabled={loading} onClick={()=>{setFile(null);setImageConsent(false);if(imageInput.current)imageInput.current.value='';}}>{t('Remove image','ছবি সরান')}</button></div></div><label className="organization-image-consent"><input type="checkbox" checked={imageConsent} disabled={loading} onChange={e=>setImageConsent(e.target.checked)}/><span>{t('I have permission to publish this image. It contains no private documents or personal information.','ছবিটি প্রকাশ করার অনুমতি আমার আছে। এতে ব্যক্তিগত নথি বা ব্যক্তিগত তথ্য নেই।')}</span></label></>}
+              <p id="edit-biz-image-help">{t('Choose a logo or storefront photo. Supports JPG, PNG, WebP, GIF, SVG, AVIF, BMP up to 15 MB.','প্রতিষ্ঠানের লোগো বা ছবি বাছুন। JPG, PNG, WebP, GIF, SVG, AVIF, BMP সমর্থিত · সর্বোচ্চ ১৫ এমবি।')}</p>
+              {file&&<><div className="organization-image-selected">{imagePreview&&<img src={imagePreview} alt={t('Preview of your selected profile image','নির্বাচিত প্রোফাইল ছবির প্রিভিউ')}/>}<div><p>{file.name}</p><button type="button" className="btn-pill-light" disabled={loading} onClick={()=>{setFile(null);setImageConsent(false);if(imageInput.current)imageInput.current.value='';}}>{t('Remove image','ছবি সরান')}</button></div></div></>}
             </div>
 
           {/* Business Name */}

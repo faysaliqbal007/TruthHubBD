@@ -135,7 +135,7 @@ Route::middleware([
     Route::patch('/profile', [ProfileController::class, 'update']);
 
     // Business owner profile editing & reviews
-    Route::patch('/businesses/{id}', [BusinessController::class, 'update']);
+    Route::match(['patch', 'post'], '/businesses/{id}', [BusinessController::class, 'update']);
     Route::post('/businesses/{id}/reviews', [BusinessController::class, 'storeReview']);
     Route::post('/reviews/{review}/comments', [CommunityController::class, 'comment']);
     Route::put('/reviews/{review}/reaction', [CommunityController::class, 'react']);

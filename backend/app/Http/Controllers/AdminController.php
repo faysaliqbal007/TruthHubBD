@@ -97,6 +97,13 @@ class AdminController extends Controller
             $business = Business::whereKey($id)->lockForUpdate()->firstOrFail();
             abort_unless($business->status === 'pending', 409, 'This listing has already been reviewed. Refresh the queue.');
             $business->update(['status'=>$status]);
+            if ($status === 'approved') {
+                $pendingImage = \App\Models\BusinessProfileImage::where('business_id', $business->id)->where('status', 'pending')->latest('id')->first();
+                if ($pendingImage) {
+                    $pendingImage->update(['status' => 'approved']);
+                    $business->update(['image' => '/api/businesses/' . $business->id . '/profile-image']);
+                }
+            }
             \DB::table('audit_logs')->insert(['actor_user_id'=>$request->user()->id,'action'=>'entity.'.$status,'auditable_type'=>Business::class,'auditable_id'=>$business->id,'metadata'=>json_encode(['previous_status'=>'pending','reason'=>trim($data['reason'])]),'ip_address'=>$request->ip(),'created_at'=>now(),'updated_at'=>now()]);
             return $business;
         });

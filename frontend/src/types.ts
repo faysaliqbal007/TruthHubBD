@@ -75,7 +75,10 @@ export type Business = {
   distribution: number[];
   ratingCounts?: { star5: number; star4: number; star3: number; star2: number; star1: number };
   facebookUrl?: string;
+  facebook_url?: string;
+  bengali_name?: string;
   userId?: number;
+  createdByUserId?: number;
   status?: "pending" | "approved" | "rejected";
 };
 

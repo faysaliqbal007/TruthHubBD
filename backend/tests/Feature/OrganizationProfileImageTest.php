@@ -277,4 +277,51 @@ class OrganizationProfileImageTest extends TestCase
         $this->assertDatabaseCount('businesses', 0);
         $this->assertDatabaseCount('business_profile_images', 0);
     }
+
+    public function test_real_world_png_with_presentation_chunks_is_accepted_and_approved_with_entity(): void
+    {
+        $this->privateStorage();
+        $user = User::factory()->create();
+        $admin = User::factory()->create(['role' => 'admin']);
+
+        // Build a PNG with standard presentation chunks (sRGB, pHYs)
+        $srgbChunk = pack('N', 1) . 'sRGB' . "\x00" . pack('N', crc32('sRGB' . "\x00"));
+        $physChunk = pack('N', 9) . 'pHYs' . pack('NNc', 2835, 2835, 1) . pack('N', crc32('pHYs' . pack('NNc', 2835, 2835, 1)));
+        $realPng = substr($this->png(), 0, 33) . $srgbChunk . $physChunk . substr($this->png(), 33);
+
+        $response = $this->actingAs($user)->post('/api/businesses', $this->fields() + [
+            'name' => 'Real PNG Entity',
+            'profile_image' => UploadedFile::fake()->createWithContent('logo.png', $realPng),
+            'profile_image_consent' => '1',
+        ], ['Accept' => 'application/json'])->assertCreated();
+
+        $bizId = $response->json('data.id');
+        $this->assertDatabaseHas('business_profile_images', ['business_id' => $bizId, 'status' => 'pending']);
+
+        // When admin approves the organization listing, the profile image is approved too
+        $this->actingAs($admin)->postJson('/api/admin/businesses/' . $bizId . '/approve', [
+            'reason' => 'Legitimate organization with valid logo photo.',
+        ])->assertOk();
+
+        $this->assertDatabaseHas('business_profile_images', ['business_id' => $bizId, 'status' => 'approved']);
+        $this->assertDatabaseHas('businesses', ['id' => $bizId, 'image' => '/api/businesses/' . $bizId . '/profile-image', 'status' => 'approved']);
+        $this->get('/api/businesses/' . $bizId . '/profile-image')->assertOk()->assertHeader('Content-Type', 'image/png');
+    }
+
+    public function test_staff_can_update_organization_profile_image(): void
+    {
+        $this->privateStorage();
+        $admin = User::factory()->create(['role' => 'admin']);
+        $business = Business::create(['name' => 'Staff Managed Business', 'slug' => 'staff-managed-biz', 'category' => 'Products', 'status' => 'approved']);
+
+        $this->actingAs($admin)->post('/api/businesses/' . $business->id, [
+            '_method' => 'PATCH',
+            'file' => UploadedFile::fake()->createWithContent('admin-logo.png', $this->png()),
+            'profile_image_consent' => '1',
+        ], ['Accept' => 'application/json'])->assertOk()
+          ->assertJsonPath('data.profileImageStatus', 'approved')
+          ->assertJsonPath('data.image', '/api/businesses/' . $business->id . '/profile-image');
+
+        $this->get('/api/businesses/' . $business->id . '/profile-image')->assertOk();
+    }
 }

@@ -1066,7 +1066,14 @@ function BusinessDetailPage({
 
   if (!business) return <EntityNotFound type="business" />;
 
-  const isOwner = Boolean(user && business && business.verified && business.userId && user.id === business.userId);
+  const isOwner = Boolean(
+    user && business && (
+      (business.userId && (Number(user.id) === Number(business.userId) || String(user.id) === String(business.userId))) ||
+      (business.createdByUserId && (Number(user.id) === Number(business.createdByUserId) || String(user.id) === String(business.createdByUserId))) ||
+      user.role === 'admin' ||
+      user.role === 'moderator'
+    )
+  );
 
   // Dynamic review star filtering
   const filteredReviews = business.reviews
