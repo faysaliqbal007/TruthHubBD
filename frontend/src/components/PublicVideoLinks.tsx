@@ -1,0 +1,17 @@
+"use client";
+import {ExternalLink, Video} from 'lucide-react';
+import {useId} from 'react';
+import {useI18n} from '../i18n/LanguageContext';
+import {parsePublicVideoUrls} from '../lib/publicVideoUrls';
+import './public-video.css';
+
+export function PublicVideoField({value,onChange,consent,onConsent,privateIntake=false,disabled=false}:{value:string;onChange:(value:string)=>void;consent:boolean;onConsent:(value:boolean)=>void;privateIntake?:boolean;disabled?:boolean}){
+ const {t}=useI18n();const id=useId();
+ return <fieldset className="public-video-field" disabled={disabled}><legend><Video size={18} aria-hidden="true"/>{t('Video links, not video uploads','ভিডিও আপলোড নয়, ভিডিওর লিংক')}</legend><p id={id+'-hint'}>{t('Optional · up to 3 public HTTPS video links, one per line. YouTube, Vimeo, Facebook videos, TikTok or Dailymotion.','ঐচ্ছিক · সর্বোচ্চ ৩টি প্রকাশ্য HTTPS ভিডিও লিংক, প্রতি লাইনে একটি। ইউটিউব, ভিমিও, ফেসবুক ভিডিও, টিকটক বা ডেইলিমোশন।')}</p><label htmlFor={id}>{t('Public video URLs','প্রকাশ্য ভিডিওর লিংক')}</label><textarea id={id} rows={3} className="review-textarea" value={value} onChange={e=>onChange(e.target.value)} aria-describedby={id+'-hint'} placeholder="https://www.youtube.com/watch?v=…" spellCheck={false}/><small>{privateIntake?t('Video links will be visible publicly with your scam alert once approved. The video itself is public on its host—never link identity documents, payment details or private messages.','অনুমোদনের পর ভিডিও লিংকটি আপনার স্ক্যাম সতর্কতার সাথে প্রকাশ্যে প্রদর্শিত হবে। ভিডিওটি তার নিজস্ব সাইটে প্রকাশ্য—পরিচয়পত্র, পেমেন্টের গোপন তথ্য বা ব্যক্তিগত বার্তা দেবেন না।'):t('Only the link is stored. We do not download or autoplay the video, and cannot confirm its availability or accuracy. Remove personal information before sharing.','শুধু লিংক সংরক্ষণ করা হবে। ভিডিও ডাউনলোড বা স্বয়ংক্রিয়ভাবে চালানো হবে না; এর প্রাপ্যতা বা সত্যতা নিশ্চিত করা হয় না। শেয়ার করার আগে ব্যক্তিগত তথ্য সরান।')}</small>{value.trim()&&<label className="public-video-consent"><input type="checkbox" checked={consent} onChange={e=>onConsent(e.target.checked)} required/>{privateIntake?t('I have permission to share these public videos and consent to publishing them with the public scam alert.','এই ভিডিও লিংকটি প্রকাশ্যে স্ক্যাম সতর্কতার সাথে প্রদর্শনের জন্য আমার সম্মতি আছে।'):t('I have permission to share these public videos and have removed private information.','এই প্রকাশ্য ভিডিও শেয়ারের অনুমতি আমার আছে এবং ব্যক্তিগত তথ্য সরিয়েছি।')}</label>}</fieldset>;
+}
+
+export function PublicVideoLinks({urls,lang='en'}:{urls?:string[];lang?:'en'|'bn'}){
+ const safe=parsePublicVideoUrls((urls||[]).slice(0,3).join('\n'));
+ if(safe.error || !safe.urls.length)return null;
+ return <section className="public-video-links" aria-label={lang==='bn'?'প্রকাশ্য ভিডিওর লিংক':'Public video links'}><strong><Video size={18} aria-hidden="true"/>{lang==='bn'?'সংশ্লিষ্ট ভিডিও':'Linked videos'}</strong><div>{safe.urls.map((url,index)=><a key={url} href={url} target="_blank" rel="noopener noreferrer nofollow ugc">{new URL(url).hostname.replace(/^www\./,'')} · {lang==='bn'?'ভিডিও':'Video'} {index+1}<ExternalLink size={15} aria-hidden="true"/><span className="sr-only">{lang==='bn'?'নতুন ট্যাবে খুলবে':'opens in a new tab'}</span></a>)}</div><small>{lang==='bn'?'বাইরের সাইট · প্রাপ্যতা ও সত্যতা স্বাধীনভাবে নিশ্চিত করা হয়নি':'External websites · availability and accuracy not independently confirmed'}</small></section>;
+}
