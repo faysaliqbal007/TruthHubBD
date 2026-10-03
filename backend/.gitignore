@@ -9,3 +9,5 @@
 
 /public/storage
 /bootstrap/cache/*.php
+
+/storage/framework/testing

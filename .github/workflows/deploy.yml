@@ -46,7 +46,7 @@ jobs:
           test -f ../backend/public/app/index.html
       - name: Pack release
         run: |
-          tar -czf release.tar.gz --exclude='.git' --exclude='node_modules' --exclude='.env' --exclude='.env.*' --exclude='storage/logs/*.log' --exclude='bootstrap/cache/*.php' -C backend .
+          tar -czf release.tar.gz --exclude='.git' --exclude='node_modules' --exclude='.env' --exclude='.env.*' --exclude='storage/logs/*.log' --exclude='storage/framework/testing' --exclude='bootstrap/cache/*.php' -C backend .
           tar -tzf release.tar.gz > release-files.txt
           if grep -E '(^|/)(\.env([^/]*|$)|\.git|node_modules)(/|$)' release-files.txt; then
             echo 'Release contains forbidden files'
