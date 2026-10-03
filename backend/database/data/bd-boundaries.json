@@ -1,0 +1,6193 @@
+{
+  "divisions": [
+    {
+      "id": "dhaka",
+      "name": "Dhaka",
+      "nameBn": "ঢাকা"
+    },
+    {
+      "id": "chittagong",
+      "name": "Chittagong",
+      "nameBn": "চট্টগ্রাম",
+      "aliases": [
+        "Chattogram"
+      ]
+    },
+    {
+      "id": "rajshahi",
+      "name": "Rajshahi",
+      "nameBn": "রাজশাহী"
+    },
+    {
+      "id": "khulna",
+      "name": "Khulna",
+      "nameBn": "খুলনা"
+    },
+    {
+      "id": "barisal",
+      "name": "Barisal",
+      "nameBn": "বরিশাল",
+      "aliases": [
+        "Barishal"
+      ]
+    },
+    {
+      "id": "sylhet",
+      "name": "Sylhet",
+      "nameBn": "সিলেট"
+    },
+    {
+      "id": "rangpur",
+      "name": "Rangpur",
+      "nameBn": "রংপুর"
+    },
+    {
+      "id": "mymensingh",
+      "name": "Mymensingh",
+      "nameBn": "ময়মনসিংহ"
+    }
+  ],
+  "districts": [
+    {
+      "id": "dhaka-district",
+      "divisionId": "dhaka",
+      "name": "Dhaka",
+      "nameBn": "ঢাকা"
+    },
+    {
+      "id": "gazipur",
+      "divisionId": "dhaka",
+      "name": "Gazipur",
+      "nameBn": "গাজীপুর"
+    },
+    {
+      "id": "narayanganj",
+      "divisionId": "dhaka",
+      "name": "Narayanganj",
+      "nameBn": "নারায়ণগঞ্জ"
+    },
+    {
+      "id": "narsingdi",
+      "divisionId": "dhaka",
+      "name": "Narsingdi",
+      "nameBn": "নরসিংদী"
+    },
+    {
+      "id": "manikganj",
+      "divisionId": "dhaka",
+      "name": "Manikganj",
+      "nameBn": "মানিকগঞ্জ"
+    },
+    {
+      "id": "munshiganj",
+      "divisionId": "dhaka",
+      "name": "Munshiganj",
+      "nameBn": "মুন্সিগঞ্জ"
+    },
+    {
+      "id": "tangail",
+      "divisionId": "dhaka",
+      "name": "Tangail",
+      "nameBn": "টাঙ্গাইল"
+    },
+    {
+      "id": "kishoreganj",
+      "divisionId": "dhaka",
+      "name": "Kishoreganj",
+      "nameBn": "কিশোরগঞ্জ"
+    },
+    {
+      "id": "faridpur",
+      "divisionId": "dhaka",
+      "name": "Faridpur",
+      "nameBn": "ফরিদপুর"
+    },
+    {
+      "id": "rajbari",
+      "divisionId": "dhaka",
+      "name": "Rajbari",
+      "nameBn": "রাজবাড়ী"
+    },
+    {
+      "id": "madaripur",
+      "divisionId": "dhaka",
+      "name": "Madaripur",
+      "nameBn": "মাদারীপুর"
+    },
+    {
+      "id": "gopalganj",
+      "divisionId": "dhaka",
+      "name": "Gopalganj",
+      "nameBn": "গোপালগঞ্জ"
+    },
+    {
+      "id": "shariatpur",
+      "divisionId": "dhaka",
+      "name": "Shariatpur",
+      "nameBn": "শরীয়তপুর"
+    },
+    {
+      "id": "chittagong-district",
+      "divisionId": "chittagong",
+      "name": "Chittagong",
+      "nameBn": "চট্টগ্রাম",
+      "aliases": [
+        "Chattogram"
+      ]
+    },
+    {
+      "id": "cox-bazar",
+      "divisionId": "chittagong",
+      "name": "Cox's Bazar",
+      "nameBn": "কক্সবাজার",
+      "aliases": [
+        "Coxs Bazar",
+        "Cox'sbazar",
+        "Coxsbazar"
+      ]
+    },
+    {
+      "id": "comilla",
+      "divisionId": "chittagong",
+      "name": "Comilla",
+      "nameBn": "কুমিল্লা",
+      "aliases": [
+        "Cumilla"
+      ]
+    },
+    {
+      "id": "chandpur",
+      "divisionId": "chittagong",
+      "name": "Chandpur",
+      "nameBn": "চাঁদপুর"
+    },
+    {
+      "id": "feni",
+      "divisionId": "chittagong",
+      "name": "Feni",
+      "nameBn": "ফেনী"
+    },
+    {
+      "id": "noakhali",
+      "divisionId": "chittagong",
+      "name": "Noakhali",
+      "nameBn": "নোয়াখালী"
+    },
+    {
+      "id": "lakshmipur",
+      "divisionId": "chittagong",
+      "name": "Lakshmipur",
+      "nameBn": "লক্ষ্মীপুর"
+    },
+    {
+      "id": "rangamati",
+      "divisionId": "chittagong",
+      "name": "Rangamati",
+      "nameBn": "রাঙামাটি"
+    },
+    {
+      "id": "khagrachhari",
+      "divisionId": "chittagong",
+      "name": "Khagrachhari",
+      "nameBn": "খাগড়াছড়ি"
+    },
+    {
+      "id": "bandarban",
+      "divisionId": "chittagong",
+      "name": "Bandarban",
+      "nameBn": "বান্দরবান"
+    },
+    {
+      "id": "brahmanbaria",
+      "divisionId": "chittagong",
+      "name": "Brahmanbaria",
+      "nameBn": "ব্রাহ্মণবাড়িয়া"
+    },
+    {
+      "id": "rajshahi-district",
+      "divisionId": "rajshahi",
+      "name": "Rajshahi",
+      "nameBn": "রাজশাহী"
+    },
+    {
+      "id": "natore",
+      "divisionId": "rajshahi",
+      "name": "Natore",
+      "nameBn": "নাটোর"
+    },
+    {
+      "id": "naogaon",
+      "divisionId": "rajshahi",
+      "name": "Naogaon",
+      "nameBn": "নওগাঁ"
+    },
+    {
+      "id": "chapainawabganj",
+      "divisionId": "rajshahi",
+      "name": "Chapainawabganj",
+      "nameBn": "চাঁপাইনবাবগঞ্জ"
+    },
+    {
+      "id": "pabna",
+      "divisionId": "rajshahi",
+      "name": "Pabna",
+      "nameBn": "পাবনা"
+    },
+    {
+      "id": "sirajganj",
+      "divisionId": "rajshahi",
+      "name": "Sirajganj",
+      "nameBn": "সিরাজগঞ্জ"
+    },
+    {
+      "id": "bogura",
+      "divisionId": "rajshahi",
+      "name": "Bogura",
+      "nameBn": "বগুড়া",
+      "aliases": [
+        "Bogra"
+      ]
+    },
+    {
+      "id": "joypurhat",
+      "divisionId": "rajshahi",
+      "name": "Joypurhat",
+      "nameBn": "জয়পুরহাট"
+    },
+    {
+      "id": "khulna-district",
+      "divisionId": "khulna",
+      "name": "Khulna",
+      "nameBn": "খুলনা"
+    },
+    {
+      "id": "jessore",
+      "divisionId": "khulna",
+      "name": "Jessore",
+      "nameBn": "যশোর",
+      "aliases": [
+        "Jashore"
+      ]
+    },
+    {
+      "id": "satkhira",
+      "divisionId": "khulna",
+      "name": "Satkhira",
+      "nameBn": "সাতক্ষীরা"
+    },
+    {
+      "id": "bagerhat",
+      "divisionId": "khulna",
+      "name": "Bagerhat",
+      "nameBn": "বাগেরহাট"
+    },
+    {
+      "id": "magura",
+      "divisionId": "khulna",
+      "name": "Magura",
+      "nameBn": "মাগুরা"
+    },
+    {
+      "id": "narail",
+      "divisionId": "khulna",
+      "name": "Narail",
+      "nameBn": "নড়াইল"
+    },
+    {
+      "id": "jhenaidah",
+      "divisionId": "khulna",
+      "name": "Jhenaidah",
+      "nameBn": "ঝিনাইদহ"
+    },
+    {
+      "id": "kushtia",
+      "divisionId": "khulna",
+      "name": "Kushtia",
+      "nameBn": "কুষ্টিয়া"
+    },
+    {
+      "id": "chuadanga",
+      "divisionId": "khulna",
+      "name": "Chuadanga",
+      "nameBn": "চুয়াডাঙ্গা"
+    },
+    {
+      "id": "meherpur",
+      "divisionId": "khulna",
+      "name": "Meherpur",
+      "nameBn": "মেহেরপুর"
+    },
+    {
+      "id": "barisal-district",
+      "divisionId": "barisal",
+      "name": "Barisal",
+      "nameBn": "বরিশাল",
+      "aliases": [
+        "Barishal"
+      ]
+    },
+    {
+      "id": "bhola",
+      "divisionId": "barisal",
+      "name": "Bhola",
+      "nameBn": "ভোলা"
+    },
+    {
+      "id": "patuakhali",
+      "divisionId": "barisal",
+      "name": "Patuakhali",
+      "nameBn": "পটুয়াখালী"
+    },
+    {
+      "id": "pirojpur",
+      "divisionId": "barisal",
+      "name": "Pirojpur",
+      "nameBn": "পিরোজপুর"
+    },
+    {
+      "id": "jhalokati",
+      "divisionId": "barisal",
+      "name": "Jhalokati",
+      "nameBn": "ঝালকাঠি",
+      "aliases": [
+        "Jhalakathi"
+      ]
+    },
+    {
+      "id": "barguna",
+      "divisionId": "barisal",
+      "name": "Barguna",
+      "nameBn": "বরগুনা"
+    },
+    {
+      "id": "sylhet-district",
+      "divisionId": "sylhet",
+      "name": "Sylhet",
+      "nameBn": "সিলেট"
+    },
+    {
+      "id": "moulvibazar",
+      "divisionId": "sylhet",
+      "name": "Moulvibazar",
+      "nameBn": "মৌলভীবাজার",
+      "aliases": [
+        "Maulvibazar"
+      ]
+    },
+    {
+      "id": "habiganj",
+      "divisionId": "sylhet",
+      "name": "Habiganj",
+      "nameBn": "হবিগঞ্জ"
+    },
+    {
+      "id": "sunamganj",
+      "divisionId": "sylhet",
+      "name": "Sunamganj",
+      "nameBn": "সুনামগঞ্জ"
+    },
+    {
+      "id": "rangpur-district",
+      "divisionId": "rangpur",
+      "name": "Rangpur",
+      "nameBn": "রংপুর"
+    },
+    {
+      "id": "gaibandha",
+      "divisionId": "rangpur",
+      "name": "Gaibandha",
+      "nameBn": "গাইবান্ধা"
+    },
+    {
+      "id": "kurigram",
+      "divisionId": "rangpur",
+      "name": "Kurigram",
+      "nameBn": "কুড়িগ্রাম"
+    },
+    {
+      "id": "lalmonirhat",
+      "divisionId": "rangpur",
+      "name": "Lalmonirhat",
+      "nameBn": "লালমনিরহাট"
+    },
+    {
+      "id": "nilphamari",
+      "divisionId": "rangpur",
+      "name": "Nilphamari",
+      "nameBn": "নীলফামারী"
+    },
+    {
+      "id": "panchagarh",
+      "divisionId": "rangpur",
+      "name": "Panchagarh",
+      "nameBn": "পঞ্চগড়"
+    },
+    {
+      "id": "dinajpur",
+      "divisionId": "rangpur",
+      "name": "Dinajpur",
+      "nameBn": "দিনাজপুর"
+    },
+    {
+      "id": "thakurgaon",
+      "divisionId": "rangpur",
+      "name": "Thakurgaon",
+      "nameBn": "ঠাকুরগাঁও"
+    },
+    {
+      "id": "mymensingh-district",
+      "divisionId": "mymensingh",
+      "name": "Mymensingh",
+      "nameBn": "ময়মনসিংহ"
+    },
+    {
+      "id": "jamalpur",
+      "divisionId": "mymensingh",
+      "name": "Jamalpur",
+      "nameBn": "জামালপুর"
+    },
+    {
+      "id": "netrokona",
+      "divisionId": "mymensingh",
+      "name": "Netrokona",
+      "nameBn": "নেত্রকোণা"
+    },
+    {
+      "id": "sherpur",
+      "divisionId": "mymensingh",
+      "name": "Sherpur",
+      "nameBn": "শেরপুর"
+    }
+  ],
+  "urbanAreas": [
+    {
+      "id": "dhanmondi",
+      "districtId": "dhaka-district",
+      "name": "Dhanmondi",
+      "nameBn": "ধানমন্ডি",
+      "kind": "police-thana",
+      "sourceUrl": "https://www.police.gov.bd/en/dhaka_metropolitan_police"
+    },
+    {
+      "id": "gulshan",
+      "districtId": "dhaka-district",
+      "name": "Gulshan",
+      "nameBn": "গুলশান",
+      "kind": "police-thana",
+      "sourceUrl": "https://www.police.gov.bd/en/dhaka_metropolitan_police"
+    },
+    {
+      "id": "mirpur",
+      "districtId": "dhaka-district",
+      "name": "Mirpur",
+      "nameBn": "মিরপুর",
+      "kind": "locality"
+    },
+    {
+      "id": "uttara",
+      "districtId": "dhaka-district",
+      "name": "Uttara",
+      "nameBn": "উত্তরা",
+      "kind": "locality"
+    },
+    {
+      "id": "mohammadpur",
+      "districtId": "dhaka-district",
+      "name": "Mohammadpur",
+      "nameBn": "মোহাম্মদপুর",
+      "kind": "police-thana",
+      "sourceUrl": "https://www.police.gov.bd/en/dhaka_metropolitan_police"
+    },
+    {
+      "id": "banani",
+      "districtId": "dhaka-district",
+      "name": "Banani",
+      "nameBn": "বনানী",
+      "kind": "police-thana",
+      "sourceUrl": "https://www.police.gov.bd/en/dhaka_metropolitan_police"
+    },
+    {
+      "id": "motijheel",
+      "districtId": "dhaka-district",
+      "name": "Motijheel",
+      "nameBn": "মতিঝিল",
+      "kind": "police-thana",
+      "sourceUrl": "https://www.police.gov.bd/en/dhaka_metropolitan_police"
+    },
+    {
+      "id": "panthapath",
+      "districtId": "dhaka-district",
+      "name": "Panthapath",
+      "nameBn": "পান্থপথ",
+      "kind": "locality"
+    },
+    {
+      "id": "elephant-road",
+      "districtId": "dhaka-district",
+      "name": "Elephant Road",
+      "nameBn": "এলিফ্যান্ট রোড",
+      "kind": "locality"
+    },
+    {
+      "id": "badda",
+      "districtId": "dhaka-district",
+      "name": "Badda",
+      "nameBn": "বাড্ডা",
+      "kind": "police-thana",
+      "sourceUrl": "https://www.police.gov.bd/en/dhaka_metropolitan_police"
+    },
+    {
+      "id": "khilgaon",
+      "districtId": "dhaka-district",
+      "name": "Khilgaon",
+      "nameBn": "খিলগাঁও",
+      "kind": "police-thana",
+      "sourceUrl": "https://www.police.gov.bd/en/dhaka_metropolitan_police"
+    },
+    {
+      "id": "bashundhara",
+      "districtId": "dhaka-district",
+      "name": "Bashundhara R/A",
+      "nameBn": "বসুন্ধরা আ/এ",
+      "kind": "locality"
+    },
+    {
+      "id": "old-dhaka",
+      "districtId": "dhaka-district",
+      "name": "Old Dhaka / Lalbagh",
+      "nameBn": "পুরান ঢাকা / লালবাগ",
+      "kind": "locality"
+    },
+    {
+      "id": "tejgaon",
+      "districtId": "dhaka-district",
+      "name": "Tejgaon",
+      "nameBn": "তেজগাঁও",
+      "kind": "police-thana",
+      "sourceUrl": "https://www.police.gov.bd/en/dhaka_metropolitan_police"
+    },
+    {
+      "id": "ctg-city",
+      "districtId": "chittagong-district",
+      "name": "Chittagong City",
+      "nameBn": "চট্টগ্রাম সিটি",
+      "kind": "city",
+      "aliases": [
+        "Chattogram City"
+      ]
+    },
+    {
+      "id": "rajshahi-city",
+      "districtId": "rajshahi-district",
+      "name": "Rajshahi City",
+      "nameBn": "রাজশাহী সিটি",
+      "kind": "city"
+    },
+    {
+      "id": "khulna-city",
+      "districtId": "khulna-district",
+      "name": "Khulna City",
+      "nameBn": "খুলনা সিটি",
+      "kind": "city"
+    },
+    {
+      "id": "sylhet-city",
+      "districtId": "sylhet-district",
+      "name": "Sylhet City",
+      "nameBn": "সিলেট সিটি",
+      "kind": "city"
+    },
+    {
+      "id": "barisal-city",
+      "districtId": "barisal-district",
+      "name": "Barisal City",
+      "nameBn": "বরিশাল সিটি",
+      "kind": "city",
+      "aliases": [
+        "Barishal City"
+      ]
+    },
+    {
+      "id": "rangpur-city",
+      "districtId": "rangpur-district",
+      "name": "Rangpur City",
+      "nameBn": "রংপুর সিটি",
+      "kind": "city"
+    },
+    {
+      "id": "mymensingh-city",
+      "districtId": "mymensingh-district",
+      "name": "Mymensingh City",
+      "nameBn": "ময়মনসিংহ সিটি",
+      "kind": "city"
+    }
+  ],
+  "administrativeUpazilas": [
+    {
+      "id": "dhaka-district-dhamrai",
+      "districtId": "dhaka-district",
+      "name": "Dhamrai",
+      "nameBn": "ধামরাই",
+      "kind": "upazila",
+      "sourceUrl": "https://dhamrai.dhaka.gov.bd",
+      "aliases": [
+        "dhamrai"
+      ]
+    },
+    {
+      "id": "dohar",
+      "districtId": "dhaka-district",
+      "name": "Dohar",
+      "nameBn": "দোহার",
+      "kind": "upazila",
+      "sourceUrl": "https://dohar.dhaka.gov.bd",
+      "aliases": [
+        "dohar"
+      ]
+    },
+    {
+      "id": "keraniganj",
+      "districtId": "dhaka-district",
+      "name": "Keraniganj",
+      "nameBn": "কেরাণীগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://keraniganj.dhaka.gov.bd",
+      "aliases": [
+        "কেরানীগঞ্জ",
+        "keraniganj"
+      ]
+    },
+    {
+      "id": "nawabganj-dhaka",
+      "districtId": "dhaka-district",
+      "name": "Nawabganj",
+      "nameBn": "নবাবগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://nawabganj.dhaka.gov.bd",
+      "aliases": [
+        "nawabganj"
+      ]
+    },
+    {
+      "id": "savar",
+      "districtId": "dhaka-district",
+      "name": "Savar",
+      "nameBn": "সাভার",
+      "kind": "upazila",
+      "sourceUrl": "https://savar.dhaka.gov.bd",
+      "aliases": [
+        "savar"
+      ]
+    },
+    {
+      "id": "faridpur-alfadanga",
+      "districtId": "faridpur",
+      "name": "Alfadanga",
+      "nameBn": "আলফাডাঙ্গা",
+      "kind": "upazila",
+      "sourceUrl": "https://alfadanga.faridpur.gov.bd",
+      "aliases": [
+        "alfadanga"
+      ]
+    },
+    {
+      "id": "faridpur-bhanga",
+      "districtId": "faridpur",
+      "name": "Bhanga",
+      "nameBn": "ভাঙ্গা",
+      "kind": "upazila",
+      "sourceUrl": "https://bhanga.faridpur.gov.bd",
+      "aliases": [
+        "bhanga"
+      ]
+    },
+    {
+      "id": "faridpur-boalmari",
+      "districtId": "faridpur",
+      "name": "Boalmari",
+      "nameBn": "বোয়ালমারী",
+      "kind": "upazila",
+      "sourceUrl": "https://boalmari.faridpur.gov.bd",
+      "aliases": [
+        "boalmari"
+      ]
+    },
+    {
+      "id": "faridpur-charbhadrasan",
+      "districtId": "faridpur",
+      "name": "Charbhadrasan",
+      "nameBn": "চরভদ্রাসন",
+      "kind": "upazila",
+      "sourceUrl": "https://charbhadrasan.faridpur.gov.bd",
+      "aliases": [
+        "charbhadrasan"
+      ]
+    },
+    {
+      "id": "faridpur-sadar",
+      "districtId": "faridpur",
+      "name": "Faridpur Sadar",
+      "nameBn": "ফরিদপুর সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.faridpur.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "faridpur-madhukhali",
+      "districtId": "faridpur",
+      "name": "Madhukhali",
+      "nameBn": "মধুখালী",
+      "kind": "upazila",
+      "sourceUrl": "https://madhukhali.faridpur.gov.bd",
+      "aliases": [
+        "madhukhali"
+      ]
+    },
+    {
+      "id": "faridpur-nagarkanda",
+      "districtId": "faridpur",
+      "name": "Nagarkanda",
+      "nameBn": "নগরকান্দা",
+      "kind": "upazila",
+      "sourceUrl": "https://nagarkanda.faridpur.gov.bd",
+      "aliases": [
+        "nagarkanda"
+      ]
+    },
+    {
+      "id": "faridpur-sadarpur",
+      "districtId": "faridpur",
+      "name": "Sadarpur",
+      "nameBn": "সদরপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadarpur.faridpur.gov.bd",
+      "aliases": [
+        "sadarpur"
+      ]
+    },
+    {
+      "id": "faridpur-saltha",
+      "districtId": "faridpur",
+      "name": "Saltha",
+      "nameBn": "সালথা",
+      "kind": "upazila",
+      "sourceUrl": "https://saltha.faridpur.gov.bd",
+      "aliases": [
+        "saltha"
+      ]
+    },
+    {
+      "id": "gazipur-sadar",
+      "districtId": "gazipur",
+      "name": "Gazipur Sadar",
+      "nameBn": "গাজীপুর সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.gazipur.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "kaliakair",
+      "districtId": "gazipur",
+      "name": "Kaliakair",
+      "nameBn": "কালিয়াকৈর",
+      "kind": "upazila",
+      "sourceUrl": "https://kaliakair.gazipur.gov.bd",
+      "aliases": [
+        "কালিয়াকৈর",
+        "kaliakair"
+      ]
+    },
+    {
+      "id": "kaliganj-gazipur",
+      "districtId": "gazipur",
+      "name": "Kaliganj",
+      "nameBn": "কালীগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://kaliganj.gazipur.gov.bd",
+      "aliases": [
+        "kaliganj"
+      ]
+    },
+    {
+      "id": "kapasia",
+      "districtId": "gazipur",
+      "name": "Kapasia",
+      "nameBn": "কাপাসিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://kapasia.gazipur.gov.bd",
+      "aliases": [
+        "কাপাসিয়া",
+        "kapasia"
+      ]
+    },
+    {
+      "id": "sreepur",
+      "districtId": "gazipur",
+      "name": "Sreepur",
+      "nameBn": "শ্রীপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://sreepur.gazipur.gov.bd",
+      "aliases": [
+        "sreepur"
+      ]
+    },
+    {
+      "id": "gopalganj-sadar",
+      "districtId": "gopalganj",
+      "name": "Gopalganj Sadar",
+      "nameBn": "গোপালগঞ্জ সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.gopalganj.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "gopalganj-kashiani",
+      "districtId": "gopalganj",
+      "name": "Kashiani",
+      "nameBn": "কাশিয়ানী",
+      "kind": "upazila",
+      "sourceUrl": "https://kashiani.gopalganj.gov.bd",
+      "aliases": [
+        "kashiani"
+      ]
+    },
+    {
+      "id": "gopalganj-kotalipara",
+      "districtId": "gopalganj",
+      "name": "Kotalipara",
+      "nameBn": "কোটালীপাড়া",
+      "kind": "upazila",
+      "sourceUrl": "https://kotalipara.gopalganj.gov.bd",
+      "aliases": [
+        "kotalipara"
+      ]
+    },
+    {
+      "id": "gopalganj-muksudpur",
+      "districtId": "gopalganj",
+      "name": "Muksudpur",
+      "nameBn": "মুকসুদপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://muksudpur.gopalganj.gov.bd",
+      "aliases": [
+        "muksudpur"
+      ]
+    },
+    {
+      "id": "gopalganj-tungipara",
+      "districtId": "gopalganj",
+      "name": "Tungipara",
+      "nameBn": "টুঙ্গিপাড়া",
+      "kind": "upazila",
+      "sourceUrl": "https://tungipara.gopalganj.gov.bd",
+      "aliases": [
+        "tungipara"
+      ]
+    },
+    {
+      "id": "kishoreganj-austagram",
+      "districtId": "kishoreganj",
+      "name": "Austagram",
+      "nameBn": "অষ্টগ্রাম",
+      "kind": "upazila",
+      "sourceUrl": "https://austagram.kishoreganj.gov.bd",
+      "aliases": [
+        "austagram"
+      ]
+    },
+    {
+      "id": "kishoreganj-bajitpur",
+      "districtId": "kishoreganj",
+      "name": "Bajitpur",
+      "nameBn": "বাজিতপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://bajitpur.kishoreganj.gov.bd",
+      "aliases": [
+        "bajitpur"
+      ]
+    },
+    {
+      "id": "kishoreganj-bhairab",
+      "districtId": "kishoreganj",
+      "name": "Bhairab",
+      "nameBn": "ভৈরব",
+      "kind": "upazila",
+      "sourceUrl": "https://bhairab.kishoreganj.gov.bd",
+      "aliases": [
+        "bhairab"
+      ]
+    },
+    {
+      "id": "kishoreganj-hossainpur",
+      "districtId": "kishoreganj",
+      "name": "Hossainpur",
+      "nameBn": "হোসেনপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://hossainpur.kishoreganj.gov.bd",
+      "aliases": [
+        "hossainpur"
+      ]
+    },
+    {
+      "id": "kishoreganj-itna",
+      "districtId": "kishoreganj",
+      "name": "Itna",
+      "nameBn": "ইটনা",
+      "kind": "upazila",
+      "sourceUrl": "https://itna.kishoreganj.gov.bd",
+      "aliases": [
+        "itna"
+      ]
+    },
+    {
+      "id": "kishoreganj-karimgonj",
+      "districtId": "kishoreganj",
+      "name": "Karimgonj",
+      "nameBn": "করিমগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://karimgonj.kishoreganj.gov.bd",
+      "aliases": [
+        "karimgonj"
+      ]
+    },
+    {
+      "id": "kishoreganj-katiadi",
+      "districtId": "kishoreganj",
+      "name": "Katiadi",
+      "nameBn": "কটিয়াদী",
+      "kind": "upazila",
+      "sourceUrl": "https://katiadi.kishoreganj.gov.bd",
+      "aliases": [
+        "katiadi"
+      ]
+    },
+    {
+      "id": "kishoreganj-kishoreganjsadar",
+      "districtId": "kishoreganj",
+      "name": "Kishoreganj Sadar",
+      "nameBn": "কিশোরগঞ্জ সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://kishoreganjsadar.kishoreganj.gov.bd",
+      "aliases": [
+        "kishoreganjsadar"
+      ]
+    },
+    {
+      "id": "kishoreganj-kuliarchar",
+      "districtId": "kishoreganj",
+      "name": "Kuliarchar",
+      "nameBn": "কুলিয়ারচর",
+      "kind": "upazila",
+      "sourceUrl": "https://kuliarchar.kishoreganj.gov.bd",
+      "aliases": [
+        "kuliarchar"
+      ]
+    },
+    {
+      "id": "kishoreganj-mithamoin",
+      "districtId": "kishoreganj",
+      "name": "Mithamoin",
+      "nameBn": "মিঠামইন",
+      "kind": "upazila",
+      "sourceUrl": "https://mithamoin.kishoreganj.gov.bd",
+      "aliases": [
+        "mithamoin"
+      ]
+    },
+    {
+      "id": "kishoreganj-nikli",
+      "districtId": "kishoreganj",
+      "name": "Nikli",
+      "nameBn": "নিকলী",
+      "kind": "upazila",
+      "sourceUrl": "https://nikli.kishoreganj.gov.bd",
+      "aliases": [
+        "nikli"
+      ]
+    },
+    {
+      "id": "kishoreganj-pakundia",
+      "districtId": "kishoreganj",
+      "name": "Pakundia",
+      "nameBn": "পাকুন্দিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://pakundia.kishoreganj.gov.bd",
+      "aliases": [
+        "pakundia"
+      ]
+    },
+    {
+      "id": "kishoreganj-tarail",
+      "districtId": "kishoreganj",
+      "name": "Tarail",
+      "nameBn": "তাড়াইল",
+      "kind": "upazila",
+      "sourceUrl": "https://tarail.kishoreganj.gov.bd",
+      "aliases": [
+        "tarail"
+      ]
+    },
+    {
+      "id": "madaripur-kalkini",
+      "districtId": "madaripur",
+      "name": "Kalkini",
+      "nameBn": "কালকিনি",
+      "kind": "upazila",
+      "sourceUrl": "https://kalkini.madaripur.gov.bd",
+      "aliases": [
+        "kalkini"
+      ]
+    },
+    {
+      "id": "madaripur-sadar",
+      "districtId": "madaripur",
+      "name": "Madaripur Sadar",
+      "nameBn": "মাদারীপুর সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.madaripur.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "madaripur-rajoir",
+      "districtId": "madaripur",
+      "name": "Rajoir",
+      "nameBn": "রাজৈর",
+      "kind": "upazila",
+      "sourceUrl": "https://rajoir.madaripur.gov.bd",
+      "aliases": [
+        "rajoir"
+      ]
+    },
+    {
+      "id": "madaripur-shibchar",
+      "districtId": "madaripur",
+      "name": "Shibchar",
+      "nameBn": "শিবচর",
+      "kind": "upazila",
+      "sourceUrl": "https://shibchar.madaripur.gov.bd",
+      "aliases": [
+        "shibchar"
+      ]
+    },
+    {
+      "id": "madaripur-dasar",
+      "districtId": "madaripur",
+      "name": "Dasar",
+      "nameBn": "ডাসার",
+      "kind": "upazila",
+      "sourceUrl": "https://dasar.madaripur.gov.bd",
+      "aliases": [
+        "dasar"
+      ]
+    },
+    {
+      "id": "manikganj-daulatpur",
+      "districtId": "manikganj",
+      "name": "Daulatpur",
+      "nameBn": "দৌলতপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://daulatpur.manikganj.gov.bd",
+      "aliases": [
+        "daulatpur"
+      ]
+    },
+    {
+      "id": "manikganj-gior",
+      "districtId": "manikganj",
+      "name": "Gior",
+      "nameBn": "ঘিওর",
+      "kind": "upazila",
+      "sourceUrl": "https://gior.manikganj.gov.bd",
+      "aliases": [
+        "gior"
+      ]
+    },
+    {
+      "id": "manikganj-harirampur",
+      "districtId": "manikganj",
+      "name": "Harirampur",
+      "nameBn": "হরিরামপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://harirampur.manikganj.gov.bd",
+      "aliases": [
+        "harirampur"
+      ]
+    },
+    {
+      "id": "manikganj-sadar",
+      "districtId": "manikganj",
+      "name": "Manikganj Sadar",
+      "nameBn": "মানিকগঞ্জ সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.manikganj.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "manikganj-saturia",
+      "districtId": "manikganj",
+      "name": "Saturia",
+      "nameBn": "সাটুরিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://saturia.manikganj.gov.bd",
+      "aliases": [
+        "saturia"
+      ]
+    },
+    {
+      "id": "manikganj-shibaloy",
+      "districtId": "manikganj",
+      "name": "Shibaloy",
+      "nameBn": "শিবালয়",
+      "kind": "upazila",
+      "sourceUrl": "https://shibaloy.manikganj.gov.bd",
+      "aliases": [
+        "shibaloy"
+      ]
+    },
+    {
+      "id": "manikganj-singair",
+      "districtId": "manikganj",
+      "name": "Singair",
+      "nameBn": "সিংগাইর",
+      "kind": "upazila",
+      "sourceUrl": "https://singair.manikganj.gov.bd",
+      "aliases": [
+        "singair"
+      ]
+    },
+    {
+      "id": "munshiganj-gajaria",
+      "districtId": "munshiganj",
+      "name": "Gajaria",
+      "nameBn": "গজারিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://gajaria.munshiganj.gov.bd",
+      "aliases": [
+        "gajaria"
+      ]
+    },
+    {
+      "id": "munshiganj-louhajanj",
+      "districtId": "munshiganj",
+      "name": "Louhajanj",
+      "nameBn": "লৌহজং",
+      "kind": "upazila",
+      "sourceUrl": "https://louhajanj.munshiganj.gov.bd",
+      "aliases": [
+        "louhajanj"
+      ]
+    },
+    {
+      "id": "munshiganj-sadar",
+      "districtId": "munshiganj",
+      "name": "Munshiganj Sadar",
+      "nameBn": "মুন্সীগঞ্জ সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.munshiganj.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "munshiganj-sirajdikhan",
+      "districtId": "munshiganj",
+      "name": "Sirajdikhan",
+      "nameBn": "সিরাজদিখান",
+      "kind": "upazila",
+      "sourceUrl": "https://sirajdikhan.munshiganj.gov.bd",
+      "aliases": [
+        "sirajdikhan"
+      ]
+    },
+    {
+      "id": "munshiganj-sreenagar",
+      "districtId": "munshiganj",
+      "name": "Sreenagar",
+      "nameBn": "শ্রীনগর",
+      "kind": "upazila",
+      "sourceUrl": "https://sreenagar.munshiganj.gov.bd",
+      "aliases": [
+        "sreenagar"
+      ]
+    },
+    {
+      "id": "munshiganj-tongibari",
+      "districtId": "munshiganj",
+      "name": "Tongibari",
+      "nameBn": "টংগিবাড়ী",
+      "kind": "upazila",
+      "sourceUrl": "https://tongibari.munshiganj.gov.bd",
+      "aliases": [
+        "tongibari"
+      ]
+    },
+    {
+      "id": "araihazar",
+      "districtId": "narayanganj",
+      "name": "Araihazar",
+      "nameBn": "আড়াইহাজার",
+      "kind": "upazila",
+      "sourceUrl": "https://araihazar.narayanganj.gov.bd",
+      "aliases": [
+        "araihazar"
+      ]
+    },
+    {
+      "id": "sonargaon",
+      "districtId": "narayanganj",
+      "name": "Sonargaon",
+      "nameBn": "সোনারগাঁ",
+      "kind": "upazila",
+      "sourceUrl": "https://sonargaon.narayanganj.gov.bd",
+      "aliases": [
+        "সোনারগাঁও",
+        "sonargaon"
+      ]
+    },
+    {
+      "id": "narayanganj-sadar",
+      "districtId": "narayanganj",
+      "name": "Narayanganj Sadar",
+      "nameBn": "নারায়নগঞ্জ সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://narayanganjsadar.narayanganj.gov.bd",
+      "aliases": [
+        "নারায়ণগঞ্জ সদর",
+        "narayanganjsadar"
+      ]
+    },
+    {
+      "id": "rupganj",
+      "districtId": "narayanganj",
+      "name": "Rupganj",
+      "nameBn": "রূপগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://rupganj.narayanganj.gov.bd",
+      "aliases": [
+        "rupganj"
+      ]
+    },
+    {
+      "id": "bandar",
+      "districtId": "narayanganj",
+      "name": "Bandar",
+      "nameBn": "বন্দর",
+      "kind": "upazila",
+      "sourceUrl": "https://bandar.narayanganj.gov.bd",
+      "aliases": [
+        "bandar"
+      ]
+    },
+    {
+      "id": "narsingdi-belabo",
+      "districtId": "narsingdi",
+      "name": "Belabo",
+      "nameBn": "বেলাবো",
+      "kind": "upazila",
+      "sourceUrl": "https://belabo.narsingdi.gov.bd",
+      "aliases": [
+        "belabo"
+      ]
+    },
+    {
+      "id": "narsingdi-monohardi",
+      "districtId": "narsingdi",
+      "name": "Monohardi",
+      "nameBn": "মনোহরদী",
+      "kind": "upazila",
+      "sourceUrl": "https://monohardi.narsingdi.gov.bd",
+      "aliases": [
+        "monohardi"
+      ]
+    },
+    {
+      "id": "narsingdi-narsingdisadar",
+      "districtId": "narsingdi",
+      "name": "Narsingdi Sadar",
+      "nameBn": "নরসিংদী সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://narsingdisadar.narsingdi.gov.bd",
+      "aliases": [
+        "narsingdisadar"
+      ]
+    },
+    {
+      "id": "narsingdi-palash",
+      "districtId": "narsingdi",
+      "name": "Palash",
+      "nameBn": "পলাশ",
+      "kind": "upazila",
+      "sourceUrl": "https://palash.narsingdi.gov.bd",
+      "aliases": [
+        "palash"
+      ]
+    },
+    {
+      "id": "narsingdi-raipura",
+      "districtId": "narsingdi",
+      "name": "Raipura",
+      "nameBn": "রায়পুরা",
+      "kind": "upazila",
+      "sourceUrl": "https://raipura.narsingdi.gov.bd",
+      "aliases": [
+        "raipura"
+      ]
+    },
+    {
+      "id": "narsingdi-shibpur",
+      "districtId": "narsingdi",
+      "name": "Shibpur",
+      "nameBn": "শিবপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://shibpur.narsingdi.gov.bd",
+      "aliases": [
+        "shibpur"
+      ]
+    },
+    {
+      "id": "rajbari-baliakandi",
+      "districtId": "rajbari",
+      "name": "Baliakandi",
+      "nameBn": "বালিয়াকান্দি",
+      "kind": "upazila",
+      "sourceUrl": "https://baliakandi.rajbari.gov.bd",
+      "aliases": [
+        "baliakandi"
+      ]
+    },
+    {
+      "id": "rajbari-goalanda",
+      "districtId": "rajbari",
+      "name": "Goalanda",
+      "nameBn": "গোয়ালন্দ",
+      "kind": "upazila",
+      "sourceUrl": "https://goalanda.rajbari.gov.bd",
+      "aliases": [
+        "goalanda"
+      ]
+    },
+    {
+      "id": "rajbari-kalukhali",
+      "districtId": "rajbari",
+      "name": "Kalukhali",
+      "nameBn": "কালুখালী",
+      "kind": "upazila",
+      "sourceUrl": "https://kalukhali.rajbari.gov.bd",
+      "aliases": [
+        "kalukhali"
+      ]
+    },
+    {
+      "id": "rajbari-pangsa",
+      "districtId": "rajbari",
+      "name": "Pangsa",
+      "nameBn": "পাংশা",
+      "kind": "upazila",
+      "sourceUrl": "https://pangsa.rajbari.gov.bd",
+      "aliases": [
+        "pangsa"
+      ]
+    },
+    {
+      "id": "rajbari-sadar",
+      "districtId": "rajbari",
+      "name": "Rajbari Sadar",
+      "nameBn": "রাজবাড়ী সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.rajbari.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "shariatpur-bhedarganj",
+      "districtId": "shariatpur",
+      "name": "Bhedarganj",
+      "nameBn": "ভেদরগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://bhedarganj.shariatpur.gov.bd",
+      "aliases": [
+        "bhedarganj"
+      ]
+    },
+    {
+      "id": "shariatpur-damudya",
+      "districtId": "shariatpur",
+      "name": "Damudya",
+      "nameBn": "ডামুড্যা",
+      "kind": "upazila",
+      "sourceUrl": "https://damudya.shariatpur.gov.bd",
+      "aliases": [
+        "damudya"
+      ]
+    },
+    {
+      "id": "shariatpur-gosairhat",
+      "districtId": "shariatpur",
+      "name": "Gosairhat",
+      "nameBn": "গোসাইরহাট",
+      "kind": "upazila",
+      "sourceUrl": "https://gosairhat.shariatpur.gov.bd",
+      "aliases": [
+        "gosairhat"
+      ]
+    },
+    {
+      "id": "shariatpur-naria",
+      "districtId": "shariatpur",
+      "name": "Naria",
+      "nameBn": "নড়িয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://naria.shariatpur.gov.bd",
+      "aliases": [
+        "naria"
+      ]
+    },
+    {
+      "id": "shariatpur-sadar",
+      "districtId": "shariatpur",
+      "name": "Shariatpur Sadar",
+      "nameBn": "শরিয়তপুর সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.shariatpur.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "shariatpur-zajira",
+      "districtId": "shariatpur",
+      "name": "Zajira",
+      "nameBn": "জাজিরা",
+      "kind": "upazila",
+      "sourceUrl": "https://zajira.shariatpur.gov.bd",
+      "aliases": [
+        "zajira"
+      ]
+    },
+    {
+      "id": "tangail-basail",
+      "districtId": "tangail",
+      "name": "Basail",
+      "nameBn": "বাসাইল",
+      "kind": "upazila",
+      "sourceUrl": "https://basail.tangail.gov.bd",
+      "aliases": [
+        "basail"
+      ]
+    },
+    {
+      "id": "tangail-bhuapur",
+      "districtId": "tangail",
+      "name": "Bhuapur",
+      "nameBn": "ভূঞাপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://bhuapur.tangail.gov.bd",
+      "aliases": [
+        "bhuapur"
+      ]
+    },
+    {
+      "id": "tangail-delduar",
+      "districtId": "tangail",
+      "name": "Delduar",
+      "nameBn": "দেলদুয়ার",
+      "kind": "upazila",
+      "sourceUrl": "https://delduar.tangail.gov.bd",
+      "aliases": [
+        "delduar"
+      ]
+    },
+    {
+      "id": "tangail-dhanbari",
+      "districtId": "tangail",
+      "name": "Dhanbari",
+      "nameBn": "ধনবাড়ী",
+      "kind": "upazila",
+      "sourceUrl": "https://dhanbari.tangail.gov.bd",
+      "aliases": [
+        "dhanbari"
+      ]
+    },
+    {
+      "id": "tangail-ghatail",
+      "districtId": "tangail",
+      "name": "Ghatail",
+      "nameBn": "ঘাটাইল",
+      "kind": "upazila",
+      "sourceUrl": "https://ghatail.tangail.gov.bd",
+      "aliases": [
+        "ghatail"
+      ]
+    },
+    {
+      "id": "tangail-gopalpur",
+      "districtId": "tangail",
+      "name": "Gopalpur",
+      "nameBn": "গোপালপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://gopalpur.tangail.gov.bd",
+      "aliases": [
+        "gopalpur"
+      ]
+    },
+    {
+      "id": "tangail-kalihati",
+      "districtId": "tangail",
+      "name": "Kalihati",
+      "nameBn": "কালিহাতী",
+      "kind": "upazila",
+      "sourceUrl": "https://kalihati.tangail.gov.bd",
+      "aliases": [
+        "kalihati"
+      ]
+    },
+    {
+      "id": "tangail-madhupur",
+      "districtId": "tangail",
+      "name": "Madhupur",
+      "nameBn": "মধুপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://madhupur.tangail.gov.bd",
+      "aliases": [
+        "madhupur"
+      ]
+    },
+    {
+      "id": "tangail-mirzapur",
+      "districtId": "tangail",
+      "name": "Mirzapur",
+      "nameBn": "মির্জাপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://mirzapur.tangail.gov.bd",
+      "aliases": [
+        "mirzapur"
+      ]
+    },
+    {
+      "id": "tangail-nagarpur",
+      "districtId": "tangail",
+      "name": "Nagarpur",
+      "nameBn": "নাগরপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://nagarpur.tangail.gov.bd",
+      "aliases": [
+        "nagarpur"
+      ]
+    },
+    {
+      "id": "tangail-sakhipur",
+      "districtId": "tangail",
+      "name": "Sakhipur",
+      "nameBn": "সখিপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://sakhipur.tangail.gov.bd",
+      "aliases": [
+        "sakhipur"
+      ]
+    },
+    {
+      "id": "tangail-tangailsadar",
+      "districtId": "tangail",
+      "name": "Tangail Sadar",
+      "nameBn": "টাঙ্গাইল সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://tangailsadar.tangail.gov.bd",
+      "aliases": [
+        "tangailsadar"
+      ]
+    },
+    {
+      "id": "bagerhat-chitalmari",
+      "districtId": "bagerhat",
+      "name": "Chitalmari",
+      "nameBn": "চিতলমারী",
+      "kind": "upazila",
+      "sourceUrl": "https://chitalmari.bagerhat.gov.bd",
+      "aliases": [
+        "chitalmari"
+      ]
+    },
+    {
+      "id": "bagerhat-fakirhat",
+      "districtId": "bagerhat",
+      "name": "Fakirhat",
+      "nameBn": "ফকিরহাট",
+      "kind": "upazila",
+      "sourceUrl": "https://fakirhat.bagerhat.gov.bd",
+      "aliases": [
+        "fakirhat"
+      ]
+    },
+    {
+      "id": "bagerhat-kachua",
+      "districtId": "bagerhat",
+      "name": "Kachua",
+      "nameBn": "কচুয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://kachua.bagerhat.gov.bd",
+      "aliases": [
+        "kachua"
+      ]
+    },
+    {
+      "id": "bagerhat-mollahat",
+      "districtId": "bagerhat",
+      "name": "Mollahat",
+      "nameBn": "মোল্লাহাট",
+      "kind": "upazila",
+      "sourceUrl": "https://mollahat.bagerhat.gov.bd",
+      "aliases": [
+        "mollahat"
+      ]
+    },
+    {
+      "id": "bagerhat-mongla",
+      "districtId": "bagerhat",
+      "name": "Mongla",
+      "nameBn": "মোংলা",
+      "kind": "upazila",
+      "sourceUrl": "https://mongla.bagerhat.gov.bd",
+      "aliases": [
+        "mongla"
+      ]
+    },
+    {
+      "id": "bagerhat-morrelganj",
+      "districtId": "bagerhat",
+      "name": "Morrelganj",
+      "nameBn": "মোরেলগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://morrelganj.bagerhat.gov.bd",
+      "aliases": [
+        "morrelganj"
+      ]
+    },
+    {
+      "id": "bagerhat-rampal",
+      "districtId": "bagerhat",
+      "name": "Rampal",
+      "nameBn": "রামপাল",
+      "kind": "upazila",
+      "sourceUrl": "https://rampal.bagerhat.gov.bd",
+      "aliases": [
+        "rampal"
+      ]
+    },
+    {
+      "id": "bagerhat-sarankhola",
+      "districtId": "bagerhat",
+      "name": "Sarankhola",
+      "nameBn": "শরণখোলা",
+      "kind": "upazila",
+      "sourceUrl": "https://sarankhola.bagerhat.gov.bd",
+      "aliases": [
+        "sarankhola"
+      ]
+    },
+    {
+      "id": "bagerhat-sadar",
+      "districtId": "bagerhat",
+      "name": "Bagerhat Sadar",
+      "nameBn": "বাগেরহাট সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.bagerhat.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "chuadanga-alamdanga",
+      "districtId": "chuadanga",
+      "name": "Alamdanga",
+      "nameBn": "আলমডাঙ্গা",
+      "kind": "upazila",
+      "sourceUrl": "https://alamdanga.chuadanga.gov.bd",
+      "aliases": [
+        "alamdanga"
+      ]
+    },
+    {
+      "id": "chuadanga-chuadangasadar",
+      "districtId": "chuadanga",
+      "name": "Chuadanga Sadar",
+      "nameBn": "চুয়াডাঙ্গা সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://chuadangasadar.chuadanga.gov.bd",
+      "aliases": [
+        "chuadangasadar"
+      ]
+    },
+    {
+      "id": "chuadanga-damurhuda",
+      "districtId": "chuadanga",
+      "name": "Damurhuda",
+      "nameBn": "দামুড়হুদা",
+      "kind": "upazila",
+      "sourceUrl": "https://damurhuda.chuadanga.gov.bd",
+      "aliases": [
+        "damurhuda"
+      ]
+    },
+    {
+      "id": "chuadanga-jibannagar",
+      "districtId": "chuadanga",
+      "name": "Jibannagar",
+      "nameBn": "জীবননগর",
+      "kind": "upazila",
+      "sourceUrl": "https://jibannagar.chuadanga.gov.bd",
+      "aliases": [
+        "jibannagar"
+      ]
+    },
+    {
+      "id": "jessore-abhaynagar",
+      "districtId": "jessore",
+      "name": "Abhaynagar",
+      "nameBn": "অভয়নগর",
+      "kind": "upazila",
+      "sourceUrl": "https://abhaynagar.jashore.gov.bd",
+      "aliases": [
+        "abhaynagar"
+      ]
+    },
+    {
+      "id": "jessore-bagherpara",
+      "districtId": "jessore",
+      "name": "Bagherpara",
+      "nameBn": "বাঘারপাড়া",
+      "kind": "upazila",
+      "sourceUrl": "https://bagherpara.jashore.gov.bd",
+      "aliases": [
+        "bagherpara"
+      ]
+    },
+    {
+      "id": "jessore-chougachha",
+      "districtId": "jessore",
+      "name": "Chougachha",
+      "nameBn": "চৌগাছা",
+      "kind": "upazila",
+      "sourceUrl": "https://chougachha.jashore.gov.bd",
+      "aliases": [
+        "chougachha"
+      ]
+    },
+    {
+      "id": "jessore-jhikargacha",
+      "districtId": "jessore",
+      "name": "Jhikargacha",
+      "nameBn": "ঝিকরগাছা",
+      "kind": "upazila",
+      "sourceUrl": "https://jhikargacha.jashore.gov.bd",
+      "aliases": [
+        "jhikargacha"
+      ]
+    },
+    {
+      "id": "jessore-keshabpur",
+      "districtId": "jessore",
+      "name": "Keshabpur",
+      "nameBn": "কেশবপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://keshabpur.jashore.gov.bd",
+      "aliases": [
+        "keshabpur"
+      ]
+    },
+    {
+      "id": "jessore-sadar",
+      "districtId": "jessore",
+      "name": "Jessore Sadar",
+      "nameBn": "যশোর সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.jashore.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "jessore-manirampur",
+      "districtId": "jessore",
+      "name": "Manirampur",
+      "nameBn": "মণিরামপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://manirampur.jashore.gov.bd",
+      "aliases": [
+        "manirampur"
+      ]
+    },
+    {
+      "id": "jessore-sharsha",
+      "districtId": "jessore",
+      "name": "Sharsha",
+      "nameBn": "শার্শা",
+      "kind": "upazila",
+      "sourceUrl": "https://sharsha.jashore.gov.bd",
+      "aliases": [
+        "sharsha"
+      ]
+    },
+    {
+      "id": "jhenaidah-harinakundu",
+      "districtId": "jhenaidah",
+      "name": "Harinakundu",
+      "nameBn": "হরিণাকুন্ডু",
+      "kind": "upazila",
+      "sourceUrl": "https://harinakundu.jhenaidah.gov.bd",
+      "aliases": [
+        "harinakundu"
+      ]
+    },
+    {
+      "id": "jhenaidah-sadar",
+      "districtId": "jhenaidah",
+      "name": "Jhenaidah Sadar",
+      "nameBn": "ঝিনাইদহ সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.jhenaidah.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "jhenaidah-kaliganj",
+      "districtId": "jhenaidah",
+      "name": "Kaliganj",
+      "nameBn": "কালীগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://kaliganj.jhenaidah.gov.bd",
+      "aliases": [
+        "kaliganj"
+      ]
+    },
+    {
+      "id": "jhenaidah-kotchandpur",
+      "districtId": "jhenaidah",
+      "name": "Kotchandpur",
+      "nameBn": "কোটচাঁদপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://kotchandpur.jhenaidah.gov.bd",
+      "aliases": [
+        "kotchandpur"
+      ]
+    },
+    {
+      "id": "jhenaidah-moheshpur",
+      "districtId": "jhenaidah",
+      "name": "Moheshpur",
+      "nameBn": "মহেশপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://moheshpur.jhenaidah.gov.bd",
+      "aliases": [
+        "moheshpur"
+      ]
+    },
+    {
+      "id": "jhenaidah-shailkupa",
+      "districtId": "jhenaidah",
+      "name": "Shailkupa",
+      "nameBn": "শৈলকুপা",
+      "kind": "upazila",
+      "sourceUrl": "https://shailkupa.jhenaidah.gov.bd",
+      "aliases": [
+        "shailkupa"
+      ]
+    },
+    {
+      "id": "batiaghata",
+      "districtId": "khulna-district",
+      "name": "Batiaghata",
+      "nameBn": "বটিয়াঘাটা",
+      "kind": "upazila",
+      "sourceUrl": "https://botiaghata.khulna.gov.bd",
+      "aliases": [
+        "botiaghata"
+      ]
+    },
+    {
+      "id": "dacope",
+      "districtId": "khulna-district",
+      "name": "Dacope",
+      "nameBn": "দাকোপ",
+      "kind": "upazila",
+      "sourceUrl": "https://dacope.khulna.gov.bd",
+      "aliases": [
+        "dacope"
+      ]
+    },
+    {
+      "id": "dumuria",
+      "districtId": "khulna-district",
+      "name": "Dumuria",
+      "nameBn": "ডুমুরিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://dumuria.khulna.gov.bd",
+      "aliases": [
+        "ডুমুরিয়া",
+        "dumuria"
+      ]
+    },
+    {
+      "id": "koyra",
+      "districtId": "khulna-district",
+      "name": "Koyra",
+      "nameBn": "কয়রা",
+      "kind": "upazila",
+      "sourceUrl": "https://koyra.khulna.gov.bd",
+      "aliases": [
+        "কয়রা",
+        "koyra"
+      ]
+    },
+    {
+      "id": "paikgachha",
+      "districtId": "khulna-district",
+      "name": "Paikgachha",
+      "nameBn": "পাইকগাছা",
+      "kind": "upazila",
+      "sourceUrl": "https://paikgasa.khulna.gov.bd",
+      "aliases": [
+        "paikgasa"
+      ]
+    },
+    {
+      "id": "phultala",
+      "districtId": "khulna-district",
+      "name": "Phultala",
+      "nameBn": "ফুলতলা",
+      "kind": "upazila",
+      "sourceUrl": "https://fultola.khulna.gov.bd",
+      "aliases": [
+        "fultola"
+      ]
+    },
+    {
+      "id": "rupsa",
+      "districtId": "khulna-district",
+      "name": "Rupsa",
+      "nameBn": "রূপসা",
+      "kind": "upazila",
+      "sourceUrl": "https://rupsha.khulna.gov.bd",
+      "aliases": [
+        "rupsha"
+      ]
+    },
+    {
+      "id": "terokhada",
+      "districtId": "khulna-district",
+      "name": "Terokhada",
+      "nameBn": "তেরখাদা",
+      "kind": "upazila",
+      "sourceUrl": "https://terokhada.khulna.gov.bd",
+      "aliases": [
+        "terokhada"
+      ]
+    },
+    {
+      "id": "dighalia",
+      "districtId": "khulna-district",
+      "name": "Dighalia",
+      "nameBn": "দিঘলিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://digholia.khulna.gov.bd",
+      "aliases": [
+        "দিঘলিয়া",
+        "digholia"
+      ]
+    },
+    {
+      "id": "kushtia-bheramara",
+      "districtId": "kushtia",
+      "name": "Bheramara",
+      "nameBn": "ভেড়ামারা",
+      "kind": "upazila",
+      "sourceUrl": "https://bheramara.kushtia.gov.bd",
+      "aliases": [
+        "bheramara"
+      ]
+    },
+    {
+      "id": "kushtia-daulatpur",
+      "districtId": "kushtia",
+      "name": "Daulatpur",
+      "nameBn": "দৌলতপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://daulatpur.kushtia.gov.bd",
+      "aliases": [
+        "daulatpur"
+      ]
+    },
+    {
+      "id": "kushtia-khoksa",
+      "districtId": "kushtia",
+      "name": "Khoksa",
+      "nameBn": "খোকসা",
+      "kind": "upazila",
+      "sourceUrl": "https://khoksa.kushtia.gov.bd",
+      "aliases": [
+        "khoksa"
+      ]
+    },
+    {
+      "id": "kushtia-kumarkhali",
+      "districtId": "kushtia",
+      "name": "Kumarkhali",
+      "nameBn": "কুমারখালী",
+      "kind": "upazila",
+      "sourceUrl": "https://kumarkhali.kushtia.gov.bd",
+      "aliases": [
+        "kumarkhali"
+      ]
+    },
+    {
+      "id": "kushtia-kushtiasadar",
+      "districtId": "kushtia",
+      "name": "Kushtia Sadar",
+      "nameBn": "কুষ্টিয়া সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://kushtiasadar.kushtia.gov.bd",
+      "aliases": [
+        "kushtiasadar"
+      ]
+    },
+    {
+      "id": "kushtia-mirpur",
+      "districtId": "kushtia",
+      "name": "Mirpur",
+      "nameBn": "মিরপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://mirpur.kushtia.gov.bd",
+      "aliases": [
+        "mirpur"
+      ]
+    },
+    {
+      "id": "magura-magurasadar",
+      "districtId": "magura",
+      "name": "Magura Sadar",
+      "nameBn": "মাগুরা সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://magurasadar.magura.gov.bd",
+      "aliases": [
+        "magurasadar"
+      ]
+    },
+    {
+      "id": "magura-mohammadpur",
+      "districtId": "magura",
+      "name": "Mohammadpur",
+      "nameBn": "মহম্মদপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://mohammadpur.magura.gov.bd",
+      "aliases": [
+        "mohammadpur"
+      ]
+    },
+    {
+      "id": "magura-shalikha",
+      "districtId": "magura",
+      "name": "Shalikha",
+      "nameBn": "শালিখা",
+      "kind": "upazila",
+      "sourceUrl": "https://shalikha.magura.gov.bd",
+      "aliases": [
+        "shalikha"
+      ]
+    },
+    {
+      "id": "magura-sreepur",
+      "districtId": "magura",
+      "name": "Sreepur",
+      "nameBn": "শ্রীপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://sreepur.magura.gov.bd",
+      "aliases": [
+        "sreepur"
+      ]
+    },
+    {
+      "id": "meherpur-gangni",
+      "districtId": "meherpur",
+      "name": "Gangni",
+      "nameBn": "গাংনী",
+      "kind": "upazila",
+      "sourceUrl": "https://gangni.meherpur.gov.bd",
+      "aliases": [
+        "gangni"
+      ]
+    },
+    {
+      "id": "meherpur-mujibnagar",
+      "districtId": "meherpur",
+      "name": "Mujibnagar",
+      "nameBn": "মুজিবনগর",
+      "kind": "upazila",
+      "sourceUrl": "https://mujibnagar.meherpur.gov.bd",
+      "aliases": [
+        "mujibnagar"
+      ]
+    },
+    {
+      "id": "meherpur-meherpursadar",
+      "districtId": "meherpur",
+      "name": "Meherpur Sadar",
+      "nameBn": "মেহেরপুর সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://meherpursadar.meherpur.gov.bd",
+      "aliases": [
+        "meherpursadar"
+      ]
+    },
+    {
+      "id": "narail-kalia",
+      "districtId": "narail",
+      "name": "Kalia",
+      "nameBn": "কালিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://kalia.narail.gov.bd",
+      "aliases": [
+        "kalia"
+      ]
+    },
+    {
+      "id": "narail-lohagara",
+      "districtId": "narail",
+      "name": "Lohagara",
+      "nameBn": "লোহাগড়া",
+      "kind": "upazila",
+      "sourceUrl": "https://lohagara.narail.gov.bd",
+      "aliases": [
+        "lohagara"
+      ]
+    },
+    {
+      "id": "narail-narailsadar",
+      "districtId": "narail",
+      "name": "Narail Sadar",
+      "nameBn": "নড়াইল সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://narailsadar.narail.gov.bd",
+      "aliases": [
+        "narailsadar"
+      ]
+    },
+    {
+      "id": "satkhira-assasuni",
+      "districtId": "satkhira",
+      "name": "Assasuni",
+      "nameBn": "আশাশুনি",
+      "kind": "upazila",
+      "sourceUrl": "https://assasuni.satkhira.gov.bd",
+      "aliases": [
+        "assasuni"
+      ]
+    },
+    {
+      "id": "satkhira-debhata",
+      "districtId": "satkhira",
+      "name": "Debhata",
+      "nameBn": "দেবহাটা",
+      "kind": "upazila",
+      "sourceUrl": "https://debhata.satkhira.gov.bd",
+      "aliases": [
+        "debhata"
+      ]
+    },
+    {
+      "id": "satkhira-kalaroa",
+      "districtId": "satkhira",
+      "name": "Kalaroa",
+      "nameBn": "কলারোয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://kalaroa.satkhira.gov.bd",
+      "aliases": [
+        "kalaroa"
+      ]
+    },
+    {
+      "id": "satkhira-kaliganj",
+      "districtId": "satkhira",
+      "name": "Kaliganj",
+      "nameBn": "কালিগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://kaliganj.satkhira.gov.bd",
+      "aliases": [
+        "kaliganj"
+      ]
+    },
+    {
+      "id": "satkhira-satkhirasadar",
+      "districtId": "satkhira",
+      "name": "Satkhira Sadar",
+      "nameBn": "সাতক্ষীরা সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://satkhirasadar.satkhira.gov.bd",
+      "aliases": [
+        "satkhirasadar"
+      ]
+    },
+    {
+      "id": "satkhira-shyamnagar",
+      "districtId": "satkhira",
+      "name": "Shyamnagar",
+      "nameBn": "শ্যামনগর",
+      "kind": "upazila",
+      "sourceUrl": "https://shyamnagar.satkhira.gov.bd",
+      "aliases": [
+        "shyamnagar"
+      ]
+    },
+    {
+      "id": "satkhira-tala",
+      "districtId": "satkhira",
+      "name": "Tala",
+      "nameBn": "তালা",
+      "kind": "upazila",
+      "sourceUrl": "https://tala.satkhira.gov.bd",
+      "aliases": [
+        "tala"
+      ]
+    },
+    {
+      "id": "bandarban-alikadam",
+      "districtId": "bandarban",
+      "name": "Alikadam",
+      "nameBn": "আলীকদম",
+      "kind": "upazila",
+      "sourceUrl": "https://alikadam.bandarban.gov.bd",
+      "aliases": [
+        "alikadam"
+      ]
+    },
+    {
+      "id": "bandarban-sadar",
+      "districtId": "bandarban",
+      "name": "Bandarban Sadar",
+      "nameBn": "বান্দরবান সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.bandarban.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "bandarban-lama",
+      "districtId": "bandarban",
+      "name": "Lama",
+      "nameBn": "লামা",
+      "kind": "upazila",
+      "sourceUrl": "https://lama.bandarban.gov.bd",
+      "aliases": [
+        "lama"
+      ]
+    },
+    {
+      "id": "bandarban-naikhongchhari",
+      "districtId": "bandarban",
+      "name": "Naikhongchhari",
+      "nameBn": "নাইক্ষ্যংছড়ি",
+      "kind": "upazila",
+      "sourceUrl": "https://naikhongchhari.bandarban.gov.bd",
+      "aliases": [
+        "naikhongchhari"
+      ]
+    },
+    {
+      "id": "bandarban-rowangchhari",
+      "districtId": "bandarban",
+      "name": "Rowangchhari",
+      "nameBn": "রোয়াংছড়ি",
+      "kind": "upazila",
+      "sourceUrl": "https://rowangchhari.bandarban.gov.bd",
+      "aliases": [
+        "rowangchhari"
+      ]
+    },
+    {
+      "id": "bandarban-ruma",
+      "districtId": "bandarban",
+      "name": "Ruma",
+      "nameBn": "রুমা",
+      "kind": "upazila",
+      "sourceUrl": "https://ruma.bandarban.gov.bd",
+      "aliases": [
+        "ruma"
+      ]
+    },
+    {
+      "id": "bandarban-thanchi",
+      "districtId": "bandarban",
+      "name": "Thanchi",
+      "nameBn": "থানচি",
+      "kind": "upazila",
+      "sourceUrl": "https://thanchi.bandarban.gov.bd",
+      "aliases": [
+        "thanchi"
+      ]
+    },
+    {
+      "id": "brahmanbaria-akhaura",
+      "districtId": "brahmanbaria",
+      "name": "Akhaura",
+      "nameBn": "আখাউড়া",
+      "kind": "upazila",
+      "sourceUrl": "https://akhaura.brahmanbaria.gov.bd",
+      "aliases": [
+        "akhaura"
+      ]
+    },
+    {
+      "id": "brahmanbaria-bancharampur",
+      "districtId": "brahmanbaria",
+      "name": "Bancharampur",
+      "nameBn": "বাঞ্ছারামপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://bancharampur.brahmanbaria.gov.bd",
+      "aliases": [
+        "bancharampur"
+      ]
+    },
+    {
+      "id": "brahmanbaria-bijoynagar",
+      "districtId": "brahmanbaria",
+      "name": "Bijoynagar",
+      "nameBn": "বিজয়নগর",
+      "kind": "upazila",
+      "sourceUrl": "https://bijoynagar.brahmanbaria.gov.bd",
+      "aliases": [
+        "bijoynagar"
+      ]
+    },
+    {
+      "id": "brahmanbaria-sadar",
+      "districtId": "brahmanbaria",
+      "name": "Brahmanbaria Sadar",
+      "nameBn": "ব্রাহ্মণবাড়িয়া সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.brahmanbaria.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "brahmanbaria-ashuganj",
+      "districtId": "brahmanbaria",
+      "name": "Ashuganj",
+      "nameBn": "আশুগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://ashuganj.brahmanbaria.gov.bd",
+      "aliases": [
+        "ashuganj"
+      ]
+    },
+    {
+      "id": "brahmanbaria-kasba",
+      "districtId": "brahmanbaria",
+      "name": "Kasba",
+      "nameBn": "কসবা",
+      "kind": "upazila",
+      "sourceUrl": "https://kasba.brahmanbaria.gov.bd",
+      "aliases": [
+        "kasba"
+      ]
+    },
+    {
+      "id": "brahmanbaria-nabinagar",
+      "districtId": "brahmanbaria",
+      "name": "Nabinagar",
+      "nameBn": "নবীনগর",
+      "kind": "upazila",
+      "sourceUrl": "https://nabinagar.brahmanbaria.gov.bd",
+      "aliases": [
+        "nabinagar"
+      ]
+    },
+    {
+      "id": "brahmanbaria-nasirnagar",
+      "districtId": "brahmanbaria",
+      "name": "Nasirnagar",
+      "nameBn": "নাসিরনগর",
+      "kind": "upazila",
+      "sourceUrl": "https://nasirnagar.brahmanbaria.gov.bd",
+      "aliases": [
+        "nasirnagar"
+      ]
+    },
+    {
+      "id": "brahmanbaria-sarail",
+      "districtId": "brahmanbaria",
+      "name": "Sarail",
+      "nameBn": "সরাইল",
+      "kind": "upazila",
+      "sourceUrl": "https://sarail.brahmanbaria.gov.bd",
+      "aliases": [
+        "sarail"
+      ]
+    },
+    {
+      "id": "chandpur-sadar",
+      "districtId": "chandpur",
+      "name": "Chandpur Sadar",
+      "nameBn": "চাঁদপুর সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.chandpur.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "chandpur-faridgonj",
+      "districtId": "chandpur",
+      "name": "Faridgonj",
+      "nameBn": "ফরিদগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://faridgonj.chandpur.gov.bd",
+      "aliases": [
+        "faridgonj"
+      ]
+    },
+    {
+      "id": "chandpur-haimchar",
+      "districtId": "chandpur",
+      "name": "Haimchar",
+      "nameBn": "হাইমচর",
+      "kind": "upazila",
+      "sourceUrl": "https://haimchar.chandpur.gov.bd",
+      "aliases": [
+        "haimchar"
+      ]
+    },
+    {
+      "id": "chandpur-hajiganj",
+      "districtId": "chandpur",
+      "name": "Hajiganj",
+      "nameBn": "হাজীগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://hajiganj.chandpur.gov.bd",
+      "aliases": [
+        "hajiganj"
+      ]
+    },
+    {
+      "id": "chandpur-kachua",
+      "districtId": "chandpur",
+      "name": "Kachua",
+      "nameBn": "কচুয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://kachua.chandpur.gov.bd",
+      "aliases": [
+        "kachua"
+      ]
+    },
+    {
+      "id": "chandpur-matlabsouth",
+      "districtId": "chandpur",
+      "name": "Matlab South",
+      "nameBn": "মতলব দক্ষিণ",
+      "kind": "upazila",
+      "sourceUrl": "https://matlabsouth.chandpur.gov.bd",
+      "aliases": [
+        "matlabsouth"
+      ]
+    },
+    {
+      "id": "chandpur-matlabnorth",
+      "districtId": "chandpur",
+      "name": "Matlab North",
+      "nameBn": "মতলব উত্তর",
+      "kind": "upazila",
+      "sourceUrl": "https://matlabnorth.chandpur.gov.bd",
+      "aliases": [
+        "matlabnorth"
+      ]
+    },
+    {
+      "id": "chandpur-shahrasti",
+      "districtId": "chandpur",
+      "name": "Shahrasti",
+      "nameBn": "শাহরাস্তি",
+      "kind": "upazila",
+      "sourceUrl": "https://shahrasti.chandpur.gov.bd",
+      "aliases": [
+        "shahrasti"
+      ]
+    },
+    {
+      "id": "anwara",
+      "districtId": "chittagong-district",
+      "name": "Anwara",
+      "nameBn": "আনোয়ারা",
+      "kind": "upazila",
+      "sourceUrl": "https://anwara.chattogram.gov.bd",
+      "aliases": [
+        "anwara"
+      ]
+    },
+    {
+      "id": "chittagong-district-banshkhali",
+      "districtId": "chittagong-district",
+      "name": "Banshkhali",
+      "nameBn": "বাঁশখালী",
+      "kind": "upazila",
+      "sourceUrl": "https://banshkhali.chattogram.gov.bd",
+      "aliases": [
+        "banshkhali"
+      ]
+    },
+    {
+      "id": "boalkhali",
+      "districtId": "chittagong-district",
+      "name": "Boalkhali",
+      "nameBn": "বোয়ালখালী",
+      "kind": "upazila",
+      "sourceUrl": "https://boalkhali.chattogram.gov.bd",
+      "aliases": [
+        "বোয়ালখালী",
+        "boalkhali"
+      ]
+    },
+    {
+      "id": "chandanaish",
+      "districtId": "chittagong-district",
+      "name": "Chandanaish",
+      "nameBn": "চন্দনাইশ",
+      "kind": "upazila",
+      "sourceUrl": "https://chandanaish.chattogram.gov.bd",
+      "aliases": [
+        "chandanaish"
+      ]
+    },
+    {
+      "id": "fatikchhari",
+      "districtId": "chittagong-district",
+      "name": "Fatikchhari",
+      "nameBn": "ফটিকছড়ি",
+      "kind": "upazila",
+      "sourceUrl": "https://fatikchhari.chattogram.gov.bd",
+      "aliases": [
+        "ফটিকছড়ি",
+        "fatikchhari"
+      ]
+    },
+    {
+      "id": "hathazari",
+      "districtId": "chittagong-district",
+      "name": "Hathazari",
+      "nameBn": "হাটহাজারী",
+      "kind": "upazila",
+      "sourceUrl": "https://hathazari.chattogram.gov.bd",
+      "aliases": [
+        "hathazari"
+      ]
+    },
+    {
+      "id": "lohagara",
+      "districtId": "chittagong-district",
+      "name": "Lohagara",
+      "nameBn": "লোহাগাড়া",
+      "kind": "upazila",
+      "sourceUrl": "https://lohagara.chattogram.gov.bd",
+      "aliases": [
+        "লোহাগাড়া",
+        "lohagara"
+      ]
+    },
+    {
+      "id": "mirsharai",
+      "districtId": "chittagong-district",
+      "name": "Mirsharai",
+      "nameBn": "মীরসরাই",
+      "kind": "upazila",
+      "sourceUrl": "https://mirsharai.chattogram.gov.bd",
+      "aliases": [
+        "mirsharai"
+      ]
+    },
+    {
+      "id": "patiya",
+      "districtId": "chittagong-district",
+      "name": "Patiya",
+      "nameBn": "পটিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://patiya.chattogram.gov.bd",
+      "aliases": [
+        "পটিয়া",
+        "patiya"
+      ]
+    },
+    {
+      "id": "rangunia",
+      "districtId": "chittagong-district",
+      "name": "Rangunia",
+      "nameBn": "রাঙ্গুনিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://rangunia.chattogram.gov.bd",
+      "aliases": [
+        "রাঙ্গুনিয়া",
+        "rangunia"
+      ]
+    },
+    {
+      "id": "raozan",
+      "districtId": "chittagong-district",
+      "name": "Raozan",
+      "nameBn": "রাউজান",
+      "kind": "upazila",
+      "sourceUrl": "https://raozan.chattogram.gov.bd",
+      "aliases": [
+        "raozan"
+      ]
+    },
+    {
+      "id": "sandwip",
+      "districtId": "chittagong-district",
+      "name": "Sandwip",
+      "nameBn": "সন্দ্বীপ",
+      "kind": "upazila",
+      "sourceUrl": "https://sandwip.chattogram.gov.bd",
+      "aliases": [
+        "sandwip"
+      ]
+    },
+    {
+      "id": "satkania",
+      "districtId": "chittagong-district",
+      "name": "Satkania",
+      "nameBn": "সাতকানিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://satkania.chattogram.gov.bd",
+      "aliases": [
+        "সাতকানিয়া",
+        "satkania"
+      ]
+    },
+    {
+      "id": "sitakunda",
+      "districtId": "chittagong-district",
+      "name": "Sitakunda",
+      "nameBn": "সীতাকুন্ড",
+      "kind": "upazila",
+      "sourceUrl": "https://sitakunda.chattogram.gov.bd",
+      "aliases": [
+        "সীতাকুণ্ড",
+        "sitakunda"
+      ]
+    },
+    {
+      "id": "chittagong-district-karnafuli",
+      "districtId": "chittagong-district",
+      "name": "Karnafuli",
+      "nameBn": "কর্ণফুলী",
+      "kind": "upazila",
+      "sourceUrl": "https://karnafuli.chattogram.gov.bd",
+      "aliases": [
+        "karnafuli"
+      ]
+    },
+    {
+      "id": "comilla-barura",
+      "districtId": "comilla",
+      "name": "Barura",
+      "nameBn": "বরুড়া",
+      "kind": "upazila",
+      "sourceUrl": "https://barura.comilla.gov.bd",
+      "aliases": [
+        "barura"
+      ]
+    },
+    {
+      "id": "comilla-brahmanpara",
+      "districtId": "comilla",
+      "name": "Brahmanpara",
+      "nameBn": "ব্রাহ্মণপাড়া",
+      "kind": "upazila",
+      "sourceUrl": "https://brahmanpara.comilla.gov.bd",
+      "aliases": [
+        "brahmanpara"
+      ]
+    },
+    {
+      "id": "comilla-burichang",
+      "districtId": "comilla",
+      "name": "Burichang",
+      "nameBn": "বুড়িচং",
+      "kind": "upazila",
+      "sourceUrl": "https://burichang.comilla.gov.bd",
+      "aliases": [
+        "burichang"
+      ]
+    },
+    {
+      "id": "comilla-chandina",
+      "districtId": "comilla",
+      "name": "Chandina",
+      "nameBn": "চান্দিনা",
+      "kind": "upazila",
+      "sourceUrl": "https://chandina.comilla.gov.bd",
+      "aliases": [
+        "chandina"
+      ]
+    },
+    {
+      "id": "comilla-chauddagram",
+      "districtId": "comilla",
+      "name": "Chauddagram",
+      "nameBn": "চৌদ্দগ্রাম",
+      "kind": "upazila",
+      "sourceUrl": "https://chauddagram.comilla.gov.bd",
+      "aliases": [
+        "chauddagram"
+      ]
+    },
+    {
+      "id": "comilla-sadarsouth",
+      "districtId": "comilla",
+      "name": "Sadar South",
+      "nameBn": "সদর দক্ষিণ",
+      "kind": "upazila",
+      "sourceUrl": "https://sadarsouth.comilla.gov.bd",
+      "aliases": [
+        "sadarsouth"
+      ]
+    },
+    {
+      "id": "comilla-comillasadar",
+      "districtId": "comilla",
+      "name": "Adarsha Sadar",
+      "nameBn": "আদর্শ সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://comillasadar.comilla.gov.bd",
+      "aliases": [
+        "comillasadar"
+      ]
+    },
+    {
+      "id": "comilla-daudkandi",
+      "districtId": "comilla",
+      "name": "Daudkandi",
+      "nameBn": "দাউদকান্দি",
+      "kind": "upazila",
+      "sourceUrl": "https://daudkandi.comilla.gov.bd",
+      "aliases": [
+        "daudkandi"
+      ]
+    },
+    {
+      "id": "comilla-debidwar",
+      "districtId": "comilla",
+      "name": "Debidwar",
+      "nameBn": "দেবিদ্বার",
+      "kind": "upazila",
+      "sourceUrl": "https://debidwar.comilla.gov.bd",
+      "aliases": [
+        "debidwar"
+      ]
+    },
+    {
+      "id": "comilla-homna",
+      "districtId": "comilla",
+      "name": "Homna",
+      "nameBn": "হোমনা",
+      "kind": "upazila",
+      "sourceUrl": "https://homna.comilla.gov.bd",
+      "aliases": [
+        "homna"
+      ]
+    },
+    {
+      "id": "comilla-laksam",
+      "districtId": "comilla",
+      "name": "Laksam",
+      "nameBn": "লাকসাম",
+      "kind": "upazila",
+      "sourceUrl": "https://laksam.comilla.gov.bd",
+      "aliases": [
+        "laksam"
+      ]
+    },
+    {
+      "id": "comilla-monohargonj",
+      "districtId": "comilla",
+      "name": "Monohargonj",
+      "nameBn": "মনোহরগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://monohargonj.comilla.gov.bd",
+      "aliases": [
+        "monohargonj"
+      ]
+    },
+    {
+      "id": "comilla-meghna",
+      "districtId": "comilla",
+      "name": "Meghna",
+      "nameBn": "মেঘনা",
+      "kind": "upazila",
+      "sourceUrl": "https://meghna.comilla.gov.bd",
+      "aliases": [
+        "meghna"
+      ]
+    },
+    {
+      "id": "comilla-muradnagar",
+      "districtId": "comilla",
+      "name": "Muradnagar",
+      "nameBn": "মুরাদনগর",
+      "kind": "upazila",
+      "sourceUrl": "https://muradnagar.comilla.gov.bd",
+      "aliases": [
+        "muradnagar"
+      ]
+    },
+    {
+      "id": "comilla-nangalkot",
+      "districtId": "comilla",
+      "name": "Nangalkot",
+      "nameBn": "নাঙ্গলকোট",
+      "kind": "upazila",
+      "sourceUrl": "https://nangalkot.comilla.gov.bd",
+      "aliases": [
+        "nangalkot"
+      ]
+    },
+    {
+      "id": "comilla-titas",
+      "districtId": "comilla",
+      "name": "Titas",
+      "nameBn": "তিতাস",
+      "kind": "upazila",
+      "sourceUrl": "https://titas.comilla.gov.bd",
+      "aliases": [
+        "titas"
+      ]
+    },
+    {
+      "id": "comilla-lalmai",
+      "districtId": "comilla",
+      "name": "Lalmai",
+      "nameBn": "লালমাই",
+      "kind": "upazila",
+      "sourceUrl": "https://lalmai.comilla.gov.bd",
+      "aliases": [
+        "lalmai"
+      ]
+    },
+    {
+      "id": "chakaria",
+      "districtId": "cox-bazar",
+      "name": "Chakaria",
+      "nameBn": "চকরিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://chakaria.coxsbazar.gov.bd",
+      "aliases": [
+        "চকরিয়া",
+        "chakaria"
+      ]
+    },
+    {
+      "id": "coxs-bazar-sadar",
+      "districtId": "cox-bazar",
+      "name": "Cox's Bazar Sadar",
+      "nameBn": "কক্সবাজার সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.coxsbazar.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "cox-bazar-kutubdia",
+      "districtId": "cox-bazar",
+      "name": "Kutubdia",
+      "nameBn": "কুতুবদিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://kutubdia.coxsbazar.gov.bd",
+      "aliases": [
+        "kutubdia"
+      ]
+    },
+    {
+      "id": "maheshkhali",
+      "districtId": "cox-bazar",
+      "name": "Maheshkhali",
+      "nameBn": "মহেশখালী",
+      "kind": "upazila",
+      "sourceUrl": "https://moheshkhali.coxsbazar.gov.bd",
+      "aliases": [
+        "moheshkhali"
+      ]
+    },
+    {
+      "id": "cox-bazar-pekua",
+      "districtId": "cox-bazar",
+      "name": "Pekua",
+      "nameBn": "পেকুয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://pekua.coxsbazar.gov.bd",
+      "aliases": [
+        "pekua"
+      ]
+    },
+    {
+      "id": "ramu",
+      "districtId": "cox-bazar",
+      "name": "Ramu",
+      "nameBn": "রামু",
+      "kind": "upazila",
+      "sourceUrl": "https://ramu.coxsbazar.gov.bd",
+      "aliases": [
+        "ramu"
+      ]
+    },
+    {
+      "id": "teknaf",
+      "districtId": "cox-bazar",
+      "name": "Teknaf",
+      "nameBn": "টেকনাফ",
+      "kind": "upazila",
+      "sourceUrl": "https://teknaf.coxsbazar.gov.bd",
+      "aliases": [
+        "teknaf"
+      ]
+    },
+    {
+      "id": "ukhia",
+      "districtId": "cox-bazar",
+      "name": "Ukhia",
+      "nameBn": "উখিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://ukhiya.coxsbazar.gov.bd",
+      "aliases": [
+        "উখিয়া",
+        "ukhiya"
+      ]
+    },
+    {
+      "id": "cox-bazar-eidgaon",
+      "districtId": "cox-bazar",
+      "name": "Eidgaon",
+      "nameBn": "ঈদগাঁও",
+      "kind": "upazila",
+      "sourceUrl": "https://eidgaon.coxsbazar.gov.bd",
+      "aliases": [
+        "eidgaon"
+      ]
+    },
+    {
+      "id": "feni-chhagalnaiya",
+      "districtId": "feni",
+      "name": "Chhagalnaiya",
+      "nameBn": "ছাগলনাইয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://chhagalnaiya.feni.gov.bd",
+      "aliases": [
+        "chhagalnaiya"
+      ]
+    },
+    {
+      "id": "feni-daganbhuiyan",
+      "districtId": "feni",
+      "name": "Daganbhuiyan",
+      "nameBn": "দাগনভূঞা",
+      "kind": "upazila",
+      "sourceUrl": "https://daganbhuiyan.feni.gov.bd",
+      "aliases": [
+        "daganbhuiyan"
+      ]
+    },
+    {
+      "id": "feni-sadar",
+      "districtId": "feni",
+      "name": "Feni Sadar",
+      "nameBn": "ফেনী সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.feni.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "feni-fulgazi",
+      "districtId": "feni",
+      "name": "Fulgazi",
+      "nameBn": "ফুলগাজী",
+      "kind": "upazila",
+      "sourceUrl": "https://fulgazi.feni.gov.bd",
+      "aliases": [
+        "fulgazi"
+      ]
+    },
+    {
+      "id": "feni-parshuram",
+      "districtId": "feni",
+      "name": "Parshuram",
+      "nameBn": "পরশুরাম",
+      "kind": "upazila",
+      "sourceUrl": "https://parshuram.feni.gov.bd",
+      "aliases": [
+        "parshuram"
+      ]
+    },
+    {
+      "id": "feni-sonagazi",
+      "districtId": "feni",
+      "name": "Sonagazi",
+      "nameBn": "সোনাগাজী",
+      "kind": "upazila",
+      "sourceUrl": "https://sonagazi.feni.gov.bd",
+      "aliases": [
+        "sonagazi"
+      ]
+    },
+    {
+      "id": "khagrachhari-dighinala",
+      "districtId": "khagrachhari",
+      "name": "Dighinala",
+      "nameBn": "দীঘিনালা",
+      "kind": "upazila",
+      "sourceUrl": "https://dighinala.khagrachhari.gov.bd",
+      "aliases": [
+        "dighinala"
+      ]
+    },
+    {
+      "id": "khagrachhari-manikchari",
+      "districtId": "khagrachhari",
+      "name": "Manikchari",
+      "nameBn": "মানিকছড়ি",
+      "kind": "upazila",
+      "sourceUrl": "https://manikchari.khagrachhari.gov.bd",
+      "aliases": [
+        "manikchari"
+      ]
+    },
+    {
+      "id": "khagrachhari-sadar",
+      "districtId": "khagrachhari",
+      "name": "Khagrachhari Sadar",
+      "nameBn": "খাগড়াছড়ি সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.khagrachhari.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "khagrachhari-laxmichhari",
+      "districtId": "khagrachhari",
+      "name": "Laxmichhari",
+      "nameBn": "লক্ষীছড়ি",
+      "kind": "upazila",
+      "sourceUrl": "https://laxmichhari.khagrachhari.gov.bd",
+      "aliases": [
+        "laxmichhari"
+      ]
+    },
+    {
+      "id": "khagrachhari-mohalchari",
+      "districtId": "khagrachhari",
+      "name": "Mohalchari",
+      "nameBn": "মহালছড়ি",
+      "kind": "upazila",
+      "sourceUrl": "https://mohalchari.khagrachhari.gov.bd",
+      "aliases": [
+        "mohalchari"
+      ]
+    },
+    {
+      "id": "khagrachhari-matiranga",
+      "districtId": "khagrachhari",
+      "name": "Matiranga",
+      "nameBn": "মাটিরাঙ্গা",
+      "kind": "upazila",
+      "sourceUrl": "https://matiranga.khagrachhari.gov.bd",
+      "aliases": [
+        "matiranga"
+      ]
+    },
+    {
+      "id": "khagrachhari-panchari",
+      "districtId": "khagrachhari",
+      "name": "Panchari",
+      "nameBn": "পানছড়ি",
+      "kind": "upazila",
+      "sourceUrl": "https://panchari.khagrachhari.gov.bd",
+      "aliases": [
+        "panchari"
+      ]
+    },
+    {
+      "id": "khagrachhari-ramgarh",
+      "districtId": "khagrachhari",
+      "name": "Ramgarh",
+      "nameBn": "রামগড়",
+      "kind": "upazila",
+      "sourceUrl": "https://ramgarh.khagrachhari.gov.bd",
+      "aliases": [
+        "ramgarh"
+      ]
+    },
+    {
+      "id": "khagrachhari-guimara",
+      "districtId": "khagrachhari",
+      "name": "Guimara",
+      "nameBn": "গুইমারা",
+      "kind": "upazila",
+      "sourceUrl": "https://guimara.khagrachhari.gov.bd",
+      "aliases": [
+        "guimara"
+      ]
+    },
+    {
+      "id": "lakshmipur-kamalnagar",
+      "districtId": "lakshmipur",
+      "name": "Kamalnagar",
+      "nameBn": "কমলনগর",
+      "kind": "upazila",
+      "sourceUrl": "https://kamalnagar.lakshmipur.gov.bd",
+      "aliases": [
+        "kamalnagar"
+      ]
+    },
+    {
+      "id": "lakshmipur-sadar",
+      "districtId": "lakshmipur",
+      "name": "Lakshmipur Sadar",
+      "nameBn": "লক্ষ্মীপুর সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.lakshmipur.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "lakshmipur-raipur",
+      "districtId": "lakshmipur",
+      "name": "Raipur",
+      "nameBn": "রায়পুর",
+      "kind": "upazila",
+      "sourceUrl": "https://raipur.lakshmipur.gov.bd",
+      "aliases": [
+        "raipur"
+      ]
+    },
+    {
+      "id": "lakshmipur-ramganj",
+      "districtId": "lakshmipur",
+      "name": "Ramganj",
+      "nameBn": "রামগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://ramganj.lakshmipur.gov.bd",
+      "aliases": [
+        "ramganj"
+      ]
+    },
+    {
+      "id": "lakshmipur-ramgati",
+      "districtId": "lakshmipur",
+      "name": "Ramgati",
+      "nameBn": "রামগতি",
+      "kind": "upazila",
+      "sourceUrl": "https://ramgati.lakshmipur.gov.bd",
+      "aliases": [
+        "ramgati"
+      ]
+    },
+    {
+      "id": "lakshmipur-chandraganj",
+      "districtId": "lakshmipur",
+      "name": "Chandraganj",
+      "nameBn": "চন্দ্রগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://chandraganj.lakshmipur.gov.bd",
+      "aliases": [
+        "chandraganj"
+      ]
+    },
+    {
+      "id": "noakhali-begumganj",
+      "districtId": "noakhali",
+      "name": "Begumganj",
+      "nameBn": "বেগমগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://begumganj.noakhali.gov.bd",
+      "aliases": [
+        "begumganj"
+      ]
+    },
+    {
+      "id": "noakhali-chatkhil",
+      "districtId": "noakhali",
+      "name": "Chatkhil",
+      "nameBn": "চাটখিল",
+      "kind": "upazila",
+      "sourceUrl": "https://chatkhil.noakhali.gov.bd",
+      "aliases": [
+        "chatkhil"
+      ]
+    },
+    {
+      "id": "noakhali-companiganj",
+      "districtId": "noakhali",
+      "name": "Companiganj",
+      "nameBn": "কোম্পানীগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://companiganj.noakhali.gov.bd",
+      "aliases": [
+        "companiganj"
+      ]
+    },
+    {
+      "id": "noakhali-hatia",
+      "districtId": "noakhali",
+      "name": "Hatia",
+      "nameBn": "হাতিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://hatia.noakhali.gov.bd",
+      "aliases": [
+        "hatia"
+      ]
+    },
+    {
+      "id": "noakhali-senbug",
+      "districtId": "noakhali",
+      "name": "Senbug",
+      "nameBn": "সেনবাগ",
+      "kind": "upazila",
+      "sourceUrl": "https://senbug.noakhali.gov.bd",
+      "aliases": [
+        "senbug"
+      ]
+    },
+    {
+      "id": "noakhali-sonaimuri",
+      "districtId": "noakhali",
+      "name": "Sonaimuri",
+      "nameBn": "সোনাইমুড়ী",
+      "kind": "upazila",
+      "sourceUrl": "https://sonaimuri.noakhali.gov.bd",
+      "aliases": [
+        "sonaimuri"
+      ]
+    },
+    {
+      "id": "noakhali-subarnachar",
+      "districtId": "noakhali",
+      "name": "Subarnachar",
+      "nameBn": "সুবর্ণচর",
+      "kind": "upazila",
+      "sourceUrl": "https://subarnachar.noakhali.gov.bd",
+      "aliases": [
+        "subarnachar"
+      ]
+    },
+    {
+      "id": "noakhali-sadar",
+      "districtId": "noakhali",
+      "name": "Noakhali Sadar",
+      "nameBn": "নোয়াখালী সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.noakhali.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "noakhali-kabirhat",
+      "districtId": "noakhali",
+      "name": "Kabirhat",
+      "nameBn": "কবিরহাট",
+      "kind": "upazila",
+      "sourceUrl": "https://kabirhat.noakhali.gov.bd",
+      "aliases": [
+        "kabirhat"
+      ]
+    },
+    {
+      "id": "rangamati-baghaichari",
+      "districtId": "rangamati",
+      "name": "Baghaichari",
+      "nameBn": "বাঘাইছড়ি",
+      "kind": "upazila",
+      "sourceUrl": "https://baghaichari.rangamati.gov.bd",
+      "aliases": [
+        "baghaichari"
+      ]
+    },
+    {
+      "id": "rangamati-barkal",
+      "districtId": "rangamati",
+      "name": "Barkal",
+      "nameBn": "বরকল",
+      "kind": "upazila",
+      "sourceUrl": "https://barkal.rangamati.gov.bd",
+      "aliases": [
+        "barkal"
+      ]
+    },
+    {
+      "id": "rangamati-kawkhali",
+      "districtId": "rangamati",
+      "name": "Kawkhali",
+      "nameBn": "কাউখালী",
+      "kind": "upazila",
+      "sourceUrl": "https://kawkhali.rangamati.gov.bd",
+      "aliases": [
+        "kawkhali"
+      ]
+    },
+    {
+      "id": "rangamati-kaptai",
+      "districtId": "rangamati",
+      "name": "Kaptai",
+      "nameBn": "কাপ্তাই",
+      "kind": "upazila",
+      "sourceUrl": "https://kaptai.rangamati.gov.bd",
+      "aliases": [
+        "kaptai"
+      ]
+    },
+    {
+      "id": "rangamati-juraichari",
+      "districtId": "rangamati",
+      "name": "Juraichari",
+      "nameBn": "জুরাছড়ি",
+      "kind": "upazila",
+      "sourceUrl": "https://juraichari.rangamati.gov.bd",
+      "aliases": [
+        "juraichari"
+      ]
+    },
+    {
+      "id": "rangamati-langadu",
+      "districtId": "rangamati",
+      "name": "Langadu",
+      "nameBn": "লংগদু",
+      "kind": "upazila",
+      "sourceUrl": "https://langadu.rangamati.gov.bd",
+      "aliases": [
+        "langadu"
+      ]
+    },
+    {
+      "id": "rangamati-naniarchar",
+      "districtId": "rangamati",
+      "name": "Naniarchar",
+      "nameBn": "নানিয়ারচর",
+      "kind": "upazila",
+      "sourceUrl": "https://naniarchar.rangamati.gov.bd",
+      "aliases": [
+        "naniarchar"
+      ]
+    },
+    {
+      "id": "rangamati-sadar",
+      "districtId": "rangamati",
+      "name": "Rangamati Sadar",
+      "nameBn": "রাঙ্গামাটি সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.rangamati.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "rangamati-rajasthali",
+      "districtId": "rangamati",
+      "name": "Rajasthali",
+      "nameBn": "রাজস্থলী",
+      "kind": "upazila",
+      "sourceUrl": "https://rajasthali.rangamati.gov.bd",
+      "aliases": [
+        "rajasthali"
+      ]
+    },
+    {
+      "id": "rangamati-belaichari",
+      "districtId": "rangamati",
+      "name": "Belaichari",
+      "nameBn": "বিলাইছড়ি",
+      "kind": "upazila",
+      "sourceUrl": "https://belaichari.rangamati.gov.bd",
+      "aliases": [
+        "belaichari"
+      ]
+    },
+    {
+      "id": "bogura-adamdighi",
+      "districtId": "bogura",
+      "name": "Adamdighi",
+      "nameBn": "আদমদিঘি",
+      "kind": "upazila",
+      "sourceUrl": "https://adamdighi.bogra.gov.bd",
+      "aliases": [
+        "adamdighi"
+      ]
+    },
+    {
+      "id": "bogura-sadar",
+      "districtId": "bogura",
+      "name": "Bogura Sadar",
+      "nameBn": "বগুড়া সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.bogra.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "bogura-dhunot",
+      "districtId": "bogura",
+      "name": "Dhunot",
+      "nameBn": "ধুনট",
+      "kind": "upazila",
+      "sourceUrl": "https://dhunot.bogra.gov.bd",
+      "aliases": [
+        "dhunot"
+      ]
+    },
+    {
+      "id": "bogura-dupchanchia",
+      "districtId": "bogura",
+      "name": "Dupchanchia",
+      "nameBn": "দুপচাচিঁয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://dupchanchia.bogra.gov.bd",
+      "aliases": [
+        "dupchanchia"
+      ]
+    },
+    {
+      "id": "bogura-gabtali",
+      "districtId": "bogura",
+      "name": "Gabtali",
+      "nameBn": "গাবতলী",
+      "kind": "upazila",
+      "sourceUrl": "https://gabtali.bogra.gov.bd",
+      "aliases": [
+        "gabtali"
+      ]
+    },
+    {
+      "id": "bogura-kahaloo",
+      "districtId": "bogura",
+      "name": "Kahaloo",
+      "nameBn": "কাহালু",
+      "kind": "upazila",
+      "sourceUrl": "https://kahaloo.bogra.gov.bd",
+      "aliases": [
+        "kahaloo"
+      ]
+    },
+    {
+      "id": "bogura-nondigram",
+      "districtId": "bogura",
+      "name": "Nondigram",
+      "nameBn": "নন্দিগ্রাম",
+      "kind": "upazila",
+      "sourceUrl": "https://nondigram.bogra.gov.bd",
+      "aliases": [
+        "nondigram"
+      ]
+    },
+    {
+      "id": "bogura-shariakandi",
+      "districtId": "bogura",
+      "name": "Shariakandi",
+      "nameBn": "সারিয়াকান্দি",
+      "kind": "upazila",
+      "sourceUrl": "https://shariakandi.bogra.gov.bd",
+      "aliases": [
+        "shariakandi"
+      ]
+    },
+    {
+      "id": "bogura-shajahanpur",
+      "districtId": "bogura",
+      "name": "Shajahanpur",
+      "nameBn": "শাজাহানপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://shajahanpur.bogra.gov.bd",
+      "aliases": [
+        "shajahanpur"
+      ]
+    },
+    {
+      "id": "bogura-sherpur",
+      "districtId": "bogura",
+      "name": "Sherpur",
+      "nameBn": "শেরপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://sherpur.bogra.gov.bd",
+      "aliases": [
+        "sherpur"
+      ]
+    },
+    {
+      "id": "bogura-shibganj",
+      "districtId": "bogura",
+      "name": "Shibganj",
+      "nameBn": "শিবগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://shibganj.bogra.gov.bd",
+      "aliases": [
+        "shibganj"
+      ]
+    },
+    {
+      "id": "bogura-sonatala",
+      "districtId": "bogura",
+      "name": "Sonatala",
+      "nameBn": "সোনাতলা",
+      "kind": "upazila",
+      "sourceUrl": "https://sonatala.bogra.gov.bd",
+      "aliases": [
+        "sonatala"
+      ]
+    },
+    {
+      "id": "bogura-mokamtala",
+      "districtId": "bogura",
+      "name": "Mokamtala",
+      "nameBn": "মোকামতলা",
+      "kind": "upazila",
+      "sourceUrl": "https://mokamtala.bogra.gov.bd",
+      "aliases": [
+        "mokamtala"
+      ]
+    },
+    {
+      "id": "joypurhat-akkelpur",
+      "districtId": "joypurhat",
+      "name": "Akkelpur",
+      "nameBn": "আক্কেলপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://akkelpur.joypurhat.gov.bd",
+      "aliases": [
+        "akkelpur"
+      ]
+    },
+    {
+      "id": "joypurhat-joypurhatsadar",
+      "districtId": "joypurhat",
+      "name": "Joypurhat Sadar",
+      "nameBn": "জয়পুরহাট সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://joypurhatsadar.joypurhat.gov.bd",
+      "aliases": [
+        "joypurhatsadar"
+      ]
+    },
+    {
+      "id": "joypurhat-kalai",
+      "districtId": "joypurhat",
+      "name": "Kalai",
+      "nameBn": "কালাই",
+      "kind": "upazila",
+      "sourceUrl": "https://kalai.joypurhat.gov.bd",
+      "aliases": [
+        "kalai"
+      ]
+    },
+    {
+      "id": "joypurhat-panchbibi",
+      "districtId": "joypurhat",
+      "name": "Panchbibi",
+      "nameBn": "পাঁচবিবি",
+      "kind": "upazila",
+      "sourceUrl": "https://panchbibi.joypurhat.gov.bd",
+      "aliases": [
+        "panchbibi"
+      ]
+    },
+    {
+      "id": "joypurhat-khetlal",
+      "districtId": "joypurhat",
+      "name": "Khetlal",
+      "nameBn": "ক্ষেতলাল",
+      "kind": "upazila",
+      "sourceUrl": "https://khetlal.joypurhat.gov.bd",
+      "aliases": [
+        "khetlal"
+      ]
+    },
+    {
+      "id": "naogaon-atrai",
+      "districtId": "naogaon",
+      "name": "Atrai",
+      "nameBn": "আত্রাই",
+      "kind": "upazila",
+      "sourceUrl": "https://atrai.naogaon.gov.bd",
+      "aliases": [
+        "atrai"
+      ]
+    },
+    {
+      "id": "naogaon-dhamoirhat",
+      "districtId": "naogaon",
+      "name": "Dhamoirhat",
+      "nameBn": "ধামইরহাট",
+      "kind": "upazila",
+      "sourceUrl": "https://dhamoirhat.naogaon.gov.bd",
+      "aliases": [
+        "dhamoirhat"
+      ]
+    },
+    {
+      "id": "naogaon-manda",
+      "districtId": "naogaon",
+      "name": "Manda",
+      "nameBn": "মান্দা",
+      "kind": "upazila",
+      "sourceUrl": "https://manda.naogaon.gov.bd",
+      "aliases": [
+        "manda"
+      ]
+    },
+    {
+      "id": "naogaon-mohadevpur",
+      "districtId": "naogaon",
+      "name": "Mohadevpur",
+      "nameBn": "মহাদেবপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://mohadevpur.naogaon.gov.bd",
+      "aliases": [
+        "mohadevpur"
+      ]
+    },
+    {
+      "id": "naogaon-naogaonsadar",
+      "districtId": "naogaon",
+      "name": "Naogaon Sadar",
+      "nameBn": "নওগাঁ সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://naogaonsadar.naogaon.gov.bd",
+      "aliases": [
+        "naogaonsadar"
+      ]
+    },
+    {
+      "id": "naogaon-niamatpur",
+      "districtId": "naogaon",
+      "name": "Niamatpur",
+      "nameBn": "নিয়ামতপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://niamatpur.naogaon.gov.bd",
+      "aliases": [
+        "niamatpur"
+      ]
+    },
+    {
+      "id": "naogaon-patnitala",
+      "districtId": "naogaon",
+      "name": "Patnitala",
+      "nameBn": "পত্নীতলা",
+      "kind": "upazila",
+      "sourceUrl": "https://patnitala.naogaon.gov.bd",
+      "aliases": [
+        "patnitala"
+      ]
+    },
+    {
+      "id": "naogaon-raninagar",
+      "districtId": "naogaon",
+      "name": "Raninagar",
+      "nameBn": "রাণীনগর",
+      "kind": "upazila",
+      "sourceUrl": "https://raninagar.naogaon.gov.bd",
+      "aliases": [
+        "raninagar"
+      ]
+    },
+    {
+      "id": "naogaon-sapahar",
+      "districtId": "naogaon",
+      "name": "Sapahar",
+      "nameBn": "সাপাহার",
+      "kind": "upazila",
+      "sourceUrl": "https://sapahar.naogaon.gov.bd",
+      "aliases": [
+        "sapahar"
+      ]
+    },
+    {
+      "id": "naogaon-badalgachi",
+      "districtId": "naogaon",
+      "name": "Badalgachi",
+      "nameBn": "বদলগাছী",
+      "kind": "upazila",
+      "sourceUrl": "https://badalgachi.naogaon.gov.bd",
+      "aliases": [
+        "badalgachi"
+      ]
+    },
+    {
+      "id": "naogaon-porsha",
+      "districtId": "naogaon",
+      "name": "Porsha",
+      "nameBn": "পোরশা",
+      "kind": "upazila",
+      "sourceUrl": "https://porsha.naogaon.gov.bd",
+      "aliases": [
+        "porsha"
+      ]
+    },
+    {
+      "id": "natore-bagatipara",
+      "districtId": "natore",
+      "name": "Bagatipara",
+      "nameBn": "বাগাতিপাড়া",
+      "kind": "upazila",
+      "sourceUrl": "https://bagatipara.natore.gov.bd",
+      "aliases": [
+        "bagatipara"
+      ]
+    },
+    {
+      "id": "natore-baraigram",
+      "districtId": "natore",
+      "name": "Baraigram",
+      "nameBn": "বড়াইগ্রাম",
+      "kind": "upazila",
+      "sourceUrl": "https://baraigram.natore.gov.bd",
+      "aliases": [
+        "baraigram"
+      ]
+    },
+    {
+      "id": "natore-gurudaspur",
+      "districtId": "natore",
+      "name": "Gurudaspur",
+      "nameBn": "গুরুদাসপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://gurudaspur.natore.gov.bd",
+      "aliases": [
+        "gurudaspur"
+      ]
+    },
+    {
+      "id": "natore-lalpur",
+      "districtId": "natore",
+      "name": "Lalpur",
+      "nameBn": "লালপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://lalpur.natore.gov.bd",
+      "aliases": [
+        "lalpur"
+      ]
+    },
+    {
+      "id": "natore-natoresadar",
+      "districtId": "natore",
+      "name": "Natore Sadar",
+      "nameBn": "নাটোর সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://natoresadar.natore.gov.bd",
+      "aliases": [
+        "natoresadar"
+      ]
+    },
+    {
+      "id": "natore-singra",
+      "districtId": "natore",
+      "name": "Singra",
+      "nameBn": "সিংড়া",
+      "kind": "upazila",
+      "sourceUrl": "https://singra.natore.gov.bd",
+      "aliases": [
+        "singra"
+      ]
+    },
+    {
+      "id": "natore-naldanga",
+      "districtId": "natore",
+      "name": "Naldanga",
+      "nameBn": "নলডাঙ্গা",
+      "kind": "upazila",
+      "sourceUrl": "https://naldanga.natore.gov.bd",
+      "aliases": [
+        "naldanga"
+      ]
+    },
+    {
+      "id": "chapainawabganj-bholahat",
+      "districtId": "chapainawabganj",
+      "name": "Bholahat",
+      "nameBn": "ভোলাহাট",
+      "kind": "upazila",
+      "sourceUrl": "https://bholahat.chapainawabganj.gov.bd",
+      "aliases": [
+        "bholahat"
+      ]
+    },
+    {
+      "id": "chapainawabganj-gomostapur",
+      "districtId": "chapainawabganj",
+      "name": "Gomostapur",
+      "nameBn": "গোমস্তাপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://gomostapur.chapainawabganj.gov.bd",
+      "aliases": [
+        "gomostapur"
+      ]
+    },
+    {
+      "id": "chapainawabganj-nachol",
+      "districtId": "chapainawabganj",
+      "name": "Nachol",
+      "nameBn": "নাচোল",
+      "kind": "upazila",
+      "sourceUrl": "https://nachol.chapainawabganj.gov.bd",
+      "aliases": [
+        "nachol"
+      ]
+    },
+    {
+      "id": "chapainawabganj-chapainawabganjsadar",
+      "districtId": "chapainawabganj",
+      "name": "Chapainawabganj Sadar",
+      "nameBn": "চাঁপাইনবাবগঞ্জ সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://chapainawabganjsadar.chapainawabganj.gov.bd",
+      "aliases": [
+        "chapainawabganjsadar"
+      ]
+    },
+    {
+      "id": "chapainawabganj-shibganj",
+      "districtId": "chapainawabganj",
+      "name": "Shibganj",
+      "nameBn": "শিবগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://shibganj.chapainawabganj.gov.bd",
+      "aliases": [
+        "shibganj"
+      ]
+    },
+    {
+      "id": "pabna-atghoria",
+      "districtId": "pabna",
+      "name": "Atghoria",
+      "nameBn": "আটঘরিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://atghoria.pabna.gov.bd",
+      "aliases": [
+        "atghoria"
+      ]
+    },
+    {
+      "id": "pabna-bera",
+      "districtId": "pabna",
+      "name": "Bera",
+      "nameBn": "বেড়া",
+      "kind": "upazila",
+      "sourceUrl": "https://bera.pabna.gov.bd",
+      "aliases": [
+        "bera"
+      ]
+    },
+    {
+      "id": "pabna-bhangura",
+      "districtId": "pabna",
+      "name": "Bhangura",
+      "nameBn": "ভাঙ্গুড়া",
+      "kind": "upazila",
+      "sourceUrl": "https://bhangura.pabna.gov.bd",
+      "aliases": [
+        "bhangura"
+      ]
+    },
+    {
+      "id": "pabna-chatmohar",
+      "districtId": "pabna",
+      "name": "Chatmohar",
+      "nameBn": "চাটমোহর",
+      "kind": "upazila",
+      "sourceUrl": "https://chatmohar.pabna.gov.bd",
+      "aliases": [
+        "chatmohar"
+      ]
+    },
+    {
+      "id": "pabna-faridpur",
+      "districtId": "pabna",
+      "name": "Faridpur",
+      "nameBn": "ফরিদপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://faridpur.pabna.gov.bd",
+      "aliases": [
+        "faridpur"
+      ]
+    },
+    {
+      "id": "pabna-ishurdi",
+      "districtId": "pabna",
+      "name": "Ishurdi",
+      "nameBn": "ঈশ্বরদী",
+      "kind": "upazila",
+      "sourceUrl": "https://ishurdi.pabna.gov.bd",
+      "aliases": [
+        "ishurdi"
+      ]
+    },
+    {
+      "id": "pabna-pabnasadar",
+      "districtId": "pabna",
+      "name": "Pabna Sadar",
+      "nameBn": "পাবনা সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://pabnasadar.pabna.gov.bd",
+      "aliases": [
+        "pabnasadar"
+      ]
+    },
+    {
+      "id": "pabna-santhia",
+      "districtId": "pabna",
+      "name": "Santhia",
+      "nameBn": "সাঁথিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://santhia.pabna.gov.bd",
+      "aliases": [
+        "santhia"
+      ]
+    },
+    {
+      "id": "pabna-sujanagar",
+      "districtId": "pabna",
+      "name": "Sujanagar",
+      "nameBn": "সুজানগর",
+      "kind": "upazila",
+      "sourceUrl": "https://sujanagar.pabna.gov.bd",
+      "aliases": [
+        "sujanagar"
+      ]
+    },
+    {
+      "id": "bagha",
+      "districtId": "rajshahi-district",
+      "name": "Bagha",
+      "nameBn": "বাঘা",
+      "kind": "upazila",
+      "sourceUrl": "https://bagha.rajshahi.gov.bd",
+      "aliases": [
+        "bagha"
+      ]
+    },
+    {
+      "id": "bagmara",
+      "districtId": "rajshahi-district",
+      "name": "Bagmara",
+      "nameBn": "বাগমারা",
+      "kind": "upazila",
+      "sourceUrl": "https://bagmara.rajshahi.gov.bd",
+      "aliases": [
+        "bagmara"
+      ]
+    },
+    {
+      "id": "charghat",
+      "districtId": "rajshahi-district",
+      "name": "Charghat",
+      "nameBn": "চারঘাট",
+      "kind": "upazila",
+      "sourceUrl": "https://charghat.rajshahi.gov.bd",
+      "aliases": [
+        "charghat"
+      ]
+    },
+    {
+      "id": "durgapur-rajshahi",
+      "districtId": "rajshahi-district",
+      "name": "Durgapur",
+      "nameBn": "দুর্গাপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://durgapur.rajshahi.gov.bd",
+      "aliases": [
+        "durgapur"
+      ]
+    },
+    {
+      "id": "godagari",
+      "districtId": "rajshahi-district",
+      "name": "Godagari",
+      "nameBn": "গোদাগাড়ী",
+      "kind": "upazila",
+      "sourceUrl": "https://godagari.rajshahi.gov.bd",
+      "aliases": [
+        "godagari"
+      ]
+    },
+    {
+      "id": "mohanpur",
+      "districtId": "rajshahi-district",
+      "name": "Mohanpur",
+      "nameBn": "মোহনপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://mohonpur.rajshahi.gov.bd",
+      "aliases": [
+        "mohonpur"
+      ]
+    },
+    {
+      "id": "paba",
+      "districtId": "rajshahi-district",
+      "name": "Paba",
+      "nameBn": "পবা",
+      "kind": "upazila",
+      "sourceUrl": "https://paba.rajshahi.gov.bd",
+      "aliases": [
+        "paba"
+      ]
+    },
+    {
+      "id": "putia",
+      "districtId": "rajshahi-district",
+      "name": "Putia",
+      "nameBn": "পুঠিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://puthia.rajshahi.gov.bd",
+      "aliases": [
+        "puthia"
+      ]
+    },
+    {
+      "id": "tanore",
+      "districtId": "rajshahi-district",
+      "name": "Tanore",
+      "nameBn": "তানোর",
+      "kind": "upazila",
+      "sourceUrl": "https://tanore.rajshahi.gov.bd",
+      "aliases": [
+        "tanore"
+      ]
+    },
+    {
+      "id": "sirajganj-belkuchi",
+      "districtId": "sirajganj",
+      "name": "Belkuchi",
+      "nameBn": "বেলকুচি",
+      "kind": "upazila",
+      "sourceUrl": "https://belkuchi.sirajganj.gov.bd",
+      "aliases": [
+        "belkuchi"
+      ]
+    },
+    {
+      "id": "sirajganj-chauhali",
+      "districtId": "sirajganj",
+      "name": "Chauhali",
+      "nameBn": "চৌহালি",
+      "kind": "upazila",
+      "sourceUrl": "https://chauhali.sirajganj.gov.bd",
+      "aliases": [
+        "chauhali"
+      ]
+    },
+    {
+      "id": "sirajganj-kamarkhand",
+      "districtId": "sirajganj",
+      "name": "Kamarkhand",
+      "nameBn": "কামারখন্দ",
+      "kind": "upazila",
+      "sourceUrl": "https://kamarkhand.sirajganj.gov.bd",
+      "aliases": [
+        "kamarkhand"
+      ]
+    },
+    {
+      "id": "sirajganj-kazipur",
+      "districtId": "sirajganj",
+      "name": "Kazipur",
+      "nameBn": "কাজীপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://kazipur.sirajganj.gov.bd",
+      "aliases": [
+        "kazipur"
+      ]
+    },
+    {
+      "id": "sirajganj-raigonj",
+      "districtId": "sirajganj",
+      "name": "Raigonj",
+      "nameBn": "রায়গঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://raigonj.sirajganj.gov.bd",
+      "aliases": [
+        "raigonj"
+      ]
+    },
+    {
+      "id": "sirajganj-shahjadpur",
+      "districtId": "sirajganj",
+      "name": "Shahjadpur",
+      "nameBn": "শাহজাদপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://shahjadpur.sirajganj.gov.bd",
+      "aliases": [
+        "shahjadpur"
+      ]
+    },
+    {
+      "id": "sirajganj-sirajganjsadar",
+      "districtId": "sirajganj",
+      "name": "Sirajganj Sadar",
+      "nameBn": "সিরাজগঞ্জ সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sirajganjsadar.sirajganj.gov.bd",
+      "aliases": [
+        "sirajganjsadar"
+      ]
+    },
+    {
+      "id": "sirajganj-tarash",
+      "districtId": "sirajganj",
+      "name": "Tarash",
+      "nameBn": "তাড়াশ",
+      "kind": "upazila",
+      "sourceUrl": "https://tarash.sirajganj.gov.bd",
+      "aliases": [
+        "tarash"
+      ]
+    },
+    {
+      "id": "sirajganj-ullapara",
+      "districtId": "sirajganj",
+      "name": "Ullapara",
+      "nameBn": "উল্লাপাড়া",
+      "kind": "upazila",
+      "sourceUrl": "https://ullapara.sirajganj.gov.bd",
+      "aliases": [
+        "ullapara"
+      ]
+    },
+    {
+      "id": "habiganj-ajmiriganj",
+      "districtId": "habiganj",
+      "name": "Ajmiriganj",
+      "nameBn": "আজমিরীগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://ajmiriganj.habiganj.gov.bd",
+      "aliases": [
+        "ajmiriganj"
+      ]
+    },
+    {
+      "id": "habiganj-bahubal",
+      "districtId": "habiganj",
+      "name": "Bahubal",
+      "nameBn": "বাহুবল",
+      "kind": "upazila",
+      "sourceUrl": "https://bahubal.habiganj.gov.bd",
+      "aliases": [
+        "bahubal"
+      ]
+    },
+    {
+      "id": "habiganj-baniachong",
+      "districtId": "habiganj",
+      "name": "Baniachong",
+      "nameBn": "বানিয়াচং",
+      "kind": "upazila",
+      "sourceUrl": "https://baniachong.habiganj.gov.bd",
+      "aliases": [
+        "baniachong"
+      ]
+    },
+    {
+      "id": "habiganj-chunarughat",
+      "districtId": "habiganj",
+      "name": "Chunarughat",
+      "nameBn": "চুনারুঘাট",
+      "kind": "upazila",
+      "sourceUrl": "https://chunarughat.habiganj.gov.bd",
+      "aliases": [
+        "chunarughat"
+      ]
+    },
+    {
+      "id": "habiganj-habiganjsadar",
+      "districtId": "habiganj",
+      "name": "Habiganj Sadar",
+      "nameBn": "হবিগঞ্জ সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://habiganjsadar.habiganj.gov.bd",
+      "aliases": [
+        "habiganjsadar"
+      ]
+    },
+    {
+      "id": "habiganj-lakhai",
+      "districtId": "habiganj",
+      "name": "Lakhai",
+      "nameBn": "লাখাই",
+      "kind": "upazila",
+      "sourceUrl": "https://lakhai.habiganj.gov.bd",
+      "aliases": [
+        "lakhai"
+      ]
+    },
+    {
+      "id": "habiganj-madhabpur",
+      "districtId": "habiganj",
+      "name": "Madhabpur",
+      "nameBn": "মাধবপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://madhabpur.habiganj.gov.bd",
+      "aliases": [
+        "madhabpur"
+      ]
+    },
+    {
+      "id": "habiganj-nabiganj",
+      "districtId": "habiganj",
+      "name": "Nabiganj",
+      "nameBn": "নবীগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://nabiganj.habiganj.gov.bd",
+      "aliases": [
+        "nabiganj"
+      ]
+    },
+    {
+      "id": "habiganj-shayestaganj",
+      "districtId": "habiganj",
+      "name": "Shayestaganj",
+      "nameBn": "শায়েস্তাগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://shayestaganj.habiganj.gov.bd",
+      "aliases": [
+        "shayestaganj"
+      ]
+    },
+    {
+      "id": "moulvibazar-barlekha",
+      "districtId": "moulvibazar",
+      "name": "Barlekha",
+      "nameBn": "বড়লেখা",
+      "kind": "upazila",
+      "sourceUrl": "https://barlekha.moulvibazar.gov.bd",
+      "aliases": [
+        "barlekha"
+      ]
+    },
+    {
+      "id": "moulvibazar-juri",
+      "districtId": "moulvibazar",
+      "name": "Juri",
+      "nameBn": "জুড়ী",
+      "kind": "upazila",
+      "sourceUrl": "https://juri.moulvibazar.gov.bd",
+      "aliases": [
+        "juri"
+      ]
+    },
+    {
+      "id": "moulvibazar-kamolganj",
+      "districtId": "moulvibazar",
+      "name": "Kamolganj",
+      "nameBn": "কমলগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://kamolganj.moulvibazar.gov.bd",
+      "aliases": [
+        "kamolganj"
+      ]
+    },
+    {
+      "id": "moulvibazar-kulaura",
+      "districtId": "moulvibazar",
+      "name": "Kulaura",
+      "nameBn": "কুলাউড়া",
+      "kind": "upazila",
+      "sourceUrl": "https://kulaura.moulvibazar.gov.bd",
+      "aliases": [
+        "kulaura"
+      ]
+    },
+    {
+      "id": "moulvibazar-moulvibazarsadar",
+      "districtId": "moulvibazar",
+      "name": "Moulvibazar Sadar",
+      "nameBn": "মৌলভীবাজার সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://moulvibazarsadar.moulvibazar.gov.bd",
+      "aliases": [
+        "moulvibazarsadar"
+      ]
+    },
+    {
+      "id": "moulvibazar-rajnagar",
+      "districtId": "moulvibazar",
+      "name": "Rajnagar",
+      "nameBn": "রাজনগর",
+      "kind": "upazila",
+      "sourceUrl": "https://rajnagar.moulvibazar.gov.bd",
+      "aliases": [
+        "rajnagar"
+      ]
+    },
+    {
+      "id": "moulvibazar-sreemangal",
+      "districtId": "moulvibazar",
+      "name": "Sreemangal",
+      "nameBn": "শ্রীমঙ্গল",
+      "kind": "upazila",
+      "sourceUrl": "https://sreemangal.moulvibazar.gov.bd",
+      "aliases": [
+        "sreemangal"
+      ]
+    },
+    {
+      "id": "sunamganj-bishwambarpur",
+      "districtId": "sunamganj",
+      "name": "Bishwambarpur",
+      "nameBn": "বিশ্বম্ভরপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://bishwambarpur.sunamganj.gov.bd",
+      "aliases": [
+        "bishwambarpur"
+      ]
+    },
+    {
+      "id": "sunamganj-chhatak",
+      "districtId": "sunamganj",
+      "name": "Chhatak",
+      "nameBn": "ছাতক",
+      "kind": "upazila",
+      "sourceUrl": "https://chhatak.sunamganj.gov.bd",
+      "aliases": [
+        "chhatak"
+      ]
+    },
+    {
+      "id": "sunamganj-derai",
+      "districtId": "sunamganj",
+      "name": "Derai",
+      "nameBn": "দিরাই",
+      "kind": "upazila",
+      "sourceUrl": "https://derai.sunamganj.gov.bd",
+      "aliases": [
+        "derai"
+      ]
+    },
+    {
+      "id": "sunamganj-dharmapasha",
+      "districtId": "sunamganj",
+      "name": "Dharmapasha",
+      "nameBn": "ধর্মপাশা",
+      "kind": "upazila",
+      "sourceUrl": "https://dharmapasha.sunamganj.gov.bd",
+      "aliases": [
+        "dharmapasha"
+      ]
+    },
+    {
+      "id": "sunamganj-dowarabazar",
+      "districtId": "sunamganj",
+      "name": "Dowarabazar",
+      "nameBn": "দোয়ারাবাজার",
+      "kind": "upazila",
+      "sourceUrl": "https://dowarabazar.sunamganj.gov.bd",
+      "aliases": [
+        "dowarabazar"
+      ]
+    },
+    {
+      "id": "sunamganj-jagannathpur",
+      "districtId": "sunamganj",
+      "name": "Jagannathpur",
+      "nameBn": "জগন্নাথপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://jagannathpur.sunamganj.gov.bd",
+      "aliases": [
+        "jagannathpur"
+      ]
+    },
+    {
+      "id": "sunamganj-jamalganj",
+      "districtId": "sunamganj",
+      "name": "Jamalganj",
+      "nameBn": "জামালগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://jamalganj.sunamganj.gov.bd",
+      "aliases": [
+        "jamalganj"
+      ]
+    },
+    {
+      "id": "sunamganj-shalla",
+      "districtId": "sunamganj",
+      "name": "Shalla",
+      "nameBn": "শাল্লা",
+      "kind": "upazila",
+      "sourceUrl": "https://shalla.sunamganj.gov.bd",
+      "aliases": [
+        "shalla"
+      ]
+    },
+    {
+      "id": "sunamganj-sadar",
+      "districtId": "sunamganj",
+      "name": "Sunamganj Sadar",
+      "nameBn": "সুনামগঞ্জ সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.sunamganj.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "sunamganj-tahirpur",
+      "districtId": "sunamganj",
+      "name": "Tahirpur",
+      "nameBn": "তাহিরপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://tahirpur.sunamganj.gov.bd",
+      "aliases": [
+        "tahirpur"
+      ]
+    },
+    {
+      "id": "sunamganj-shantiganj",
+      "districtId": "sunamganj",
+      "name": "Shantiganj",
+      "nameBn": "শান্তিগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://shantiganj.sunamganj.gov.bd",
+      "aliases": [
+        "shantiganj"
+      ]
+    },
+    {
+      "id": "sunamganj-madhyanagar",
+      "districtId": "sunamganj",
+      "name": "Madhyanagar",
+      "nameBn": "মধ্যনগর",
+      "kind": "upazila",
+      "sourceUrl": "https://madhyanagar.sunamganj.gov.bd",
+      "aliases": [
+        "madhyanagar"
+      ]
+    },
+    {
+      "id": "sylhet-district-balaganj",
+      "districtId": "sylhet-district",
+      "name": "Balaganj",
+      "nameBn": "বালাগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://balaganj.sylhet.gov.bd",
+      "aliases": [
+        "balaganj"
+      ]
+    },
+    {
+      "id": "beanibazar",
+      "districtId": "sylhet-district",
+      "name": "Beanibazar",
+      "nameBn": "বিয়ানীবাজার",
+      "kind": "upazila",
+      "sourceUrl": "https://beanibazar.sylhet.gov.bd",
+      "aliases": [
+        "বিয়ানীবাজার",
+        "beanibazar"
+      ]
+    },
+    {
+      "id": "bishwanath",
+      "districtId": "sylhet-district",
+      "name": "Bishwanath",
+      "nameBn": "বিশ্বনাথ",
+      "kind": "upazila",
+      "sourceUrl": "https://bishwanath.sylhet.gov.bd",
+      "aliases": [
+        "bishwanath"
+      ]
+    },
+    {
+      "id": "company-ganj",
+      "districtId": "sylhet-district",
+      "name": "Companiganj",
+      "nameBn": "কোম্পানীগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://companiganj.sylhet.gov.bd",
+      "aliases": [
+        "companiganj"
+      ]
+    },
+    {
+      "id": "sylhet-district-dakshinsurma",
+      "districtId": "sylhet-district",
+      "name": "Dakshin Surma",
+      "nameBn": "দক্ষিণ সুরমা",
+      "kind": "upazila",
+      "sourceUrl": "https://dakshinsurma.sylhet.gov.bd",
+      "aliases": [
+        "dakshinsurma"
+      ]
+    },
+    {
+      "id": "sylhet-district-fenchuganj",
+      "districtId": "sylhet-district",
+      "name": "Fenchuganj",
+      "nameBn": "ফেঞ্চুগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://fenchuganj.sylhet.gov.bd",
+      "aliases": [
+        "fenchuganj"
+      ]
+    },
+    {
+      "id": "golapganj",
+      "districtId": "sylhet-district",
+      "name": "Golapganj",
+      "nameBn": "গোলাপগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://golapganj.sylhet.gov.bd",
+      "aliases": [
+        "golapganj"
+      ]
+    },
+    {
+      "id": "gowainghat",
+      "districtId": "sylhet-district",
+      "name": "Gowainghat",
+      "nameBn": "গোয়াইনঘাট",
+      "kind": "upazila",
+      "sourceUrl": "https://gowainghat.sylhet.gov.bd",
+      "aliases": [
+        "গোয়াইনঘাট",
+        "gowainghat"
+      ]
+    },
+    {
+      "id": "jaintiapur",
+      "districtId": "sylhet-district",
+      "name": "Jaintiapur",
+      "nameBn": "জৈন্তাপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://jaintiapur.sylhet.gov.bd",
+      "aliases": [
+        "jaintiapur"
+      ]
+    },
+    {
+      "id": "kanaighat",
+      "districtId": "sylhet-district",
+      "name": "Kanaighat",
+      "nameBn": "কানাইঘাট",
+      "kind": "upazila",
+      "sourceUrl": "https://kanaighat.sylhet.gov.bd",
+      "aliases": [
+        "kanaighat"
+      ]
+    },
+    {
+      "id": "sylhet-sadar",
+      "districtId": "sylhet-district",
+      "name": "Sylhet Sadar",
+      "nameBn": "সিলেট সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sylhetsadar.sylhet.gov.bd",
+      "aliases": [
+        "sylhetsadar"
+      ]
+    },
+    {
+      "id": "zakiganj",
+      "districtId": "sylhet-district",
+      "name": "Zakiganj",
+      "nameBn": "জকিগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://zakiganj.sylhet.gov.bd",
+      "aliases": [
+        "zakiganj"
+      ]
+    },
+    {
+      "id": "sylhet-district-osmaninagar",
+      "districtId": "sylhet-district",
+      "name": "Osmani Nagar",
+      "nameBn": "ওসমানী নগর",
+      "kind": "upazila",
+      "sourceUrl": "https://osmaninagar.sylhet.gov.bd",
+      "aliases": [
+        "osmaninagar"
+      ]
+    },
+    {
+      "id": "dinajpur-birampur",
+      "districtId": "dinajpur",
+      "name": "Birampur",
+      "nameBn": "বিরামপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://birampur.dinajpur.gov.bd",
+      "aliases": [
+        "birampur"
+      ]
+    },
+    {
+      "id": "dinajpur-birganj",
+      "districtId": "dinajpur",
+      "name": "Birganj",
+      "nameBn": "বীরগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://birganj.dinajpur.gov.bd",
+      "aliases": [
+        "birganj"
+      ]
+    },
+    {
+      "id": "dinajpur-birol",
+      "districtId": "dinajpur",
+      "name": "Birol",
+      "nameBn": "বিরল",
+      "kind": "upazila",
+      "sourceUrl": "https://birol.dinajpur.gov.bd",
+      "aliases": [
+        "birol"
+      ]
+    },
+    {
+      "id": "dinajpur-bochaganj",
+      "districtId": "dinajpur",
+      "name": "Bochaganj",
+      "nameBn": "বোচাগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://bochaganj.dinajpur.gov.bd",
+      "aliases": [
+        "bochaganj"
+      ]
+    },
+    {
+      "id": "dinajpur-chirirbandar",
+      "districtId": "dinajpur",
+      "name": "Chirirbandar",
+      "nameBn": "চিরিরবন্দর",
+      "kind": "upazila",
+      "sourceUrl": "https://chirirbandar.dinajpur.gov.bd",
+      "aliases": [
+        "chirirbandar"
+      ]
+    },
+    {
+      "id": "dinajpur-fulbari",
+      "districtId": "dinajpur",
+      "name": "Fulbari",
+      "nameBn": "ফুলবাড়ী",
+      "kind": "upazila",
+      "sourceUrl": "https://fulbari.dinajpur.gov.bd",
+      "aliases": [
+        "fulbari"
+      ]
+    },
+    {
+      "id": "dinajpur-ghoraghat",
+      "districtId": "dinajpur",
+      "name": "Ghoraghat",
+      "nameBn": "ঘোড়াঘাট",
+      "kind": "upazila",
+      "sourceUrl": "https://ghoraghat.dinajpur.gov.bd",
+      "aliases": [
+        "ghoraghat"
+      ]
+    },
+    {
+      "id": "dinajpur-hakimpur",
+      "districtId": "dinajpur",
+      "name": "Hakimpur",
+      "nameBn": "হাকিমপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://hakimpur.dinajpur.gov.bd",
+      "aliases": [
+        "hakimpur"
+      ]
+    },
+    {
+      "id": "dinajpur-kaharol",
+      "districtId": "dinajpur",
+      "name": "Kaharol",
+      "nameBn": "কাহারোল",
+      "kind": "upazila",
+      "sourceUrl": "https://kaharol.dinajpur.gov.bd",
+      "aliases": [
+        "kaharol"
+      ]
+    },
+    {
+      "id": "dinajpur-khansama",
+      "districtId": "dinajpur",
+      "name": "Khansama",
+      "nameBn": "খানসামা",
+      "kind": "upazila",
+      "sourceUrl": "https://khansama.dinajpur.gov.bd",
+      "aliases": [
+        "khansama"
+      ]
+    },
+    {
+      "id": "dinajpur-nawabganj",
+      "districtId": "dinajpur",
+      "name": "Nawabganj",
+      "nameBn": "নবাবগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://nawabganj.dinajpur.gov.bd",
+      "aliases": [
+        "nawabganj"
+      ]
+    },
+    {
+      "id": "dinajpur-parbatipur",
+      "districtId": "dinajpur",
+      "name": "Parbatipur",
+      "nameBn": "পার্বতীপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://parbatipur.dinajpur.gov.bd",
+      "aliases": [
+        "parbatipur"
+      ]
+    },
+    {
+      "id": "dinajpur-dinajpursadar",
+      "districtId": "dinajpur",
+      "name": "Dinajpur Sadar",
+      "nameBn": "দিনাজপুর সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://dinajpursadar.dinajpur.gov.bd",
+      "aliases": [
+        "dinajpursadar"
+      ]
+    },
+    {
+      "id": "gaibandha-phulchari",
+      "districtId": "gaibandha",
+      "name": "Phulchari",
+      "nameBn": "ফুলছড়ি",
+      "kind": "upazila",
+      "sourceUrl": "https://phulchari.gaibandha.gov.bd",
+      "aliases": [
+        "phulchari"
+      ]
+    },
+    {
+      "id": "gaibandha-gaibandhasadar",
+      "districtId": "gaibandha",
+      "name": "Gaibandha Sadar",
+      "nameBn": "গাইবান্ধা সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://gaibandhasadar.gaibandha.gov.bd",
+      "aliases": [
+        "gaibandhasadar"
+      ]
+    },
+    {
+      "id": "gaibandha-gobindaganj",
+      "districtId": "gaibandha",
+      "name": "Gobindaganj",
+      "nameBn": "গোবিন্দগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://gobindaganj.gaibandha.gov.bd",
+      "aliases": [
+        "gobindaganj"
+      ]
+    },
+    {
+      "id": "gaibandha-palashbari",
+      "districtId": "gaibandha",
+      "name": "Palashbari",
+      "nameBn": "পলাশবাড়ী",
+      "kind": "upazila",
+      "sourceUrl": "https://palashbari.gaibandha.gov.bd",
+      "aliases": [
+        "palashbari"
+      ]
+    },
+    {
+      "id": "gaibandha-sadullapur",
+      "districtId": "gaibandha",
+      "name": "Sadullapur",
+      "nameBn": "সাদুল্লাপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadullapur.gaibandha.gov.bd",
+      "aliases": [
+        "sadullapur"
+      ]
+    },
+    {
+      "id": "gaibandha-saghata",
+      "districtId": "gaibandha",
+      "name": "Saghata",
+      "nameBn": "সাঘাটা",
+      "kind": "upazila",
+      "sourceUrl": "https://saghata.gaibandha.gov.bd",
+      "aliases": [
+        "saghata"
+      ]
+    },
+    {
+      "id": "gaibandha-sundarganj",
+      "districtId": "gaibandha",
+      "name": "Sundarganj",
+      "nameBn": "সুন্দরগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://sundarganj.gaibandha.gov.bd",
+      "aliases": [
+        "sundarganj"
+      ]
+    },
+    {
+      "id": "kurigram-bhurungamari",
+      "districtId": "kurigram",
+      "name": "Bhurungamari",
+      "nameBn": "ভূরুঙ্গামারী",
+      "kind": "upazila",
+      "sourceUrl": "https://bhurungamari.kurigram.gov.bd",
+      "aliases": [
+        "bhurungamari"
+      ]
+    },
+    {
+      "id": "kurigram-charrajibpur",
+      "districtId": "kurigram",
+      "name": "Char Rajibpur",
+      "nameBn": "চর রাজিবপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://charrajibpur.kurigram.gov.bd",
+      "aliases": [
+        "charrajibpur"
+      ]
+    },
+    {
+      "id": "kurigram-chilmari",
+      "districtId": "kurigram",
+      "name": "Chilmari",
+      "nameBn": "চিলমারী",
+      "kind": "upazila",
+      "sourceUrl": "https://chilmari.kurigram.gov.bd",
+      "aliases": [
+        "chilmari"
+      ]
+    },
+    {
+      "id": "kurigram-phulbari",
+      "districtId": "kurigram",
+      "name": "Phulbari",
+      "nameBn": "ফুলবাড়ী",
+      "kind": "upazila",
+      "sourceUrl": "https://phulbari.kurigram.gov.bd",
+      "aliases": [
+        "phulbari"
+      ]
+    },
+    {
+      "id": "kurigram-kurigramsadar",
+      "districtId": "kurigram",
+      "name": "Kurigram Sadar",
+      "nameBn": "কুড়িগ্রাম সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://kurigramsadar.kurigram.gov.bd",
+      "aliases": [
+        "kurigramsadar"
+      ]
+    },
+    {
+      "id": "kurigram-nageshwari",
+      "districtId": "kurigram",
+      "name": "Nageshwari",
+      "nameBn": "নাগেশ্বরী",
+      "kind": "upazila",
+      "sourceUrl": "https://nageshwari.kurigram.gov.bd",
+      "aliases": [
+        "nageshwari"
+      ]
+    },
+    {
+      "id": "kurigram-rajarhat",
+      "districtId": "kurigram",
+      "name": "Rajarhat",
+      "nameBn": "রাজারহাট",
+      "kind": "upazila",
+      "sourceUrl": "https://rajarhat.kurigram.gov.bd",
+      "aliases": [
+        "rajarhat"
+      ]
+    },
+    {
+      "id": "kurigram-rowmari",
+      "districtId": "kurigram",
+      "name": "Rowmari",
+      "nameBn": "রৌমারী",
+      "kind": "upazila",
+      "sourceUrl": "https://rowmari.kurigram.gov.bd",
+      "aliases": [
+        "rowmari"
+      ]
+    },
+    {
+      "id": "kurigram-ulipur",
+      "districtId": "kurigram",
+      "name": "Ulipur",
+      "nameBn": "উলিপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://ulipur.kurigram.gov.bd",
+      "aliases": [
+        "ulipur"
+      ]
+    },
+    {
+      "id": "lalmonirhat-aditmari",
+      "districtId": "lalmonirhat",
+      "name": "Aditmari",
+      "nameBn": "আদিতমারী",
+      "kind": "upazila",
+      "sourceUrl": "https://aditmari.lalmonirhat.gov.bd",
+      "aliases": [
+        "aditmari"
+      ]
+    },
+    {
+      "id": "lalmonirhat-hatibandha",
+      "districtId": "lalmonirhat",
+      "name": "Hatibandha",
+      "nameBn": "হাতীবান্ধা",
+      "kind": "upazila",
+      "sourceUrl": "https://hatibandha.lalmonirhat.gov.bd",
+      "aliases": [
+        "hatibandha"
+      ]
+    },
+    {
+      "id": "lalmonirhat-kaliganj",
+      "districtId": "lalmonirhat",
+      "name": "Kaliganj",
+      "nameBn": "কালীগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://kaliganj.lalmonirhat.gov.bd",
+      "aliases": [
+        "kaliganj"
+      ]
+    },
+    {
+      "id": "lalmonirhat-sadar",
+      "districtId": "lalmonirhat",
+      "name": "Lalmonirhat Sadar",
+      "nameBn": "লালমনিরহাট সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.lalmonirhat.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "lalmonirhat-patgram",
+      "districtId": "lalmonirhat",
+      "name": "Patgram",
+      "nameBn": "পাটগ্রাম",
+      "kind": "upazila",
+      "sourceUrl": "https://patgram.lalmonirhat.gov.bd",
+      "aliases": [
+        "patgram"
+      ]
+    },
+    {
+      "id": "nilphamari-domar",
+      "districtId": "nilphamari",
+      "name": "Domar",
+      "nameBn": "ডোমার",
+      "kind": "upazila",
+      "sourceUrl": "https://domar.nilphamari.gov.bd",
+      "aliases": [
+        "domar"
+      ]
+    },
+    {
+      "id": "nilphamari-jaldhaka",
+      "districtId": "nilphamari",
+      "name": "Jaldhaka",
+      "nameBn": "জলঢাকা",
+      "kind": "upazila",
+      "sourceUrl": "https://jaldhaka.nilphamari.gov.bd",
+      "aliases": [
+        "jaldhaka"
+      ]
+    },
+    {
+      "id": "nilphamari-kishorganj",
+      "districtId": "nilphamari",
+      "name": "Kishorganj",
+      "nameBn": "কিশোরগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://kishorganj.nilphamari.gov.bd",
+      "aliases": [
+        "kishorganj"
+      ]
+    },
+    {
+      "id": "nilphamari-nilphamarisadar",
+      "districtId": "nilphamari",
+      "name": "Nilphamari Sadar",
+      "nameBn": "নীলফামারী সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://nilphamarisadar.nilphamari.gov.bd",
+      "aliases": [
+        "nilphamarisadar"
+      ]
+    },
+    {
+      "id": "nilphamari-syedpur",
+      "districtId": "nilphamari",
+      "name": "Syedpur",
+      "nameBn": "সৈয়দপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://syedpur.nilphamari.gov.bd",
+      "aliases": [
+        "syedpur"
+      ]
+    },
+    {
+      "id": "nilphamari-dimla",
+      "districtId": "nilphamari",
+      "name": "Dimla",
+      "nameBn": "ডিমলা",
+      "kind": "upazila",
+      "sourceUrl": "https://dimla.nilphamari.gov.bd",
+      "aliases": [
+        "dimla"
+      ]
+    },
+    {
+      "id": "panchagarh-atwari",
+      "districtId": "panchagarh",
+      "name": "Atwari",
+      "nameBn": "আটোয়ারী",
+      "kind": "upazila",
+      "sourceUrl": "https://atwari.panchagarh.gov.bd",
+      "aliases": [
+        "atwari"
+      ]
+    },
+    {
+      "id": "panchagarh-boda",
+      "districtId": "panchagarh",
+      "name": "Boda",
+      "nameBn": "বোদা",
+      "kind": "upazila",
+      "sourceUrl": "https://boda.panchagarh.gov.bd",
+      "aliases": [
+        "boda"
+      ]
+    },
+    {
+      "id": "panchagarh-debiganj",
+      "districtId": "panchagarh",
+      "name": "Debiganj",
+      "nameBn": "দেবীগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://debiganj.panchagarh.gov.bd",
+      "aliases": [
+        "debiganj"
+      ]
+    },
+    {
+      "id": "panchagarh-panchagarhsadar",
+      "districtId": "panchagarh",
+      "name": "Panchagarh Sadar",
+      "nameBn": "পঞ্চগড় সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://panchagarhsadar.panchagarh.gov.bd",
+      "aliases": [
+        "panchagarhsadar"
+      ]
+    },
+    {
+      "id": "panchagarh-tetulia",
+      "districtId": "panchagarh",
+      "name": "Tetulia",
+      "nameBn": "তেঁতুলিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://tetulia.panchagarh.gov.bd",
+      "aliases": [
+        "tetulia"
+      ]
+    },
+    {
+      "id": "badarganj",
+      "districtId": "rangpur-district",
+      "name": "Badarganj",
+      "nameBn": "বদরগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://badargonj.rangpur.gov.bd",
+      "aliases": [
+        "badargonj"
+      ]
+    },
+    {
+      "id": "kaunia",
+      "districtId": "rangpur-district",
+      "name": "Kaunia",
+      "nameBn": "কাউনিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://kaunia.rangpur.gov.bd",
+      "aliases": [
+        "kaunia"
+      ]
+    },
+    {
+      "id": "rangpur-district-rangpursadar",
+      "districtId": "rangpur-district",
+      "name": "Rangpur Sadar",
+      "nameBn": "রংপুর সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://rangpursadar.rangpur.gov.bd",
+      "aliases": [
+        "rangpursadar"
+      ]
+    },
+    {
+      "id": "mithapukur",
+      "districtId": "rangpur-district",
+      "name": "Mithapukur",
+      "nameBn": "মিঠাপুকুর",
+      "kind": "upazila",
+      "sourceUrl": "https://mithapukur.rangpur.gov.bd",
+      "aliases": [
+        "mithapukur"
+      ]
+    },
+    {
+      "id": "pirgacha",
+      "districtId": "rangpur-district",
+      "name": "Pirgacha",
+      "nameBn": "পীরগাছা",
+      "kind": "upazila",
+      "sourceUrl": "https://pirgacha.rangpur.gov.bd",
+      "aliases": [
+        "pirgacha"
+      ]
+    },
+    {
+      "id": "pirganj-rangpur",
+      "districtId": "rangpur-district",
+      "name": "Pirganj",
+      "nameBn": "পীরগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://pirgonj.rangpur.gov.bd",
+      "aliases": [
+        "pirgonj"
+      ]
+    },
+    {
+      "id": "taraganj",
+      "districtId": "rangpur-district",
+      "name": "Taraganj",
+      "nameBn": "তারাগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://taragonj.rangpur.gov.bd",
+      "aliases": [
+        "taragonj"
+      ]
+    },
+    {
+      "id": "gangachara",
+      "districtId": "rangpur-district",
+      "name": "Gangachara",
+      "nameBn": "গংগাচড়া",
+      "kind": "upazila",
+      "sourceUrl": "https://gangachara.rangpur.gov.bd",
+      "aliases": [
+        "গঙ্গাচড়া",
+        "gangachara"
+      ]
+    },
+    {
+      "id": "thakurgaon-baliadangi",
+      "districtId": "thakurgaon",
+      "name": "Baliadangi",
+      "nameBn": "বালিয়াডাঙ্গী",
+      "kind": "upazila",
+      "sourceUrl": "https://baliadangi.thakurgaon.gov.bd",
+      "aliases": [
+        "baliadangi"
+      ]
+    },
+    {
+      "id": "thakurgaon-haripur",
+      "districtId": "thakurgaon",
+      "name": "Haripur",
+      "nameBn": "হরিপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://haripur.thakurgaon.gov.bd",
+      "aliases": [
+        "haripur"
+      ]
+    },
+    {
+      "id": "thakurgaon-pirganj",
+      "districtId": "thakurgaon",
+      "name": "Pirganj",
+      "nameBn": "পীরগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://pirganj.thakurgaon.gov.bd",
+      "aliases": [
+        "pirganj"
+      ]
+    },
+    {
+      "id": "thakurgaon-ranisankail",
+      "districtId": "thakurgaon",
+      "name": "Ranisankail",
+      "nameBn": "রাণীশংকৈল",
+      "kind": "upazila",
+      "sourceUrl": "https://ranisankail.thakurgaon.gov.bd",
+      "aliases": [
+        "ranisankail"
+      ]
+    },
+    {
+      "id": "thakurgaon-thakurgaonsadar",
+      "districtId": "thakurgaon",
+      "name": "Thakurgaon Sadar",
+      "nameBn": "ঠাকুরগাঁও সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://thakurgaonsadar.thakurgaon.gov.bd",
+      "aliases": [
+        "thakurgaonsadar"
+      ]
+    },
+    {
+      "id": "thakurgaon-bhulli",
+      "districtId": "thakurgaon",
+      "name": "Bhulli",
+      "nameBn": "ভূল্লী",
+      "kind": "upazila",
+      "sourceUrl": "https://bhulli.thakurgaon.gov.bd",
+      "aliases": [
+        "bhulli"
+      ]
+    },
+    {
+      "id": "thakurgaon-ruhia",
+      "districtId": "thakurgaon",
+      "name": "Ruhia",
+      "nameBn": "রুহিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://ruhia.thakurgaon.gov.bd",
+      "aliases": [
+        "ruhia"
+      ]
+    },
+    {
+      "id": "jamalpur-bokshiganj",
+      "districtId": "jamalpur",
+      "name": "Bokshiganj",
+      "nameBn": "বকশীগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://bokshiganj.jamalpur.gov.bd",
+      "aliases": [
+        "bokshiganj"
+      ]
+    },
+    {
+      "id": "jamalpur-dewangonj",
+      "districtId": "jamalpur",
+      "name": "Dewangonj",
+      "nameBn": "দেওয়ানগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://dewangonj.jamalpur.gov.bd",
+      "aliases": [
+        "dewangonj"
+      ]
+    },
+    {
+      "id": "jamalpur-islampur",
+      "districtId": "jamalpur",
+      "name": "Islampur",
+      "nameBn": "ইসলামপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://islampur.jamalpur.gov.bd",
+      "aliases": [
+        "islampur"
+      ]
+    },
+    {
+      "id": "jamalpur-jamalpursadar",
+      "districtId": "jamalpur",
+      "name": "Jamalpur Sadar",
+      "nameBn": "জামালপুর সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://jamalpursadar.jamalpur.gov.bd",
+      "aliases": [
+        "jamalpursadar"
+      ]
+    },
+    {
+      "id": "jamalpur-madarganj",
+      "districtId": "jamalpur",
+      "name": "Madarganj",
+      "nameBn": "মাদারগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://madarganj.jamalpur.gov.bd",
+      "aliases": [
+        "madarganj"
+      ]
+    },
+    {
+      "id": "jamalpur-melandah",
+      "districtId": "jamalpur",
+      "name": "Melandah",
+      "nameBn": "মেলান্দহ",
+      "kind": "upazila",
+      "sourceUrl": "https://melandah.jamalpur.gov.bd",
+      "aliases": [
+        "melandah"
+      ]
+    },
+    {
+      "id": "jamalpur-sarishabari",
+      "districtId": "jamalpur",
+      "name": "Sarishabari",
+      "nameBn": "সরিষাবাড়ী",
+      "kind": "upazila",
+      "sourceUrl": "https://sarishabari.jamalpur.gov.bd",
+      "aliases": [
+        "sarishabari"
+      ]
+    },
+    {
+      "id": "bhaluka",
+      "districtId": "mymensingh-district",
+      "name": "Bhaluka",
+      "nameBn": "ভালুকা",
+      "kind": "upazila",
+      "sourceUrl": "https://bhaluka.mymensingh.gov.bd",
+      "aliases": [
+        "bhaluka"
+      ]
+    },
+    {
+      "id": "dhobaura",
+      "districtId": "mymensingh-district",
+      "name": "Dhobaura",
+      "nameBn": "ধোবাউড়া",
+      "kind": "upazila",
+      "sourceUrl": "https://dhobaura.mymensingh.gov.bd",
+      "aliases": [
+        "ধোবাউড়া",
+        "dhobaura"
+      ]
+    },
+    {
+      "id": "fulbaria",
+      "districtId": "mymensingh-district",
+      "name": "Fulbaria",
+      "nameBn": "ফুলবাড়ীয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://fulbaria.mymensingh.gov.bd",
+      "aliases": [
+        "ফুলবাড়ীয়া",
+        "fulbaria"
+      ]
+    },
+    {
+      "id": "gaffargaon",
+      "districtId": "mymensingh-district",
+      "name": "Gaffargaon",
+      "nameBn": "গফরগাঁও",
+      "kind": "upazila",
+      "sourceUrl": "https://gafargaon.mymensingh.gov.bd",
+      "aliases": [
+        "gafargaon"
+      ]
+    },
+    {
+      "id": "gauripur",
+      "districtId": "mymensingh-district",
+      "name": "Gauripur",
+      "nameBn": "গৌরীপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://gouripur.mymensingh.gov.bd",
+      "aliases": [
+        "gouripur"
+      ]
+    },
+    {
+      "id": "haluaghat",
+      "districtId": "mymensingh-district",
+      "name": "Haluaghat",
+      "nameBn": "হালুয়াঘাট",
+      "kind": "upazila",
+      "sourceUrl": "https://haluaghat.mymensingh.gov.bd",
+      "aliases": [
+        "হালুয়াঘাট",
+        "haluaghat"
+      ]
+    },
+    {
+      "id": "ishwarganj",
+      "districtId": "mymensingh-district",
+      "name": "Ishwarganj",
+      "nameBn": "ঈশ্বরগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://iswarganj.mymensingh.gov.bd",
+      "aliases": [
+        "iswarganj"
+      ]
+    },
+    {
+      "id": "mymensingh-district-mymensinghsadar",
+      "districtId": "mymensingh-district",
+      "name": "Mymensingh Sadar",
+      "nameBn": "ময়মনসিংহ সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://mymensinghsadar.mymensingh.gov.bd",
+      "aliases": [
+        "mymensinghsadar"
+      ]
+    },
+    {
+      "id": "muktagachha",
+      "districtId": "mymensingh-district",
+      "name": "Muktagachha",
+      "nameBn": "মুক্তাগাছা",
+      "kind": "upazila",
+      "sourceUrl": "https://muktagacha.mymensingh.gov.bd",
+      "aliases": [
+        "muktagacha"
+      ]
+    },
+    {
+      "id": "nandail",
+      "districtId": "mymensingh-district",
+      "name": "Nandail",
+      "nameBn": "নান্দাইল",
+      "kind": "upazila",
+      "sourceUrl": "https://nandail.mymensingh.gov.bd",
+      "aliases": [
+        "nandail"
+      ]
+    },
+    {
+      "id": "phulpur",
+      "districtId": "mymensingh-district",
+      "name": "Phulpur",
+      "nameBn": "ফুলপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://phulpur.mymensingh.gov.bd",
+      "aliases": [
+        "phulpur"
+      ]
+    },
+    {
+      "id": "mymensingh-district-tarakanda",
+      "districtId": "mymensingh-district",
+      "name": "Tarakanda",
+      "nameBn": "তারাকান্দা",
+      "kind": "upazila",
+      "sourceUrl": "https://tarakanda.mymensingh.gov.bd",
+      "aliases": [
+        "tarakanda"
+      ]
+    },
+    {
+      "id": "trishal",
+      "districtId": "mymensingh-district",
+      "name": "Trishal",
+      "nameBn": "ত্রিশাল",
+      "kind": "upazila",
+      "sourceUrl": "https://trishal.mymensingh.gov.bd",
+      "aliases": [
+        "trishal"
+      ]
+    },
+    {
+      "id": "netrokona-atpara",
+      "districtId": "netrokona",
+      "name": "Atpara",
+      "nameBn": "আটপাড়া",
+      "kind": "upazila",
+      "sourceUrl": "https://atpara.netrokona.gov.bd",
+      "aliases": [
+        "atpara"
+      ]
+    },
+    {
+      "id": "netrokona-barhatta",
+      "districtId": "netrokona",
+      "name": "Barhatta",
+      "nameBn": "বারহাট্টা",
+      "kind": "upazila",
+      "sourceUrl": "https://barhatta.netrokona.gov.bd",
+      "aliases": [
+        "barhatta"
+      ]
+    },
+    {
+      "id": "netrokona-durgapur",
+      "districtId": "netrokona",
+      "name": "Durgapur",
+      "nameBn": "দুর্গাপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://durgapur.netrokona.gov.bd",
+      "aliases": [
+        "durgapur"
+      ]
+    },
+    {
+      "id": "netrokona-khaliajuri",
+      "districtId": "netrokona",
+      "name": "Khaliajuri",
+      "nameBn": "খালিয়াজুরী",
+      "kind": "upazila",
+      "sourceUrl": "https://khaliajuri.netrokona.gov.bd",
+      "aliases": [
+        "khaliajuri"
+      ]
+    },
+    {
+      "id": "netrokona-kalmakanda",
+      "districtId": "netrokona",
+      "name": "Kalmakanda",
+      "nameBn": "কলমাকান্দা",
+      "kind": "upazila",
+      "sourceUrl": "https://kalmakanda.netrokona.gov.bd",
+      "aliases": [
+        "kalmakanda"
+      ]
+    },
+    {
+      "id": "netrokona-kendua",
+      "districtId": "netrokona",
+      "name": "Kendua",
+      "nameBn": "কেন্দুয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://kendua.netrokona.gov.bd",
+      "aliases": [
+        "kendua"
+      ]
+    },
+    {
+      "id": "netrokona-madan",
+      "districtId": "netrokona",
+      "name": "Madan",
+      "nameBn": "মদন",
+      "kind": "upazila",
+      "sourceUrl": "https://madan.netrokona.gov.bd",
+      "aliases": [
+        "madan"
+      ]
+    },
+    {
+      "id": "netrokona-mohongonj",
+      "districtId": "netrokona",
+      "name": "Mohongonj",
+      "nameBn": "মোহনগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://mohongonj.netrokona.gov.bd",
+      "aliases": [
+        "mohongonj"
+      ]
+    },
+    {
+      "id": "netrokona-netrokonasadar",
+      "districtId": "netrokona",
+      "name": "Netrokona Sadar",
+      "nameBn": "নেত্রকোণা সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://netrokonasadar.netrokona.gov.bd",
+      "aliases": [
+        "netrokonasadar"
+      ]
+    },
+    {
+      "id": "netrokona-purbadhala",
+      "districtId": "netrokona",
+      "name": "Purbadhala",
+      "nameBn": "পূর্বধলা",
+      "kind": "upazila",
+      "sourceUrl": "https://purbadhala.netrokona.gov.bd",
+      "aliases": [
+        "purbadhala"
+      ]
+    },
+    {
+      "id": "sherpur-jhenaigati",
+      "districtId": "sherpur",
+      "name": "Jhenaigati",
+      "nameBn": "ঝিনাইগাতী",
+      "kind": "upazila",
+      "sourceUrl": "https://jhenaigati.sherpur.gov.bd",
+      "aliases": [
+        "jhenaigati"
+      ]
+    },
+    {
+      "id": "sherpur-nokla",
+      "districtId": "sherpur",
+      "name": "Nokla",
+      "nameBn": "নকলা",
+      "kind": "upazila",
+      "sourceUrl": "https://nokla.sherpur.gov.bd",
+      "aliases": [
+        "nokla"
+      ]
+    },
+    {
+      "id": "sherpur-nalitabari",
+      "districtId": "sherpur",
+      "name": "Nalitabari",
+      "nameBn": "নালিতাবাড়ী",
+      "kind": "upazila",
+      "sourceUrl": "https://nalitabari.sherpur.gov.bd",
+      "aliases": [
+        "nalitabari"
+      ]
+    },
+    {
+      "id": "sherpur-sherpursadar",
+      "districtId": "sherpur",
+      "name": "Sherpur Sadar",
+      "nameBn": "শেরপুর সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sherpursadar.sherpur.gov.bd",
+      "aliases": [
+        "sherpursadar"
+      ]
+    },
+    {
+      "id": "sherpur-sreebordi",
+      "districtId": "sherpur",
+      "name": "Sreebordi",
+      "nameBn": "শ্রীবরদী",
+      "kind": "upazila",
+      "sourceUrl": "https://sreebordi.sherpur.gov.bd",
+      "aliases": [
+        "sreebordi"
+      ]
+    },
+    {
+      "id": "barguna-amtali",
+      "districtId": "barguna",
+      "name": "Amtali",
+      "nameBn": "আমতলী",
+      "kind": "upazila",
+      "sourceUrl": "https://amtali.barguna.gov.bd",
+      "aliases": [
+        "amtali"
+      ]
+    },
+    {
+      "id": "barguna-bamna",
+      "districtId": "barguna",
+      "name": "Bamna",
+      "nameBn": "বামনা",
+      "kind": "upazila",
+      "sourceUrl": "https://bamna.barguna.gov.bd",
+      "aliases": [
+        "bamna"
+      ]
+    },
+    {
+      "id": "barguna-sadar",
+      "districtId": "barguna",
+      "name": "Barguna Sadar",
+      "nameBn": "বরগুনা সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.barguna.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "barguna-betagi",
+      "districtId": "barguna",
+      "name": "Betagi",
+      "nameBn": "বেতাগী",
+      "kind": "upazila",
+      "sourceUrl": "https://betagi.barguna.gov.bd",
+      "aliases": [
+        "betagi"
+      ]
+    },
+    {
+      "id": "barguna-pathorghata",
+      "districtId": "barguna",
+      "name": "Pathorghata",
+      "nameBn": "পাথরঘাটা",
+      "kind": "upazila",
+      "sourceUrl": "https://pathorghata.barguna.gov.bd",
+      "aliases": [
+        "pathorghata"
+      ]
+    },
+    {
+      "id": "barguna-taltali",
+      "districtId": "barguna",
+      "name": "Taltali",
+      "nameBn": "তালতলী",
+      "kind": "upazila",
+      "sourceUrl": "https://taltali.barguna.gov.bd",
+      "aliases": [
+        "taltali"
+      ]
+    },
+    {
+      "id": "agailjhara",
+      "districtId": "barisal-district",
+      "name": "Agailjhara",
+      "nameBn": "আগৈলঝাড়া",
+      "kind": "upazila",
+      "sourceUrl": "https://agailjhara.barisal.gov.bd",
+      "aliases": [
+        "আগৈলঝাড়া",
+        "agailjhara"
+      ]
+    },
+    {
+      "id": "babuganj",
+      "districtId": "barisal-district",
+      "name": "Babuganj",
+      "nameBn": "বাবুগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://babuganj.barisal.gov.bd",
+      "aliases": [
+        "babuganj"
+      ]
+    },
+    {
+      "id": "bakerganj",
+      "districtId": "barisal-district",
+      "name": "Bakerganj",
+      "nameBn": "বাকেরগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://bakerganj.barisal.gov.bd",
+      "aliases": [
+        "bakerganj"
+      ]
+    },
+    {
+      "id": "banaripara",
+      "districtId": "barisal-district",
+      "name": "Banaripara",
+      "nameBn": "বানারীপাড়া",
+      "kind": "upazila",
+      "sourceUrl": "https://banaripara.barisal.gov.bd",
+      "aliases": [
+        "বানারীপাড়া",
+        "banaripara"
+      ]
+    },
+    {
+      "id": "gaurnadi",
+      "districtId": "barisal-district",
+      "name": "Gaurnadi",
+      "nameBn": "গৌরনদী",
+      "kind": "upazila",
+      "sourceUrl": "https://gournadi.barisal.gov.bd",
+      "aliases": [
+        "gournadi"
+      ]
+    },
+    {
+      "id": "hizla",
+      "districtId": "barisal-district",
+      "name": "Hizla",
+      "nameBn": "হিজলা",
+      "kind": "upazila",
+      "sourceUrl": "https://hizla.barisal.gov.bd",
+      "aliases": [
+        "hizla"
+      ]
+    },
+    {
+      "id": "barisal-district-barisalsadar",
+      "districtId": "barisal-district",
+      "name": "Barisal Sadar",
+      "nameBn": "বরিশাল সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://barisalsadar.barisal.gov.bd",
+      "aliases": [
+        "barisalsadar"
+      ]
+    },
+    {
+      "id": "mehendiganj",
+      "districtId": "barisal-district",
+      "name": "Mehendiganj",
+      "nameBn": "মেহেন্দিগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://mehendiganj.barisal.gov.bd",
+      "aliases": [
+        "mehendiganj"
+      ]
+    },
+    {
+      "id": "muladi",
+      "districtId": "barisal-district",
+      "name": "Muladi",
+      "nameBn": "মুলাদী",
+      "kind": "upazila",
+      "sourceUrl": "https://muladi.barisal.gov.bd",
+      "aliases": [
+        "muladi"
+      ]
+    },
+    {
+      "id": "wazirpur",
+      "districtId": "barisal-district",
+      "name": "Wazirpur",
+      "nameBn": "উজিরপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://wazirpur.barisal.gov.bd",
+      "aliases": [
+        "wazirpur"
+      ]
+    },
+    {
+      "id": "bhola-sadar",
+      "districtId": "bhola",
+      "name": "Bhola Sadar",
+      "nameBn": "ভোলা সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.bhola.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "bhola-borhanuddin",
+      "districtId": "bhola",
+      "name": "Borhanuddin",
+      "nameBn": "বোরহানউদ্দিন",
+      "kind": "upazila",
+      "sourceUrl": "https://borhanuddin.bhola.gov.bd",
+      "aliases": [
+        "borhanuddin"
+      ]
+    },
+    {
+      "id": "bhola-doulatkhan",
+      "districtId": "bhola",
+      "name": "Doulatkhan",
+      "nameBn": "দৌলতখান",
+      "kind": "upazila",
+      "sourceUrl": "https://doulatkhan.bhola.gov.bd",
+      "aliases": [
+        "doulatkhan"
+      ]
+    },
+    {
+      "id": "bhola-lalmohan",
+      "districtId": "bhola",
+      "name": "Lalmohan",
+      "nameBn": "লালমোহন",
+      "kind": "upazila",
+      "sourceUrl": "https://lalmohan.bhola.gov.bd",
+      "aliases": [
+        "lalmohan"
+      ]
+    },
+    {
+      "id": "bhola-monpura",
+      "districtId": "bhola",
+      "name": "Monpura",
+      "nameBn": "মনপুরা",
+      "kind": "upazila",
+      "sourceUrl": "https://monpura.bhola.gov.bd",
+      "aliases": [
+        "monpura"
+      ]
+    },
+    {
+      "id": "bhola-tazumuddin",
+      "districtId": "bhola",
+      "name": "Tazumuddin",
+      "nameBn": "তজুমদ্দিন",
+      "kind": "upazila",
+      "sourceUrl": "https://tazumuddin.bhola.gov.bd",
+      "aliases": [
+        "tazumuddin"
+      ]
+    },
+    {
+      "id": "bhola-charfesson",
+      "districtId": "bhola",
+      "name": "Charfesson",
+      "nameBn": "চরফ্যাশন",
+      "kind": "upazila",
+      "sourceUrl": "https://charfesson.bhola.gov.bd",
+      "aliases": [
+        "charfesson"
+      ]
+    },
+    {
+      "id": "jhalokati-sadar",
+      "districtId": "jhalokati",
+      "name": "Jhalokati Sadar",
+      "nameBn": "ঝালকাঠি সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.jhalakathi.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "jhalokati-nalchity",
+      "districtId": "jhalokati",
+      "name": "Nalchity",
+      "nameBn": "নলছিটি",
+      "kind": "upazila",
+      "sourceUrl": "https://nalchity.jhalakathi.gov.bd",
+      "aliases": [
+        "nalchity"
+      ]
+    },
+    {
+      "id": "jhalokati-kathalia",
+      "districtId": "jhalokati",
+      "name": "Kathalia",
+      "nameBn": "কাঠালিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://kathalia.jhalakathi.gov.bd",
+      "aliases": [
+        "kathalia"
+      ]
+    },
+    {
+      "id": "jhalokati-rajapur",
+      "districtId": "jhalokati",
+      "name": "Rajapur",
+      "nameBn": "রাজাপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://rajapur.jhalakathi.gov.bd",
+      "aliases": [
+        "rajapur"
+      ]
+    },
+    {
+      "id": "patuakhali-bauphal",
+      "districtId": "patuakhali",
+      "name": "Bauphal",
+      "nameBn": "বাউফল",
+      "kind": "upazila",
+      "sourceUrl": "https://bauphal.patuakhali.gov.bd",
+      "aliases": [
+        "bauphal"
+      ]
+    },
+    {
+      "id": "patuakhali-dashmina",
+      "districtId": "patuakhali",
+      "name": "Dashmina",
+      "nameBn": "দশমিনা",
+      "kind": "upazila",
+      "sourceUrl": "https://dashmina.patuakhali.gov.bd",
+      "aliases": [
+        "dashmina"
+      ]
+    },
+    {
+      "id": "patuakhali-dumki",
+      "districtId": "patuakhali",
+      "name": "Dumki",
+      "nameBn": "দুমকী",
+      "kind": "upazila",
+      "sourceUrl": "https://dumki.patuakhali.gov.bd",
+      "aliases": [
+        "dumki"
+      ]
+    },
+    {
+      "id": "patuakhali-kalapara",
+      "districtId": "patuakhali",
+      "name": "Kalapara",
+      "nameBn": "কলাপাড়া",
+      "kind": "upazila",
+      "sourceUrl": "https://kalapara.patuakhali.gov.bd",
+      "aliases": [
+        "kalapara"
+      ]
+    },
+    {
+      "id": "patuakhali-mirzaganj",
+      "districtId": "patuakhali",
+      "name": "Mirzaganj",
+      "nameBn": "মির্জাগঞ্জ",
+      "kind": "upazila",
+      "sourceUrl": "https://mirzaganj.patuakhali.gov.bd",
+      "aliases": [
+        "mirzaganj"
+      ]
+    },
+    {
+      "id": "patuakhali-sadar",
+      "districtId": "patuakhali",
+      "name": "Patuakhali Sadar",
+      "nameBn": "পটুয়াখালী সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.patuakhali.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "patuakhali-rangabali",
+      "districtId": "patuakhali",
+      "name": "Rangabali",
+      "nameBn": "রাঙ্গাবালী",
+      "kind": "upazila",
+      "sourceUrl": "https://rangabali.patuakhali.gov.bd",
+      "aliases": [
+        "rangabali"
+      ]
+    },
+    {
+      "id": "patuakhali-galachipa",
+      "districtId": "patuakhali",
+      "name": "Galachipa",
+      "nameBn": "গলাচিপা",
+      "kind": "upazila",
+      "sourceUrl": "https://galachipa.patuakhali.gov.bd",
+      "aliases": [
+        "galachipa"
+      ]
+    },
+    {
+      "id": "pirojpur-bhandaria",
+      "districtId": "pirojpur",
+      "name": "Bhandaria",
+      "nameBn": "ভান্ডারিয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://bhandaria.pirojpur.gov.bd",
+      "aliases": [
+        "bhandaria"
+      ]
+    },
+    {
+      "id": "pirojpur-kawkhali",
+      "districtId": "pirojpur",
+      "name": "Kawkhali",
+      "nameBn": "কাউখালী",
+      "kind": "upazila",
+      "sourceUrl": "https://kawkhali.pirojpur.gov.bd",
+      "aliases": [
+        "kawkhali"
+      ]
+    },
+    {
+      "id": "pirojpur-mathbaria",
+      "districtId": "pirojpur",
+      "name": "Mathbaria",
+      "nameBn": "মঠবাড়ীয়া",
+      "kind": "upazila",
+      "sourceUrl": "https://mathbaria.pirojpur.gov.bd",
+      "aliases": [
+        "mathbaria"
+      ]
+    },
+    {
+      "id": "pirojpur-nazirpur",
+      "districtId": "pirojpur",
+      "name": "Nazirpur",
+      "nameBn": "নাজিরপুর",
+      "kind": "upazila",
+      "sourceUrl": "https://nazirpur.pirojpur.gov.bd",
+      "aliases": [
+        "nazirpur"
+      ]
+    },
+    {
+      "id": "pirojpur-sadar",
+      "districtId": "pirojpur",
+      "name": "Pirojpur Sadar",
+      "nameBn": "পিরোজপুর সদর",
+      "kind": "upazila",
+      "sourceUrl": "https://sadar.pirojpur.gov.bd",
+      "aliases": [
+        "sadar"
+      ]
+    },
+    {
+      "id": "pirojpur-nesarabad",
+      "districtId": "pirojpur",
+      "name": "Nesarabad",
+      "nameBn": "নেছারাবাদ",
+      "kind": "upazila",
+      "sourceUrl": "https://nesarabad.pirojpur.gov.bd",
+      "aliases": [
+        "nesarabad"
+      ]
+    },
+    {
+      "id": "pirojpur-zianagar",
+      "districtId": "pirojpur",
+      "name": "Zianagar",
+      "nameBn": "জিয়ানগর",
+      "kind": "upazila",
+      "sourceUrl": "https://zianagar.pirojpur.gov.bd",
+      "aliases": [
+        "zianagar",
+        "Indurkani",
+        "ইন্দুরকানী"
+      ]
+    },
+    {
+      "id": "cox-bazar-matamuhuri",
+      "districtId": "cox-bazar",
+      "name": "Matamuhuri",
+      "nameBn": "মাতামুহুরী",
+      "kind": "upazila",
+      "sourceUrl": "https://www.dpp.gov.bd/upload_file/gazettes/61700_42685.pdf",
+      "sourceDate": "2026-05-19",
+      "aliases": [
+        "Matamuhury"
+      ]
+    },
+    {
+      "id": "comilla-bangra",
+      "districtId": "comilla",
+      "name": "Bangra",
+      "nameBn": "বাঙ্গরা",
+      "kind": "upazila",
+      "sourceUrl": "https://www.dpp.gov.bd/upload_file/gazettes/62253_57891.pdf",
+      "sourceDate": "2026-07-08",
+      "aliases": [
+        "Bangora"
+      ]
+    },
+    {
+      "id": "mymensingh-district-dakshin-gafargaon",
+      "districtId": "mymensingh-district",
+      "name": "Dakshin Gafargaon",
+      "nameBn": "দক্ষিণ গফরগাঁও",
+      "kind": "upazila",
+      "sourceUrl": "https://www.dpp.gov.bd/upload_file/gazettes/62254_51393.pdf",
+      "sourceDate": "2026-07-08",
+      "aliases": [
+        "South Gafargaon",
+        "Dakshin Gaffargaon"
+      ]
+    },
+    {
+      "id": "chittagong-district-fatikchhari-uttar",
+      "districtId": "chittagong-district",
+      "name": "Fatikchhari Uttar",
+      "nameBn": "ফটিকছড়ি উত্তর",
+      "kind": "upazila",
+      "sourceUrl": "https://www.dpp.gov.bd/upload_file/gazettes/62255_91602.pdf",
+      "sourceDate": "2026-07-08",
+      "aliases": [
+        "Fatikchhari North",
+        "Uttar Fatikchhari"
+      ]
+    }
+  ]
+}
