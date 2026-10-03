@@ -21,6 +21,33 @@ class CommunityOverviewAndMediaTest extends TestCase
         return ScamCase::create($extra + ['case_code' => $code, 'business_id' => $business->id, 'reporter_user_id' => $user->id, 'title' => 'private-title-secret', 'summary' => 'private-summary-secret', 'amount' => 90001, 'public_summary' => 'Approved public summary', 'status' => 'published', 'published_at' => now()]);
     }
 
+    public function test_national_tally_handles_an_empty_database(): void
+    {
+        $response = $this->getJson('/api/scam-national-tally')->assertOk()
+            ->assertJsonPath('data.live_sum_bdt', 0)
+            ->assertJsonPath('data.total_money_crore', 0)
+            ->assertJsonPath('data.disputed_percentage', 0);
+        foreach ($response->json('data.divisions') as $division) {
+            $this->assertSame(0, $division['alerts']);
+            $this->assertSame(0, $division['bar_percentage']);
+        }
+    }
+
+    public function test_national_tally_excludes_private_demo_and_old_cases(): void
+    {
+        $business = $this->entity('tally-shop', 'Dhaka Division');
+        $user = User::factory()->create();
+        $this->caseFor($business, $user, 'TALLY-PUBLIC', ['amount' => 200]);
+        $this->caseFor($business, $user, 'TALLY-PRIVATE', ['amount' => 999, 'published_at' => null]);
+        $this->caseFor($business, $user, 'TALLY-DEMO', ['amount' => 999, 'is_demo' => true]);
+        $this->caseFor($business, $user, 'TALLY-RESTRICTED', ['amount' => 999, 'status' => 'restricted']);
+        $old = $this->caseFor($business, $user, 'TALLY-OLD', ['amount' => 999]);
+        $old->created_at = now()->subDays(40);
+        $old->save();
+        $response = $this->getJson('/api/scam-national-tally')->assertOk()
+            ->assertJsonPath('data.live_sum_bdt', 200);
+        $this->assertSame(1, collect($response->json('data.divisions'))->sum('alerts'));
+    }
     private function photo(string $url = '/public-media/redacted-copy.jpg'): array
     {
         return ['url' => $url, 'alt' => 'Redacted public image', 'kind' => 'photo', 'caption' => 'Approved copy', 'approved_for_public' => true, 'consent_confirmed' => true, 'redacted' => true];

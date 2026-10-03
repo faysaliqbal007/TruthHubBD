@@ -35,13 +35,14 @@ export function ScamNationalTallyWidget({ lang = 'en' }: { lang?: 'en' | 'bn' })
 
   useEffect(() => {
     let active = true;
+    setLoading(true);
     api<{ success: boolean; data: TallyData }>('/scam-national-tally')
       .then((res) => {
         if (active && res?.data) {
           setData(res.data);
         }
       })
-      .catch(() => {})
+      .catch(() => { if (active) setData(null); })
       .finally(() => {
         if (active) setLoading(false);
       });
@@ -65,15 +66,22 @@ export function ScamNationalTallyWidget({ lang = 'en' }: { lang?: 'en' | 'bn' })
     };
   }, []);
 
-  // Baseline defaults if loading or offline
-  const totalCrore = data?.total_money_crore ?? 553.36;
-  const disputedPct = data?.disputed_percentage ?? 0;
-  const divisions = data?.divisions ?? [
-    { key: 'dhaka', name: 'Dhaka', name_bn: 'ঢাকা', alerts: 7557, money_crore: 285.4, bar_percentage: 100 },
-    { key: 'chattogram', name: 'Chattogram', name_bn: 'চট্টগ্রাম', alerts: 4101, money_crore: 142.1, bar_percentage: 54 },
-    { key: 'rajshahi', name: 'Rajshahi', name_bn: 'রাজশাহী', alerts: 1667, money_crore: 68.35, bar_percentage: 22 },
-    { key: 'khulna', name: 'Khulna', name_bn: 'খুলনা', alerts: 1204, money_crore: 57.51, bar_percentage: 16 },
-  ];
+  if (!data) {
+    return (
+      <aside className="scam-national-tally-widget" aria-label={bn ? 'জাতীয় স্ক্যামের হিসাব' : 'National scam tally'} aria-busy={loading}>
+        <p role={loading ? 'status' : 'alert'}>
+          {loading
+            ? (bn ? 'হিসাব লোড হচ্ছে…' : 'Loading national tally…')
+            : (bn ? 'হিসাব এখন পাওয়া যাচ্ছে না।' : 'National tally is unavailable right now.')}
+        </p>
+        {!loading && <button type="button" onClick={() => setAttempt(v => v + 1)}>{bn ? 'আবার চেষ্টা করুন' : 'Retry'}</button>}
+      </aside>
+    );
+  }
+
+  const totalCrore = data.total_money_crore;
+  const disputedPct = data.disputed_percentage;
+  const divisions = data.divisions;
 
   return (
     <aside

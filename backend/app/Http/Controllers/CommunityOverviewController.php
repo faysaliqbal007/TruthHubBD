@@ -48,14 +48,13 @@ class CommunityOverviewController extends Controller
     {
         $since = now()->subDays(30);
 
-        // Sum of all money in scam alerts in last 30 days from database
-        $live30DaySum = (float) ScamCase::where('created_at', '>=', $since)
-            ->whereNotNull('amount')
-            ->sum('amount');
-
-        // All-time sum from database as fallback if 30-day sum is zero
-        $allTimeSum = (float) ScamCase::whereNotNull('amount')->sum('amount');
-        $totalBdt = $live30DaySum > 0 ? $live30DaySum : $allTimeSum;
+        // Keep the public tally within the displayed 30-day window.
+        $cases = ScamCase::publiclyVisible()
+            ->whereNotNull('scam_cases.published_at')
+            ->where('scam_cases.is_demo', false)
+            ->whereHas('business', fn ($query) => $query->where('is_demo', false))
+            ->where('scam_cases.created_at', '>=', $since);
+        $totalBdt = (float) (clone $cases)->whereNotNull('scam_cases.amount')->sum('scam_cases.amount');
 
         // Dynamic unit formatting based on actual BDT amount
         if ($totalBdt >= 10000000) {
@@ -81,8 +80,8 @@ class CommunityOverviewController extends Controller
         }
 
         // Real-time disputed percentage — only count cases that were publicly published
-        $disputedCount = ScamCase::where('status', 'disputed')->whereNotNull('published_at')->count();
-        $resolvedCount = ScamCase::whereIn('status', ['resolved', 'disputed'])->whereNotNull('published_at')->count();
+        $disputedCount = (clone $cases)->where('scam_cases.status', 'disputed')->count();
+        $resolvedCount = (clone $cases)->whereIn('scam_cases.status', ['resolved', 'disputed'])->count();
         $disputedPct = $resolvedCount > 0 ? round(($disputedCount / $resolvedCount) * 100) : 0;
 
         // All 8 Bangladesh Divisions
@@ -98,7 +97,7 @@ class CommunityOverviewController extends Controller
         ];
 
         // Query all DB cases and aggregate per division
-        $dbCases = ScamCase::join('businesses', 'businesses.id', '=', 'scam_cases.business_id')
+        $dbCases = (clone $cases)->join('businesses', 'businesses.id', '=', 'scam_cases.business_id')
             ->select('businesses.location', 'scam_cases.amount')
             ->get();
 
@@ -113,7 +112,8 @@ class CommunityOverviewController extends Controller
         }
 
         foreach ($dbCases as $c) {
-            $key = BangladeshDivisions::fromLocation($c->location) ?: 'dhaka';
+            $key = BangladeshDivisions::fromLocation($c->location);
+            if (!$key) continue;
             if (!isset($divStats[$key])) {
                 $divStats[$key] = [
                     'name' => ucfirst($key),
@@ -128,7 +128,7 @@ class CommunityOverviewController extends Controller
             }
         }
 
-        $maxAlerts = max(array_column($divStats, 'alerts') ?: [1]);
+        $maxAlerts = max(1, max(array_column($divStats, 'alerts')));
 
         $divisionList = [];
         foreach ($divStats as $key => $d) {
