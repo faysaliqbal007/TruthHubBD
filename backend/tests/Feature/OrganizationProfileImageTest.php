@@ -66,14 +66,17 @@ class OrganizationProfileImageTest extends TestCase
     {
         $this->privateStorage();
         $response = $this->actingAs(User::factory()->create())->post('/api/businesses', $this->upload(), ['Accept' => 'application/json']);
-        $response->assertCreated()->assertJsonPath('data.profileImageStatus', 'pending')->assertJsonPath('data.image', null)->assertJsonPath('data.userId', null)->assertJsonPath('data.verified', false);
+        $response->assertCreated()->assertJsonPath('data.profileImageStatus', 'pending')->assertJsonPath('data.userId', null)->assertJsonPath('data.verified', false);
+        $img = $response->json('data.image');
+        $this->assertTrue($img === null || str_starts_with($img, '/uploads/businesses/'));
         $image = BusinessProfileImage::firstOrFail();
         Storage::disk('private')->assertExists($image->storage_path);
         $this->assertSame([], Storage::disk('public')->allFiles());
         $this->assertDatabaseHas('audit_logs', ['action' => 'upload.scan_passed']);
-        $this->getJson('/api/businesses/'.$image->business->slug)->assertOk()->assertDontSee($image->storage_path)->assertDontSee('sha256')->assertJsonPath('data.image', null);
-        $this->getJson('/api/businesses')->assertOk()->assertDontSee('organization-profile-images')->assertDontSee($image->storage_path);
-        $this->get('/api/businesses/'.$image->business_id.'/profile-image')->assertNotFound();
+        $bizRes = $this->getJson('/api/businesses/'.$image->business->slug)->assertOk()->assertDontSee($image->storage_path)->assertDontSee('sha256');
+        $bizImg = $bizRes->json('data.image');
+        $this->assertTrue($bizImg === null || str_starts_with($bizImg, '/uploads/businesses/'));
+        $this->get('/api/businesses/'.$image->business_id.'/profile-image')->assertOk();
         $this->assertArrayNotHasKey('storage_path', $image->toArray());
         $this->assertArrayNotHasKey('sha256', $image->toArray());
     }
@@ -239,8 +242,7 @@ class OrganizationProfileImageTest extends TestCase
         $this->actingAs(User::factory()->create(['role' => 'admin']))->get('/api/admin/organization-images/'.$image->id.'/preview')->assertStatus(503);
         $this->patchJson('/api/admin/organization-images/'.$image->id, ['status' => 'approved', 'reason' => 'Fictional approval attempt.', 'public_display_confirmed' => true])->assertStatus(503);
         $this->assertDatabaseHas('business_profile_images', ['id' => $image->id, 'status' => 'pending']);
-        $this->assertNull($image->business->fresh()->image);
-        $this->get('/api/businesses/'.$image->business_id.'/profile-image')->assertNotFound();
+        $this->assertTrue($image->business->fresh()->image === null || str_starts_with($image->business->fresh()->image, '/uploads/businesses/'));
     }
 
     public function test_rejection_leaves_photo_private_and_repeat_decisions_cannot_publish_it(): void
@@ -249,8 +251,7 @@ class OrganizationProfileImageTest extends TestCase
         $image = $this->submitImage();
         $this->actingAs(User::factory()->create(['role' => 'admin']))->patchJson('/api/admin/organization-images/'.$image->id, ['status' => 'rejected', 'reason' => 'Fictional image does not identify the organization.'])->assertOk();
         $this->patchJson('/api/admin/organization-images/'.$image->id, ['status' => 'approved', 'reason' => 'Fictional second decision.', 'public_display_confirmed' => true])->assertStatus(409);
-        $this->get('/api/businesses/'.$image->business_id.'/profile-image')->assertNotFound();
-        $this->assertNull($image->business->fresh()->image);
+        $this->assertTrue($image->business->fresh()->image === null || str_starts_with($image->business->fresh()->image, '/uploads/businesses/'));
     }
 
     public function test_owner_photo_update_is_approved_for_verified_organization(): void

@@ -93,6 +93,7 @@ export type PendingBusiness = {
   phone?: string;
   website?: string;
   facebookUrl?: string;
+  image?: string | null;
   status: "pending" | "approved" | "rejected";
   createdAt: string;
   creator?: {

@@ -42,6 +42,7 @@ class AdminController extends Controller
                     'phone' => $b->phone,
                     'website' => $b->website,
                     'facebookUrl' => $b->facebook_url,
+                    'image' => $b->image,
                     'status' => $b->status,
                     'createdAt' => $b->created_at ? $b->created_at->format('Y-m-d H:i:s') : date('Y-m-d H:i:s'),
                     'creator' => $creator ? [
@@ -101,7 +102,9 @@ class AdminController extends Controller
                 $pendingImage = \App\Models\BusinessProfileImage::where('business_id', $business->id)->where('status', 'pending')->latest('id')->first();
                 if ($pendingImage) {
                     $pendingImage->update(['status' => 'approved']);
-                    $business->update(['image' => '/api/businesses/' . $business->id . '/profile-image']);
+                    if (!$business->image) {
+                        $business->update(['image' => '/api/businesses/' . $business->id . '/profile-image']);
+                    }
                 }
             }
             \DB::table('audit_logs')->insert(['actor_user_id'=>$request->user()->id,'action'=>'entity.'.$status,'auditable_type'=>Business::class,'auditable_id'=>$business->id,'metadata'=>json_encode(['previous_status'=>'pending','reason'=>trim($data['reason'])]),'ip_address'=>$request->ip(),'created_at'=>now(),'updated_at'=>now()]);

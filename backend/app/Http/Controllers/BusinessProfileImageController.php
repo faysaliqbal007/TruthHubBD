@@ -68,6 +68,15 @@ class BusinessProfileImageController extends Controller
     {
         abort_unless(!$business->merged_into_id && in_array($business->status, ['approved', 'pending'], true), 404);
 
+        $image = BusinessProfileImage::where('business_id', $business->id)
+            ->where('status', 'approved')
+            ->latest('id')
+            ->first();
+
+        if ($image) {
+            return $this->imageResponse($image, OrganizationProfileImage::checkedPath($image));
+        }
+
         if ($business->image && str_starts_with($business->image, '/uploads/businesses/')) {
             $hasRejected = BusinessProfileImage::where('business_id', $business->id)->where('status', 'rejected')->exists();
             if (!$hasRejected) {
@@ -93,14 +102,7 @@ class BusinessProfileImageController extends Controller
             }
         }
 
-        $image = BusinessProfileImage::where('business_id', $business->id)
-            ->where('status', 'approved')
-            ->latest('id')
-            ->first();
-        if (!$image) {
-            abort(404);
-        }
-        return $this->imageResponse($image, OrganizationProfileImage::checkedPath($image));
+        abort(404);
     }
 
     private function imageResponse(BusinessProfileImage $image, string $path)

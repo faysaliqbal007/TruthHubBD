@@ -273,27 +273,28 @@ class BusinessController extends Controller
             if ($isStaff) {
                 $profileImage->update(['status' => 'approved']);
                 $business->status = 'approved';
-                $file = $request->file('profile_image') ?? $request->file('file') ?? $request->file('image');
-                if ($file) {
-                    $dir = public_path('uploads' . DIRECTORY_SEPARATOR . 'businesses');
-                    if (!is_dir($dir)) {
-                        @mkdir($dir, 0777, true);
-                    }
-                    @chmod($dir, 0777);
-
-                    $ext = strtolower($file->getClientOriginalExtension() ?: 'jpg');
-                    $fileName = time() . '_' . Str::random(12) . '.' . $ext;
-                    $targetPath = $dir . DIRECTORY_SEPARATOR . $fileName;
-
-                    if (@copy($file->getRealPath(), $targetPath) || @file_put_contents($targetPath, file_get_contents($file->getRealPath()))) {
-                        @chmod($targetPath, 0666);
-                        $business->image = '/uploads/businesses/' . $fileName;
-                    } else {
-                        $business->image = '/api/businesses/' . $business->id . '/profile-image';
-                    }
-                }
-                $business->save();
             }
+
+            $file = $request->file('profile_image') ?? $request->file('file') ?? $request->file('image');
+            if ($file) {
+                $dir = public_path('uploads' . DIRECTORY_SEPARATOR . 'businesses');
+                if (!is_dir($dir)) {
+                    @mkdir($dir, 0777, true);
+                }
+                @chmod($dir, 0777);
+
+                $ext = strtolower($file->getClientOriginalExtension() ?: 'jpg');
+                $fileName = time() . '_' . Str::random(12) . '.' . $ext;
+                $targetPath = $dir . DIRECTORY_SEPARATOR . $fileName;
+
+                if (@copy($file->getRealPath(), $targetPath) || @file_put_contents($targetPath, file_get_contents($file->getRealPath()))) {
+                    @chmod($targetPath, 0666);
+                    $business->image = '/uploads/businesses/' . $fileName;
+                } else {
+                    $business->image = '/api/businesses/' . $business->id . '/profile-image';
+                }
+            }
+            $business->save();
         }
         if ($request->filled('latitude') && $request->filled('longitude')) {
             $lat = (float) $request->input('latitude');

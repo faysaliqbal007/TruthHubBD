@@ -254,14 +254,21 @@ export function AdminOrganizationQueue() {
                     margin: '16px 0'
                   }}
                 >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '8px' }}>
-                    <div>
-                      <h2 style={{ margin: '0 0 4px', fontSize: '1.25rem', color: 'var(--ink)' }}>
-                        {lang === 'bn' && item.bengaliName ? item.bengaliName : item.name}
-                      </h2>
-                      <p style={{ margin: 0, fontSize: '13px', color: 'var(--slate-500)' }}>
-                        {translateCategory(item.category, lang)} &bull; #{item.id} &bull; {formatDate(item.createdAt, lang)}
-                      </p>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
+                    <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                      {item.image && (
+                        <div style={{ width: 48, height: 48, borderRadius: 8, overflow: 'hidden', border: '1px solid #d8cdb7', background: '#fff', flexShrink: 0 }}>
+                          <img src={item.image.startsWith('http') || item.image.startsWith('/') ? item.image : '/' + item.image} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        </div>
+                      )}
+                      <div>
+                        <h2 style={{ margin: '0 0 4px', fontSize: '1.25rem', color: 'var(--ink)' }}>
+                          {lang === 'bn' && item.bengaliName ? item.bengaliName : item.name}
+                        </h2>
+                        <p style={{ margin: 0, fontSize: '13px', color: 'var(--slate-500)' }}>
+                          {translateCategory(item.category, lang)} &bull; #{item.id} &bull; {formatDate(item.createdAt, lang)}
+                        </p>
+                      </div>
                     </div>
                     <span style={{ fontSize: '11px', fontWeight: 700, background: '#fef3c7', color: '#92400e', padding: '3px 8px', borderRadius: '6px' }}>
                       PENDING APPROVAL

@@ -128,7 +128,7 @@ export function AddBusinessModal({
       });
 
       setLoading(false);
-      setSuccessMsg(profileImage?t('Listing created. Your image stays private until an admin approves it for public display.','প্রতিষ্ঠানটি যোগ হয়েছে। অ্যাডমিন প্রকাশের অনুমোদন না দেওয়া পর্যন্ত ছবিটি ব্যক্তিগত থাকবে।'):t("Directory listing created. You can review it while moderators check the details.","ডিরেক্টরিতে প্রতিষ্ঠানটি যোগ হয়েছে। মডারেটররা তথ্য যাচাই করার সময় আপনি রিভিউ দিতে পারেন।"));
+      setSuccessMsg(t("Directory listing created successfully! Your organization and photo are now visible.","প্রতিষ্ঠানের তথ্য সফলভাবে যোগ হয়েছে! আপনার প্রতিষ্ঠান ও ছবি প্রদর্শিত হচ্ছে।"));
       
       successTimer.current=setTimeout(() => {
         onBusinessAdded(created);
