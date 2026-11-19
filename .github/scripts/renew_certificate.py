@@ -110,7 +110,7 @@ def main():
             if fetched != validation:
                 raise RuntimeError("Public HTTP challenge did not match")
             issuer.answer_challenge(challenge, response)
-        final = issuer.poll_and_finalize(order, deadline=datetime.datetime.now() + datetime.timedelta(seconds=120))
+        final = issuer.poll_and_finalize(order, deadline=datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(seconds=120))
         certificate = x509.load_pem_x509_certificate(final.fullchain_pem.encode())
         if certificate.public_key().public_numbers() != domain_key.public_key().public_numbers():
             raise RuntimeError("Certificate and private key do not match")

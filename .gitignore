@@ -12,3 +12,9 @@ release.tar.gz
 
 *.tsbuildinfo
 backend/.phpunit.result.cache
+
+# Sensitive deployment and collaboration notes
+VPS_DEPLOYMENT_AND_VERIFICATION_GUIDE*.txt
+FINAL_GITHUB_COLLABORATION_PLAN*.txt
+*DEPLOYMENT*.txt
+*VERIFICATION*.txt

@@ -14,11 +14,13 @@ return [
         'auth/google/*',
     ],
     'allowed_methods' => ['*'],
-    'allowed_origins' => [
+    'allowed_origins' => array_filter([
         env('FRONTEND_URL', 'http://localhost:3000'),
+        env('APP_URL'),
+        'https://truthhub.austattendance.online',
         'http://localhost:3000',
         'http://127.0.0.1:3000',
-    ],
+    ]),
     'allowed_origins_patterns' => [],
     'allowed_headers' => ['*'],
     'exposed_headers' => [],
